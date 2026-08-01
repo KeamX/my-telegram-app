@@ -758,56 +758,72 @@
                 document.getElementById('meta-' + s.id).textContent = 'Загрузка...';
                 document.getElementById('warn-' + s.id).textContent = '';
             });
-            try {
-                let res;
+
+            async function fetchWithTimeout(url, ms) {
+                const ctrl = new AbortController();
+                const t = setTimeout(() => ctrl.abort(), ms);
                 try {
-                    res = await fetch('https://api.github.com/repos/AvenCores/goida-vpn-configs/contents/githubmirror', {cache:'no-store'});
+                    const r = await fetch(url, {cache:'no-store', signal: ctrl.signal});
+                    clearTimeout(t);
+                    return r;
                 } catch(e) {
-                    for (const p of corsProxies) {
-                        try {
-                            res = await fetch(p('https://api.github.com/repos/AvenCores/goida-vpn-configs/contents/githubmirror'), {cache:'no-store'});
-                            if (res.ok) break;
-                        } catch(e2) {}
-                    }
+                    clearTimeout(t);
+                    throw e;
                 }
-                if (!res || !res.ok) throw new Error('API error');
-                const files = await res.json();
-                const fileMap = {};
-                files.forEach(f => { if (f.type === 'file') fileMap[f.name] = f; });
-                fileMeta = fileMap;
+            }
 
-                const batchSize = 10;
-                for (let i = 0; i < sources.length; i += batchSize) {
-                    const batch = sources.slice(i, i + batchSize);
-                    await Promise.all(batch.map(async s => {
-                        const f = fileMap[s.file];
-                        const metaEl = document.getElementById('meta-' + s.id);
-                        const warnEl = document.getElementById('warn-' + s.id);
-                        if (!f) { metaEl.textContent = 'Нет данных'; return; }
+            let files = null;
+            try {
+                const r = await fetchWithTimeout('https://api.github.com/repos/AvenCores/goida-vpn-configs/contents/githubmirror', 20000);
+                if (r.ok) files = await r.json();
+            } catch(e) {}
 
-                        let dateStr = '';
-                        try {
-                            const cres = await fetch(`https://api.github.com/repos/AvenCores/goida-vpn-configs/commits?path=githubmirror/${s.file}&per_page=1`, {cache:'no-store'});
-                            const commits = await cres.json();
-                            if (commits && commits[0] && commits[0].commit && commits[0].commit.committer) {
-                                const d = new Date(commits[0].commit.committer.date);
-                                dateStr = `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
-                            }
-                        } catch(e) {}
-
-                        const sizeStr = formatSize(f.size);
-                        const approxCount = Math.round(f.size / 220);
-                        metaEl.textContent = `${approxCount.toLocaleString('ru')} серверов  |  ${sizeStr}  |  ${dateStr}`;
-
-                        if (f.size > 20 * 1024 * 1024) {
-                            warnEl.textContent = '⚠️ Файл >20 МБ, может не загрузиться';
-                        }
-                    }));
+            if (!files) {
+                for (const p of corsProxies) {
+                    try {
+                        const r = await fetchWithTimeout(p('https://api.github.com/repos/AvenCores/goida-vpn-configs/contents/githubmirror'), 20000);
+                        if (r.ok) { files = await r.json(); break; }
+                    } catch(e) {}
                 }
-            } catch(e) {
+            }
+
+            if (!files) {
                 sources.forEach(s => {
                     document.getElementById('meta-' + s.id).textContent = 'Недоступно';
                 });
+                return;
+            }
+
+            const fileMap = {};
+            files.forEach(f => { if (f.type === 'file') fileMap[f.name] = f; });
+            fileMeta = fileMap;
+
+            for (let i = 0; i < sources.length; i += 5) {
+                const batch = sources.slice(i, i + 5);
+                await Promise.all(batch.map(async s => {
+                    const f = fileMap[s.file];
+                    const metaEl = document.getElementById('meta-' + s.id);
+                    const warnEl = document.getElementById('warn-' + s.id);
+                    if (!f) { metaEl.textContent = 'Нет данных'; return; }
+
+                    let dateStr = '';
+                    try {
+                        const r = await fetchWithTimeout(`https://api.github.com/repos/AvenCores/goida-vpn-configs/commits?path=githubmirror/${s.file}&per_page=1`, 10000);
+                        const commits = await r.json();
+                        if (commits && commits[0] && commits[0].commit && commits[0].commit.committer) {
+                            const d = new Date(commits[0].commit.committer.date);
+                            dateStr = `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
+                        }
+                    } catch(e) {}
+
+                    const sizeStr = formatSize(f.size);
+                    const approxCount = Math.round(f.size / 220);
+                    metaEl.textContent = `${approxCount.toLocaleString('ru')} серверов  |  ${sizeStr}  |  ${dateStr}`;
+
+                    if (f.size > 20 * 1024 * 1024) {
+                        warnEl.textContent = '⚠️ Файл >20 МБ, может не загрузиться';
+                    }
+                }));
             }
         }
 
