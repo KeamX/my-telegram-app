@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        /* Полностью исходный тёмный дизайн (скруглённый) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Nunito', sans-serif;
             background: #0a0a0f;
             min-height: 100vh;
             color: #e0e0e0;
@@ -51,6 +53,69 @@
             margin: 15px auto 0;
             border-radius: 2px;
         }
+        .author-link {
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+        .author-link a {
+            color: #00d4ff;
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.2s;
+        }
+        .author-link a:hover {
+            color: #7b2cbf;
+            text-decoration: underline;
+        }
+        .stats-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 15px 0 10px;
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+        .stats-bar span {
+            background: rgba(255,255,255,0.02);
+            padding: 4px 14px;
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        .stats-bar b { color: #fff; }
+
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin: 20px 0 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding-bottom: 4px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 8px 18px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.2s;
+            border-bottom: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .tab-btn:hover { color: #aaa; background: rgba(255,255,255,0.02); }
+        .tab-btn.active {
+            color: #fff;
+            border-bottom-color: #00d4ff;
+            background: rgba(0,212,255,0.05);
+        }
+        .tab-btn .icon { font-size: 1.1rem; }
 
         .sources-panel {
             background: rgba(255,255,255,0.02);
@@ -70,7 +135,7 @@
         .sources-header h3 {
             font-size: 0.95rem;
             color: #fff;
-            font-weight: 600;
+            font-weight: 700;
         }
         .sources-grid {
             display: grid;
@@ -103,35 +168,14 @@
         }
         .source-chip .chip-label {
             font-size: 0.82rem;
-            font-weight: 600;
+            font-weight: 700;
             color: #888;
-            transition: color 0.2s;
-            line-height: 1.2;
         }
         .source-chip.active .chip-label { color: #fff; }
-        .source-chip .chip-meta {
-            font-size: 0.7rem;
-            color: #555;
-            margin-top: 4px;
-        }
-        .source-chip .chip-count {
-            font-size: 0.75rem;
-            color: #00d4ff;
-            margin-top: 3px;
-            font-weight: 600;
-        }
-        .source-chip .chip-protos {
-            font-size: 0.65rem;
-            color: #444;
-            margin-top: 2px;
-            line-height: 1.2;
-        }
-        .source-chip .chip-warn {
-            font-size: 0.65rem;
-            color: #ffaa00;
-            margin-top: 2px;
-            line-height: 1.2;
-        }
+        .source-chip .chip-meta { font-size: 0.7rem; color: #555; margin-top: 4px; }
+        .source-chip .chip-count { font-size: 0.75rem; color: #00d4ff; font-weight: 700; margin-top: 3px; }
+        .source-chip .chip-protos { font-size: 0.65rem; color: #444; margin-top: 2px; }
+        .source-chip .chip-warn { font-size: 0.65rem; color: #ffaa00; margin-top: 2px; }
         .source-chip input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; top:0; left:0; }
 
         .actions-bar {
@@ -147,7 +191,8 @@
             border-radius: 10px;
             cursor: pointer;
             font-size: 0.85rem;
-            font-weight: 600;
+            font-weight: 700;
+            font-family: 'Nunito', sans-serif;
             transition: all 0.2s;
             display: inline-flex;
             align-items: center;
@@ -165,7 +210,6 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
         .btn-secondary:hover { background: rgba(255,255,255,0.12); color: white; }
-        .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
         .btn-ghost {
             background: transparent;
             color: #555;
@@ -174,6 +218,17 @@
             padding: 6px 12px;
         }
         .btn-ghost:hover { color: #888; border-color: rgba(255,255,255,0.12); }
+        .btn-success {
+            background: linear-gradient(90deg, #00ff88, #00b894);
+            color: #0a0a0f;
+        }
+        .btn-success:hover { transform: scale(1.03); box-shadow: 0 5px 25px rgba(0,255,136,0.3); }
+        .btn-danger {
+            background: rgba(255,68,68,0.15);
+            color: #ff4444;
+            border: 1px solid rgba(255,68,68,0.2);
+        }
+        .btn-danger:hover { background: rgba(255,68,68,0.25); }
 
         .progress-wrap {
             background: rgba(255,255,255,0.02);
@@ -212,7 +267,7 @@
             margin: 20px 0 12px;
         }
         .toolbar-left { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-        .toolbar-right { display: flex; gap: 10px; align-items: center; }
+        .toolbar-right { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 
         .stat-pill {
             background: rgba(255,255,255,0.02);
@@ -239,7 +294,7 @@
         .stat-pill.checking { border-color: rgba(0,212,255,0.15); color: #00d4ff; }
         .stat-pill.checking.active-filter { background: rgba(0,212,255,0.1); }
 
-        .search-box {
+        .search-box, .select-filter {
             padding: 8px 16px;
             border-radius: 10px;
             border: 1px solid rgba(255,255,255,0.08);
@@ -247,10 +302,12 @@
             color: white;
             font-size: 0.9rem;
             outline: none;
-            min-width: 200px;
+            min-width: 160px;
+            font-family: 'Nunito', sans-serif;
         }
         .search-box::placeholder { color: #444; }
-        .search-box:focus { border-color: #00d4ff; }
+        .search-box:focus, .select-filter:focus { border-color: #00d4ff; }
+        .select-filter option { background: #0a0a0f; color: #ddd; }
 
         .filters {
             display: flex;
@@ -267,12 +324,39 @@
             cursor: pointer;
             transition: all 0.2s;
             font-size: 0.8rem;
+            font-weight: 600;
+            font-family: 'Nunito', sans-serif;
         }
         .filter-btn:hover, .filter-btn.active {
             background: linear-gradient(90deg, #00d4ff, #7b2cbf);
             color: white;
             border-color: transparent;
         }
+
+        .country-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        .country-chip {
+            padding: 3px 12px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            color: #888;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .country-chip:hover { background: rgba(255,255,255,0.05); }
+        .country-chip.active {
+            background: rgba(0,212,255,0.1);
+            border-color: #00d4ff;
+            color: #fff;
+        }
+        .country-chip .flag { margin-right: 4px; }
 
         .sort-hint {
             font-size: 0.75rem;
@@ -322,7 +406,7 @@
             padding: 3px 10px;
             border-radius: 10px;
             font-size: 0.7rem;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -342,7 +426,7 @@
             padding: 3px 10px;
             border-radius: 10px;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
         }
         .status-pill.online { background: rgba(0,255,136,0.08); color: #00ff88; border: 1px solid rgba(0,255,136,0.15); }
         .status-pill.offline { background: rgba(255,68,68,0.08); color: #ff4444; border: 1px solid rgba(255,68,68,0.15); }
@@ -359,34 +443,21 @@
             font-size: 0.82rem;
             color: #888;
             margin-bottom: 8px;
-            font-family: 'Segoe UI', system-ui, sans-serif;
             display: flex;
             align-items: center;
             gap: 8px;
             flex-wrap: wrap;
         }
-        .server-info b { color: #bbb; font-family: 'Courier New', monospace; }
-        .flag {
-            font-size: 1.3rem;
-            line-height: 1;
-            margin-right: 2px;
-        }
-        .country-name {
-            font-size: 0.75rem;
-            color: #777;
-            margin-right: 6px;
-        }
-        .country-loading {
-            font-size: 0.75rem;
-            color: #444;
-            font-style: italic;
-        }
+        .server-info b { color: #bbb; font-family: 'Nunito', monospace; }
+        .flag { font-size: 1.3rem; line-height: 1; margin-right: 2px; }
+        .country-name { font-size: 0.75rem; color: #777; margin-right: 6px; }
+        .country-loading { font-size: 0.75rem; color: #444; font-style: italic; }
 
         .config-text {
             background: rgba(0,0,0,0.25);
             border-radius: 10px;
             padding: 10px 12px;
-            font-family: 'Courier New', monospace;
+            font-family: 'Nunito', monospace;
             font-size: 0.75rem;
             color: #666;
             word-break: break-all;
@@ -399,7 +470,12 @@
         .config-text::-webkit-scrollbar { width: 5px; }
         .config-text::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
 
-        .card-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
         .btn-copy {
             padding: 5px 12px;
             border-radius: 8px;
@@ -407,6 +483,8 @@
             background: linear-gradient(90deg, #00d4ff, #7b2cbf);
             color: white;
             font-size: 0.78rem;
+            font-weight: 700;
+            font-family: 'Nunito', sans-serif;
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -418,10 +496,25 @@
             background: rgba(255,255,255,0.04);
             color: #777;
             font-size: 0.78rem;
+            font-weight: 600;
+            font-family: 'Nunito', sans-serif;
             cursor: pointer;
             transition: all 0.2s;
         }
         .btn-check:hover { background: rgba(255,255,255,0.08); color: white; }
+        .btn-details {
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.02);
+            color: #666;
+            font-size: 0.78rem;
+            font-weight: 600;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-details:hover { background: rgba(255,255,255,0.06); color: #aaa; }
 
         .dropdown-wrap {
             position: relative;
@@ -434,6 +527,8 @@
             background: rgba(0,212,255,0.06);
             color: #00d4ff;
             font-size: 0.78rem;
+            font-weight: 600;
+            font-family: 'Nunito', sans-serif;
             cursor: pointer;
             transition: all 0.2s;
             display: inline-flex;
@@ -472,8 +567,7 @@
             color: #fff;
         }
         .dropdown-item .app-icon {
-            width: 20px;
-            height: 20px;
+            width: 20px; height: 20px;
             border-radius: 5px;
             display: flex;
             align-items: center;
@@ -481,14 +575,65 @@
             flex-shrink: 0;
         }
         .dropdown-item .app-icon svg {
-            width: 14px;
-            height: 14px;
+            width: 14px; height: 14px;
             stroke: currentColor;
             fill: none;
             stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
         }
+
+        .device-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(0,212,255,0.08);
+            border: 1px solid rgba(0,212,255,0.15);
+            border-radius: 12px;
+            padding: 2px 10px 2px 6px;
+            font-size: 0.7rem;
+            color: #00d4ff;
+            margin-right: 4px;
+        }
+        .device-tag .remove-device {
+            cursor: pointer;
+            opacity: 0.5;
+            font-weight: 700;
+            margin-left: 3px;
+        }
+        .device-tag .remove-device:hover { opacity: 1; color: #ff4444; }
+
+        .device-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.75rem;
+            padding: 2px 4px;
+            width: 90px;
+            outline: none;
+            font-family: 'Nunito', sans-serif;
+        }
+        .device-input:focus { border-bottom-color: #00d4ff; }
+
+        .details-panel {
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: #888;
+            display: none;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        .details-panel.open { display: block; }
+        .details-panel .param {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.02);
+        }
+        .details-panel .param:last-child { border: none; }
+        .details-panel .param .key { color: #666; }
+        .details-panel .param .value { color: #aaa; font-family: 'Nunito', monospace; }
 
         .pagination {
             display: flex;
@@ -506,6 +651,8 @@
             color: #777;
             cursor: pointer;
             transition: all 0.2s;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 600;
         }
         .page-btn:hover:not(:disabled) { background: rgba(255,255,255,0.08); color: white; }
         .page-btn:disabled { opacity: 0.25; cursor: not-allowed; }
@@ -524,7 +671,7 @@
             opacity: 0;
             transition: all 0.4s;
             z-index: 1000;
-            font-weight: 500;
+            font-weight: 700;
             font-size: 0.9rem;
         }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
@@ -549,773 +696,1132 @@
             font-size: 0.85rem;
             line-height: 1.5;
         }
-
         .empty-state { text-align: center; padding: 50px; color: #333; font-size: 0.9rem; }
 
         @media (max-width: 600px) {
             .toolbar { flex-direction: column; align-items: stretch; }
             .toolbar-left, .toolbar-right { width: 100%; justify-content: center; }
-            .search-box { width: 100%; }
+            .search-box, .select-filter { width: 100%; }
             .config-card { padding: 12px 14px; }
             .sources-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
             .dropdown-menu { left: auto; right: 0; }
         }
     </style>
-<base target="_blank">
 </head>
 <body>
-    <div class="container">
-        <div class="hero">
-            <h1><span>V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks</span></h1>
-            <div class="hero-sub">V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks</div>
-            <div class="hero-line"></div>
-        </div>
-
-        <div class="sources-panel">
-            <div class="sources-header">
-                <h3>Источники</h3>
-                <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                    <button class="btn btn-ghost" onclick="loadMetadata()">Обновить инфо</button>
-                    <button class="btn btn-secondary" style="padding:6px 12px;font-size:0.75rem;" onclick="selectRec()">Рекомендуемые</button>
-                    <button class="btn btn-secondary" style="padding:6px 12px;font-size:0.75rem;" onclick="selectAll(true)">Все</button>
-                    <button class="btn btn-secondary" style="padding:6px 12px;font-size:0.75rem;" onclick="selectAll(false)">Снять</button>
-                </div>
-            </div>
-            <div class="sources-grid" id="sourcesGrid"></div>
-            <div class="actions-bar">
-                <button class="btn btn-primary" id="btnLoad" onclick="startLoading()">Загрузить и проверить</button>
-                <button class="btn btn-secondary" onclick="clearResults()">Очистить</button>
-            </div>
-            <div class="progress-wrap" id="progressWrap">
-                <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar"></div></div>
-                <div class="progress-text">
-                    <span id="progressText">Ожидание...</span>
-                    <span id="progressCount"></span>
-                </div>
-            </div>
-            <div id="errorBox"></div>
-        </div>
-
-        <div id="resultsArea" style="display:none;">
-            <div class="toolbar">
-                <div class="toolbar-left" id="statsRow"></div>
-                <div class="toolbar-right">
-                    <input type="text" class="search-box" id="searchBox" placeholder="Поиск..." oninput="applyFilters()">
-                </div>
-            </div>
-            <div class="filters" id="protocolFilters"></div>
-            <div class="sort-hint">Сортировка: онлайн по пингу (вверху) → проверка → не проверены → оффлайн</div>
-            <div id="cardsContainer"></div>
-            <div class="pagination" id="pagination"></div>
+<div class="container">
+    <div class="hero">
+        <h1><span>V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks</span></h1>
+        <div class="hero-sub">V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks</div>
+        <div class="hero-line"></div>
+        <div class="author-link">✦ Автор: <a href="https://t.me/Keamxxd" target="_blank">@Keamxxd</a> ✦</div>
+        <div class="stats-bar" id="globalStats">
+            <span>🛡️ Всего: <b id="statTotal">0</b></span>
+            <span>✅ Онлайн: <b id="statOnline">0</b></span>
+            <span>📊 Средний пинг: <b id="statAvgPing">—</b> ms</span>
+            <span>🌍 Стран: <b id="statCountries">0</b></span>
         </div>
     </div>
 
-    <div class="toast" id="toast">Скопировано</div>
+    <!-- Tabs -->
+    <div class="tabs" id="tabContainer">
+        <button class="tab-btn active" data-tab="all"><span class="icon">📋</span> Все</button>
+        <button class="tab-btn" data-tab="working"><span class="icon">✅</span> Рабочие</button>
+        <button class="tab-btn" data-tab="favorites"><span class="icon">⭐</span> Избранное</button>
+        <button class="tab-btn" data-tab="devices"><span class="icon">📱</span> По устройствам</button>
+        <button class="tab-btn" data-tab="source"><span class="icon">📂</span> По источнику</button>
+    </div>
 
-    <script>
-        const sources = [
-            { id: 1,  file: "1.txt",  label: "OpenRay Mix",               rec: true,  sni: false },
-            { id: 2,  file: "2.txt",  label: "Subscription",              rec: false, sni: false },
-            { id: 3,  file: "3.txt",  label: "Proxy Mining",              rec: false, sni: false },
-            { id: 4,  file: "4.txt",  label: "AutoVPN",                   rec: false, sni: false },
-            { id: 5,  file: "5.txt",  label: "V2Ray Dumper",              rec: false, sni: false },
-            { id: 6,  file: "6.txt",  label: "Open Proxy List",           rec: true,  sni: false },
-            { id: 7,  file: "7.txt",  label: "V2Ray Configs",             rec: false, sni: false },
-            { id: 8,  file: "8.txt",  label: "ConfigForge",               rec: false, sni: false },
-            { id: 9,  file: "9.txt",  label: "Telegram Collector",        rec: false, sni: false },
-            { id: 10, file: "10.txt", label: "Proxy List",                rec: false, sni: false },
-            { id: 11, file: "11.txt", label: "V2Ray Collector",           rec: false, sni: false },
-            { id: 12, file: "12.txt", label: "VOID Bypass",               rec: false, sni: false },
-            { id: 13, file: "13.txt", label: "Daily Free VPN",            rec: false, sni: false },
-            { id: 14, file: "14.txt", label: "Mineral",                   rec: false, sni: false },
-            { id: 15, file: "15.txt", label: "Config Collector",          rec: false, sni: false },
-            { id: 16, file: "16.txt", label: "Free Servers",              rec: false, sni: false },
-            { id: 17, file: "17.txt", label: "V2Ray Collector Py",        rec: false, sni: false },
-            { id: 18, file: "18.txt", label: "V2Ray Free",                rec: false, sni: false },
-            { id: 19, file: "19.txt", label: "V2Ray Collector 2",         rec: false, sni: false },
-            { id: 20, file: "20.txt", label: "Proxy List 2",              rec: false, sni: false },
-            { id: 21, file: "21.txt", label: "Kamaji",                    rec: false, sni: false },
-            { id: 22, file: "22.txt", label: "Xray Toolkit",              rec: true,  sni: false },
-            { id: 23, file: "23.txt", label: "Russia VPN",                rec: true,  sni: false },
-            { id: 24, file: "24.txt", label: "Vify",                      rec: true,  sni: false },
-            { id: 25, file: "25.txt", label: "V2Ray Config",              rec: true,  sni: false },
-            { id: 26, file: "26.txt", label: "SNI/CIDR Bypass",           rec: false, sni: true  }
-        ];
+    <div class="sources-panel">
+        <div class="sources-header">
+            <h3>📂 Источники</h3>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                <button class="btn btn-ghost" onclick="loadMetadata()">🔄 Обновить инфо</button>
+                <button class="btn btn-ghost" onclick="selectRec()">🎯 Рекомендуемые</button>
+                <button class="btn btn-ghost" onclick="selectAll(true)">✅ Все</button>
+                <button class="btn btn-ghost" onclick="selectAll(false)">❌ Снять</button>
+            </div>
+        </div>
+        <div class="sources-grid" id="sourcesGrid"></div>
+        <div class="actions-bar">
+            <button class="btn btn-primary" id="btnLoad" onclick="startLoading()">⚡ Загрузить и проверить</button>
+            <button class="btn btn-secondary" onclick="clearResults()">🗑️ Очистить</button>
+            <button class="btn btn-secondary" onclick="exportOnline()">💾 Экспорт онлайн</button>
+            <button class="btn btn-secondary" onclick="exportSubscription()">📡 Подписка (base64)</button>
+            <button class="btn btn-secondary" onclick="copySubscription()">📋 Копировать подписку</button>
+            <button class="btn btn-secondary" onclick="importConfig()">📤 Импорт</button>
+            <button class="btn btn-secondary" id="btnAutoUpdate" onclick="toggleAutoUpdate()">⏱️ Автообновление: ВЫКЛ</button>
+        </div>
+        <div class="progress-wrap" id="progressWrap">
+            <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar"></div></div>
+            <div class="progress-text">
+                <span id="progressText">Ожидание...</span>
+                <span id="progressCount"></span>
+            </div>
+        </div>
+        <div id="errorBox"></div>
+    </div>
 
-        const endpoints = [
-            { base: "https://cdn.jsdelivr.net/gh/AvenCores/goida-vpn-configs@main/githubmirror/", name: "jsDelivr" },
-            { base: "https://raw.githack.com/AvenCores/goida-vpn-configs/main/githubmirror/", name: "GitHack" },
-            { base: "https://raw.githubusercontent.com/AvenCores/goida-vpn-configs/main/githubmirror/", name: "GitHub Raw" }
-        ];
+    <div id="resultsArea" style="display:none;">
+        <div class="toolbar">
+            <div class="toolbar-left" id="statsRow"></div>
+            <div class="toolbar-right">
+                <input type="text" class="search-box" id="searchBox" placeholder="🔍 Поиск..." oninput="applyFilters()">
+                <select class="select-filter" id="sourceFilter" onchange="applyFilters()">
+                    <option value="all">Все источники</option>
+                </select>
+                <select class="select-filter" id="sortSelect" onchange="applyFilters()">
+                    <option value="ping">📶 По пингу</option>
+                    <option value="country">🌍 По стране</option>
+                    <option value="protocol">📡 По протоколу</option>
+                </select>
+            </div>
+        </div>
+        <div class="country-chips" id="countryChips"></div>
+        <div class="filters" id="protocolFilters"></div>
+        <div class="sort-hint">⬆ Сортировка: онлайн по пингу (вверху) → проверка → не проверены → оффлайн</div>
+        <div id="cardsContainer"></div>
+        <div class="pagination" id="pagination"></div>
+    </div>
+</div>
 
-        const corsProxies = [
-            u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
-            u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-            u => `https://corsproxy.org/?${encodeURIComponent(u)}`
-        ];
+<div class="toast" id="toast">Скопировано</div>
 
-        const appLinks = {
-            'Happ': (cfg) => 'happ://import/' + btoa(unescape(encodeURIComponent(cfg))),
-            'v2rayNG': (cfg) => cfg,
-            'V2Box': (cfg) => cfg,
-            'Streisand': (cfg) => cfg,
-            'Shadowrocket': (cfg) => 'shadowrocket://add/' + btoa(unescape(encodeURIComponent(cfg))),
-            'Hiddify': (cfg) => cfg,
-            'V2RayTun': (cfg) => cfg
-        };
+<script>
+    // ---------- Исходные данные ----------
+    const sources = [
+        { id: 1,  file: "1.txt",  label: "OpenRay Mix",               rec: true,  sni: false },
+        { id: 2,  file: "2.txt",  label: "Subscription",              rec: false, sni: false },
+        { id: 3,  file: "3.txt",  label: "Proxy Mining",              rec: false, sni: false },
+        { id: 4,  file: "4.txt",  label: "AutoVPN",                   rec: false, sni: false },
+        { id: 5,  file: "5.txt",  label: "V2Ray Dumper",              rec: false, sni: false },
+        { id: 6,  file: "6.txt",  label: "Open Proxy List",           rec: true,  sni: false },
+        { id: 7,  file: "7.txt",  label: "V2Ray Configs",             rec: false, sni: false },
+        { id: 8,  file: "8.txt",  label: "ConfigForge",               rec: false, sni: false },
+        { id: 9,  file: "9.txt",  label: "Telegram Collector",        rec: false, sni: false },
+        { id: 10, file: "10.txt", label: "Proxy List",                rec: false, sni: false },
+        { id: 11, file: "11.txt", label: "V2Ray Collector",           rec: false, sni: false },
+        { id: 12, file: "12.txt", label: "VOID Bypass",               rec: false, sni: false },
+        { id: 13, file: "13.txt", label: "Daily Free VPN",            rec: false, sni: false },
+        { id: 14, file: "14.txt", label: "Mineral",                   rec: false, sni: false },
+        { id: 15, file: "15.txt", label: "Config Collector",          rec: false, sni: false },
+        { id: 16, file: "16.txt", label: "Free Servers",              rec: false, sni: false },
+        { id: 17, file: "17.txt", label: "V2Ray Collector Py",        rec: false, sni: false },
+        { id: 18, file: "18.txt", label: "V2Ray Free",                rec: false, sni: false },
+        { id: 19, file: "19.txt", label: "V2Ray Collector 2",         rec: false, sni: false },
+        { id: 20, file: "20.txt", label: "Proxy List 2",              rec: false, sni: false },
+        { id: 21, file: "21.txt", label: "Kamaji",                    rec: false, sni: false },
+        { id: 22, file: "22.txt", label: "Xray Toolkit",              rec: true,  sni: false },
+        { id: 23, file: "23.txt", label: "Russia VPN",                rec: true,  sni: false },
+        { id: 24, file: "24.txt", label: "Vify",                      rec: true,  sni: false },
+        { id: 25, file: "25.txt", label: "V2Ray Config",              rec: true,  sni: false },
+        { id: 26, file: "26.txt", label: "SNI/CIDR Bypass",           rec: false, sni: true  }
+    ];
 
-        const appIcons = {
-            'Happ': '<svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>',
-            'v2rayNG': '<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
-            'V2Box': '<svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>',
-            'Streisand': '<svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>',
-            'Shadowrocket': '<svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>',
-            'Hiddify': '<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
-            'V2RayTun': '<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="11" r="1"/></svg>'
-        };
+    const endpoints = [
+        { base: "https://cdn.jsdelivr.net/gh/AvenCores/goida-vpn-configs@main/githubmirror/", name: "jsDelivr" },
+        { base: "https://raw.githack.com/AvenCores/goida-vpn-configs/main/githubmirror/", name: "GitHack" },
+        { base: "https://raw.githubusercontent.com/AvenCores/goida-vpn-configs/main/githubmirror/", name: "GitHub Raw" }
+    ];
 
-        let allConfigs = [];
-        let filteredConfigs = [];
-        let currentPage = 1;
-        const perPage = 40;
-        let currentProtocol = 'all';
-        let currentStatus = 'all';
-        let isChecking = false;
-        let checkAbort = false;
-        let countryCache = {};
-        let openDropdownId = null;
-        let fileMeta = {};
+    const corsProxies = [
+        u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
+        u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+        u => `https://corsproxy.org/?${encodeURIComponent(u)}`
+    ];
 
+    const appLinks = {
+        'Happ': (cfg) => 'happ://import/' + btoa(unescape(encodeURIComponent(cfg))),
+        'v2rayNG': (cfg) => cfg,
+        'V2Box': (cfg) => cfg,
+        'Streisand': (cfg) => cfg,
+        'Shadowrocket': (cfg) => 'shadowrocket://add/' + btoa(unescape(encodeURIComponent(cfg))),
+        'Hiddify': (cfg) => cfg,
+        'V2RayTun': (cfg) => cfg
+    };
+
+    const appIcons = {
+        'Happ': '<svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>',
+        'v2rayNG': '<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
+        'V2Box': '<svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>',
+        'Streisand': '<svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>',
+        'Shadowrocket': '<svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>',
+        'Hiddify': '<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+        'V2RayTun': '<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="11" r="1"/></svg>'
+    };
+
+    // ---------- Глобальные переменные ----------
+    let allConfigs = [];
+    let filteredConfigs = [];
+    let currentPage = 1;
+    const perPage = 40;
+    let currentProtocol = 'all';
+    let currentStatus = 'all';
+    let checkAbort = false;
+    let countryCache = {};
+    let fileMeta = {};
+    let openDropdownId = null;
+    let favoriteIds = new Set();
+    let deviceMap = {};
+    let autoUpdateInterval = null;
+    let autoUpdateEnabled = false;
+    let sortMode = 'ping';
+    let currentCountryFilter = 'all';
+    let currentSourceFilter = 'all';
+
+    // Загрузка из localStorage
+    try {
+        const savedFav = localStorage.getItem('vpn_favorites');
+        if (savedFav) favoriteIds = new Set(JSON.parse(savedFav));
+    } catch(e) {}
+    try {
+        const savedDev = localStorage.getItem('vpn_devices');
+        if (savedDev) deviceMap = JSON.parse(savedDev);
+    } catch(e) {}
+    try {
+        const saved = localStorage.getItem('vpn_country_cache_v2');
+        if (saved) countryCache = JSON.parse(saved);
+    } catch(e) {}
+
+    function saveFavorites() { localStorage.setItem('vpn_favorites', JSON.stringify([...favoriteIds])); }
+    function saveDevices() { localStorage.setItem('vpn_devices', JSON.stringify(deviceMap)); }
+    function saveCountryCache() { try { localStorage.setItem('vpn_country_cache_v2', JSON.stringify(countryCache)); } catch(e) {} }
+
+    // ---------- Вспомогательные функции ----------
+    function getFlagEmoji(cc) {
+        if (!cc || cc.length !== 2) return '';
+        const code = cc.toUpperCase();
+        return String.fromCodePoint(code.charCodeAt(0)+127397, code.charCodeAt(1)+127397);
+    }
+
+    async function resolveCountry(host) {
+        if (!host) return null;
+        if (countryCache[host]) return countryCache[host];
+        if (/^(10\.|172\.(1[6-9]|2[0-9]|3[01])\.|192\.168\.|127\.|0\.0\.0\.|localhost)/i.test(host)) {
+            countryCache[host] = { code: 'LO', name: 'Local' };
+            return countryCache[host];
+        }
         try {
-            const saved = localStorage.getItem('vpn_country_cache_v2');
-            if (saved) countryCache = JSON.parse(saved);
-        } catch(e) {}
-
-        function saveCountryCache() {
-            try { localStorage.setItem('vpn_country_cache_v2', JSON.stringify(countryCache)); } catch(e) {}
-        }
-
-        function getFlagEmoji(cc) {
-            if (!cc || cc.length !== 2) return '';
-            const code = cc.toUpperCase();
-            return String.fromCodePoint(code.charCodeAt(0) + 127397, code.charCodeAt(1) + 127397);
-        }
-
-        async function resolveCountry(host) {
-            if (!host) return null;
-            if (countryCache[host]) return countryCache[host];
-            if (/^(10\.|172\.(1[6-9]|2[0-9]|3[01])\.|192\.168\.|127\.|0\.0\.0\.|localhost)/i.test(host)) {
-                countryCache[host] = { code: 'LO', name: 'Local' };
+            const res = await fetch('https://ipwho.is/' + host, { cache: 'no-store' });
+            const data = await res.json();
+            if (data.success && data.country_code) {
+                countryCache[host] = { code: data.country_code, name: data.country };
+                saveCountryCache();
                 return countryCache[host];
             }
+        } catch(e) {}
+        for (const proxy of corsProxies) {
             try {
-                const res = await fetch('https://ipwho.is/' + host, { cache: 'no-store' });
+                const res = await fetch(proxy('http://ip-api.com/json/' + host + '?fields=status,country,countryCode'), { cache: 'no-store' });
                 const data = await res.json();
-                if (data.success && data.country_code) {
-                    countryCache[host] = { code: data.country_code, name: data.country };
+                if (data.status === 'success' && data.countryCode) {
+                    countryCache[host] = { code: data.countryCode, name: data.country };
                     saveCountryCache();
                     return countryCache[host];
                 }
             } catch(e) {}
-            for (const proxy of corsProxies) {
-                try {
-                    const res = await fetch(proxy('http://ip-api.com/json/' + host + '?fields=status,country,countryCode'), { cache: 'no-store' });
-                    const data = await res.json();
-                    if (data.status === 'success' && data.countryCode) {
-                        countryCache[host] = { code: data.countryCode, name: data.country };
-                        saveCountryCache();
-                        return countryCache[host];
-                    }
-                } catch(e) {}
+        }
+        return null;
+    }
+
+    function formatSize(bytes) {
+        if (bytes > 1024*1024) return (bytes/1024/1024).toFixed(1)+' MB';
+        if (bytes > 1024) return (bytes/1024).toFixed(1)+' KB';
+        return bytes+' B';
+    }
+
+    function parseHost(cfg) {
+        try {
+            let url = cfg.trim();
+            if (url.startsWith('vmess://')) {
+                const b64 = url.slice(8).split('#')[0].split('?')[0];
+                const pad = b64.length % 4 ? '='.repeat(4-b64.length%4) : '';
+                const json = JSON.parse(atob(b64+pad));
+                return { host: json.add || json.host || '', port: json.port || '' };
             }
-            return null;
-        }
-
-        function formatSize(bytes) {
-            if (bytes > 1024*1024) return (bytes/1024/1024).toFixed(1) + ' MB';
-            if (bytes > 1024) return (bytes/1024).toFixed(1) + ' KB';
-            return bytes + ' B';
-        }
-
-        function init() {
-            const grid = document.getElementById('sourcesGrid');
-            grid.innerHTML = sources.map(s => `
-                <label class="source-chip ${s.rec || s.sni ? 'active' : ''}" id="chip-${s.id}">
-                    <input type="checkbox" value="${s.id}" ${s.rec || s.sni ? 'checked' : ''} onchange="toggleChip(${s.id})">
-                    <span class="chip-label">${s.label}</span>
-                    <span class="chip-meta" id="meta-${s.id}">Загрузка...</span>
-                    <span class="chip-count" id="count-${s.id}"></span>
-                    <span class="chip-protos" id="protos-${s.id}"></span>
-                    <span class="chip-warn" id="warn-${s.id}"></span>
-                </label>
-            `).join('');
-            loadMetadata();
-            document.addEventListener('click', closeAllDropdowns);
-        }
-
-        async function loadMetadata() {
-            sources.forEach(s => {
-                document.getElementById('meta-' + s.id).textContent = 'Загрузка...';
-                document.getElementById('warn-' + s.id).textContent = '';
-            });
-
-            async function fetchWithTimeout(url, ms) {
-                const ctrl = new AbortController();
-                const t = setTimeout(() => ctrl.abort(), ms);
-                try {
-                    const r = await fetch(url, {cache:'no-store', signal: ctrl.signal});
-                    clearTimeout(t);
-                    return r;
-                } catch(e) {
-                    clearTimeout(t);
-                    throw e;
-                }
+            if (url.includes('://')) {
+                const u = new URL(url.replace(/^\w+:\/\//, 'proto://'));
+                return { host: u.hostname, port: u.port };
             }
+        } catch(e) {}
+        const m = cfg.match(/@([^:]+):(\d+)/);
+        if (m) return { host: m[1], port: m[2] };
+        return { host: '', port: '' };
+    }
 
-            let files = null;
+    function detectProtocol(cfg) {
+        const c = cfg.trim();
+        if (c.startsWith('vless://')) return c.includes('reality') ? 'reality' : 'vless';
+        if (c.startsWith('vmess://')) return 'vmess';
+        if (c.startsWith('trojan://')) return 'trojan';
+        if (c.startsWith('ss://')) return 'shadowsocks';
+        if (c.startsWith('hysteria://') || c.startsWith('hysteria2://') || c.startsWith('hy2://')) return 'hysteria';
+        if (c.startsWith('tuic://')) return 'tuic';
+        return 'other';
+    }
+
+    async function fetchText(fileName) {
+        for (const ep of endpoints.slice(0,2)) {
             try {
-                const r = await fetchWithTimeout('https://api.github.com/repos/AvenCores/goida-vpn-configs/contents/githubmirror', 20000);
-                if (r.ok) files = await r.json();
+                const ctrl = new AbortController();
+                const to = setTimeout(()=>ctrl.abort(), 10000);
+                const r = await fetch(ep.base+fileName, {cache:'no-store', signal:ctrl.signal});
+                clearTimeout(to);
+                if (r.ok) return await r.text();
             } catch(e) {}
+        }
+        const rawUrl = endpoints[2].base+fileName;
+        for (const p of corsProxies) {
+            try {
+                const ctrl = new AbortController();
+                const to = setTimeout(()=>ctrl.abort(), 10000);
+                const r = await fetch(p(rawUrl), {cache:'no-store', signal:ctrl.signal});
+                clearTimeout(to);
+                if (r.ok) return await r.text();
+            } catch(e) {}
+        }
+        return null;
+    }
 
-            if (!files) {
+    // ---------- Инициализация ----------
+    function init() {
+        const grid = document.getElementById('sourcesGrid');
+        grid.innerHTML = sources.map(s => `
+            <label class="source-chip ${s.rec || s.sni ? 'active' : ''}" id="chip-${s.id}">
+                <input type="checkbox" value="${s.id}" ${s.rec || s.sni ? 'checked' : ''} onchange="toggleChip(${s.id})">
+                <span class="chip-label">${s.label}</span>
+                <span class="chip-meta" id="meta-${s.id}">Загрузка...</span>
+                <span class="chip-count" id="count-${s.id}"></span>
+                <span class="chip-protos" id="protos-${s.id}"></span>
+                <span class="chip-warn" id="warn-${s.id}"></span>
+            </label>
+        `).join('');
+        loadMetadata();
+        document.addEventListener('click', closeAllDropdowns);
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+                this.classList.add('active');
+                applyFilters();
+            });
+        });
+        document.getElementById('sortSelect').addEventListener('change', function() {
+            sortMode = this.value;
+            applyFilters();
+        });
+        document.getElementById('sourceFilter').addEventListener('change', function() {
+            currentSourceFilter = this.value;
+            applyFilters();
+        });
+        updateGlobalStats();
+        populateSourceFilter();
+    }
+
+    function populateSourceFilter() {
+        const sel = document.getElementById('sourceFilter');
+        const labels = {};
+        sources.forEach(s => labels[s.id] = s.label);
+        const used = new Set();
+        allConfigs.forEach(c => { if (c.sourceId !== undefined && c.sourceId !== -1) used.add(c.sourceId); });
+        sel.innerHTML = '<option value="all">Все источники</option>';
+        [...used].sort((a,b) => labels[a].localeCompare(labels[b])).forEach(id => {
+            sel.innerHTML += `<option value="${id}">${labels[id]}</option>`;
+        });
+    }
+
+    async function loadMetadata() {
+        sources.forEach(s => {
+            document.getElementById('meta-'+s.id).textContent = 'Загрузка...';
+            document.getElementById('warn-'+s.id).textContent = '';
+        });
+        try {
+            let res;
+            try {
+                res = await fetch('https://api.github.com/repos/AvenCores/goida-vpn-configs/contents/githubmirror', {cache:'no-store'});
+            } catch(e) {
                 for (const p of corsProxies) {
                     try {
-                        const r = await fetchWithTimeout(p('https://api.github.com/repos/AvenCores/goida-vpn-configs/contents/githubmirror'), 20000);
-                        if (r.ok) { files = await r.json(); break; }
-                    } catch(e) {}
+                        res = await fetch(p('https://api.github.com/repos/AvenCores/goida-vpn-configs/contents/githubmirror'), {cache:'no-store'});
+                        if (res.ok) break;
+                    } catch(e2) {}
                 }
             }
-
-            if (!files) {
-                sources.forEach(s => {
-                    document.getElementById('meta-' + s.id).textContent = 'Недоступно';
-                });
-                return;
-            }
-
+            if (!res || !res.ok) throw new Error('API error');
+            const files = await res.json();
             const fileMap = {};
-            files.forEach(f => { if (f.type === 'file') fileMap[f.name] = f; });
+            files.forEach(f=>{ if(f.type==='file') fileMap[f.name]=f; });
             fileMeta = fileMap;
 
-            for (let i = 0; i < sources.length; i += 5) {
-                const batch = sources.slice(i, i + 5);
+            for (let i=0; i<sources.length; i+=10) {
+                const batch = sources.slice(i, i+10);
                 await Promise.all(batch.map(async s => {
                     const f = fileMap[s.file];
-                    const metaEl = document.getElementById('meta-' + s.id);
-                    const warnEl = document.getElementById('warn-' + s.id);
+                    const metaEl = document.getElementById('meta-'+s.id);
+                    const warnEl = document.getElementById('warn-'+s.id);
                     if (!f) { metaEl.textContent = 'Нет данных'; return; }
-
                     let dateStr = '';
                     try {
-                        const r = await fetchWithTimeout(`https://api.github.com/repos/AvenCores/goida-vpn-configs/commits?path=githubmirror/${s.file}&per_page=1`, 10000);
-                        const commits = await r.json();
+                        const cres = await fetch(`https://api.github.com/repos/AvenCores/goida-vpn-configs/commits?path=githubmirror/${s.file}&per_page=1`, {cache:'no-store'});
+                        const commits = await cres.json();
                         if (commits && commits[0] && commits[0].commit && commits[0].commit.committer) {
                             const d = new Date(commits[0].commit.committer.date);
                             dateStr = `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
                         }
                     } catch(e) {}
-
                     const sizeStr = formatSize(f.size);
-                    const approxCount = Math.round(f.size / 220);
+                    const approxCount = Math.round(f.size/220);
                     metaEl.textContent = `${approxCount.toLocaleString('ru')} серверов  |  ${sizeStr}  |  ${dateStr}`;
-
-                    if (f.size > 20 * 1024 * 1024) {
-                        warnEl.textContent = '⚠️ Файл >20 МБ, может не загрузиться';
-                    }
+                    if (f.size > 20*1024*1024) warnEl.textContent = '⚠️ >20 МБ';
                 }));
             }
+        } catch(e) {
+            sources.forEach(s=>document.getElementById('meta-'+s.id).textContent='Недоступно');
         }
+    }
 
-        function toggleChip(id) {
-            const chip = document.getElementById('chip-' + id);
+    function toggleChip(id) {
+        const chip = document.getElementById('chip-'+id);
+        const cb = chip.querySelector('input');
+        chip.classList.toggle('active', cb.checked);
+    }
+    function getSelected() { return Array.from(document.querySelectorAll('.source-chip input:checked')).map(cb=>parseInt(cb.value)); }
+    function selectAll(v) {
+        document.querySelectorAll('.source-chip').forEach(chip => {
             const cb = chip.querySelector('input');
-            chip.classList.toggle('active', cb.checked);
+            cb.checked = v;
+            chip.classList.toggle('active', v);
+        });
+    }
+    function selectRec() {
+        document.querySelectorAll('.source-chip').forEach(chip => {
+            const id = parseInt(chip.querySelector('input').value);
+            const src = sources.find(s=>s.id===id);
+            const v = src.rec || src.sni;
+            chip.querySelector('input').checked = v;
+            chip.classList.toggle('active', v);
+        });
+    }
+
+    // ---------- Загрузка и проверка ----------
+    async function startLoading() {
+        const ids = getSelected();
+        if (!ids.length) { alert('Выберите источники'); return; }
+        const btn = document.getElementById('btnLoad');
+        btn.disabled = true;
+        checkAbort = false;
+        document.getElementById('progressWrap').style.display = 'block';
+        document.getElementById('errorBox').innerHTML = '';
+        document.getElementById('resultsArea').style.display = 'none';
+        allConfigs = [];
+        let skipped = [];
+
+        const sel = sources.filter(s=>ids.includes(s.id));
+        for (let i=0; i<sel.length; i++) {
+            if (checkAbort) break;
+            const s = sel[i];
+            document.getElementById('progressBar').style.width = Math.round((i/sel.length)*100)+'%';
+            document.getElementById('progressText').textContent = 'Загрузка '+s.label+'...';
+            document.getElementById('progressCount').textContent = (i+1)+'/'+sel.length;
+
+            const meta = fileMeta[s.file];
+            if (meta && meta.size > 20*1024*1024) {
+                skipped.push(s.label+' ('+formatSize(meta.size)+')');
+                document.getElementById('count-'+s.id).textContent = 'Пропущен (большой)';
+                continue;
+            }
+            const text = await fetchText(s.file);
+            if (!text) {
+                document.getElementById('count-'+s.id).textContent = 'Ошибка загрузки';
+                continue;
+            }
+            const lines = text.split(/\r?\n/).filter(l=>l.trim());
+            const protos = new Set();
+            lines.forEach(line => {
+                const proto = detectProtocol(line);
+                protos.add(proto);
+                const hi = parseHost(line);
+                allConfigs.push({
+                    id: allConfigs.length,
+                    config: line.trim(),
+                    protocol: proto,
+                    host: hi.host,
+                    port: hi.port,
+                    status: 'unknown',
+                    ping: null,
+                    checking: false,
+                    sourceId: s.id,
+                    country: null,
+                    favorite: favoriteIds.has(allConfigs.length),
+                    speed: null,
+                    details: null
+                });
+            });
+            document.getElementById('count-'+s.id).textContent = lines.length.toLocaleString('ru')+' серверов';
+            document.getElementById('protos-'+s.id).textContent = Array.from(protos).join(' / ');
+        }
+        allConfigs.forEach(c=>{ c.favorite = favoriteIds.has(c.id); });
+
+        document.getElementById('progressBar').style.width = '100%';
+        document.getElementById('progressText').textContent = 'Загружено '+allConfigs.length+' конфигов. Проверка...';
+
+        if (!allConfigs.length) {
+            let errHtml = '<div class="error-box">Не удалось загрузить конфиги.</div>';
+            if (skipped.length) errHtml += '<div class="warn-box">Пропущены большие файлы: '+skipped.join(', ')+'.</div>';
+            document.getElementById('errorBox').innerHTML = errHtml;
+            btn.disabled = false;
+            return;
         }
 
-        function getSelected() { return Array.from(document.querySelectorAll('.source-chip input:checked')).map(cb => parseInt(cb.value)); }
-        function selectAll(v) {
-            document.querySelectorAll('.source-chip').forEach(chip => {
-                const cb = chip.querySelector('input');
-                cb.checked = v;
-                chip.classList.toggle('active', v);
-            });
-        }
-        function selectRec() {
-            document.querySelectorAll('.source-chip').forEach(chip => {
-                const id = parseInt(chip.querySelector('input').value);
-                const src = sources.find(s => s.id === id);
-                const v = src.rec || src.sni;
-                chip.querySelector('input').checked = v;
-                chip.classList.toggle('active', v);
-            });
-        }
+        buildFilters();
+        applyFilters();
+        document.getElementById('resultsArea').style.display = 'block';
+        window.scrollTo({top: document.getElementById('resultsArea').offsetTop-20, behavior:'smooth'});
 
-        function parseHost(cfg) {
+        await checkAllConfigs();
+        btn.disabled = false;
+        updateGlobalStats();
+        populateSourceFilter();
+        if (autoUpdateEnabled) startAutoUpdate();
+    }
+
+    // ---- Проверка с тестом скорости ----
+    async function checkSingle(c) {
+        if (!c.host) { c.status='offline'; c.ping=null; c.speed=null; return; }
+        c.checking = true; c.status='checking';
+        refreshCard(c.id);
+
+        const speedPromise = (async () => {
             try {
-                let url = cfg.trim();
-                if (url.startsWith('vmess://')) {
-                    const b64 = url.slice(8).split('#')[0].split('?')[0];
-                    const pad = b64.length % 4 ? '='.repeat(4 - b64.length % 4) : '';
-                    const json = JSON.parse(atob(b64 + pad));
-                    return { host: json.add || json.host || '', port: json.port || '' };
+                const testUrl = 'https://' + c.host + (c.port?':'+c.port:'') + '/speedtest/1MB.bin';
+                const start = performance.now();
+                const ctrl = new AbortController();
+                const to = setTimeout(()=>ctrl.abort(), 5000);
+                const res = await fetch(testUrl, {signal:ctrl.signal});
+                clearTimeout(to);
+                if (!res.ok) throw new Error('status '+res.status);
+                const reader = res.body.getReader();
+                let received = 0;
+                while (true) {
+                    const {done, value} = await reader.read();
+                    if (done) break;
+                    received += value.length;
                 }
-                if (url.includes('://')) {
-                    const u = new URL(url.replace(/^\w+:\/\//, 'proto://'));
-                    return { host: u.hostname, port: u.port };
-                }
-            } catch(e) {}
-            const m = cfg.match(/@([^:]+):(\d+)/);
-            if (m) return { host: m[1], port: m[2] };
-            return { host: '', port: '' };
-        }
-
-        function detectProtocol(cfg) {
-            const c = cfg.trim();
-            if (c.startsWith('vless://')) return c.includes('reality') ? 'reality' : 'vless';
-            if (c.startsWith('vmess://')) return 'vmess';
-            if (c.startsWith('trojan://')) return 'trojan';
-            if (c.startsWith('ss://')) return 'shadowsocks';
-            if (c.startsWith('hysteria://') || c.startsWith('hysteria2://') || c.startsWith('hy2://')) return 'hysteria';
-            if (c.startsWith('tuic://')) return 'tuic';
-            return 'other';
-        }
-
-        async function fetchText(fileName) {
-            const errors = [];
-
-            for (const ep of endpoints.slice(0, 2)) {
-                try {
-                    const ctrl = new AbortController();
-                    const to = setTimeout(() => ctrl.abort(), 10000);
-                    const r = await fetch(ep.base + fileName, {cache:'no-store', signal: ctrl.signal});
-                    clearTimeout(to);
-                    if (r.ok) return await r.text();
-                } catch(e) { errors.push(ep.name + ': ' + e.message); }
+                const elapsed = (performance.now() - start) / 1000;
+                const speed = received / elapsed / 1024 / 1024;
+                return { speed, ping: null };
+            } catch(e) {
+                return null;
             }
+        })();
 
-            const rawUrl = endpoints[2].base + fileName;
-            for (const p of corsProxies) {
-                try {
-                    const ctrl = new AbortController();
-                    const to = setTimeout(() => ctrl.abort(), 10000);
-                    const r = await fetch(p(rawUrl), {cache:'no-store', signal: ctrl.signal});
-                    clearTimeout(to);
-                    if (r.ok) return await r.text();
-                } catch(e) { errors.push('proxy: ' + e.message); }
+        const countryPromise = resolveCountry(c.host);
+        const pingOnly = (async () => {
+            const urls = ['https://'+c.host+(c.port?':'+c.port:'')+'/', 'https://'+c.host+'/'];
+            let bestPing = Infinity, anyResponse = false;
+            for (const testUrl of urls) {
+                const ctrl = new AbortController();
+                const to = setTimeout(()=>ctrl.abort(), 2000);
+                const t0 = performance.now();
+                try { await fetch(testUrl, {mode:'no-cors', signal:ctrl.signal}); bestPing=Math.min(bestPing, Math.round(performance.now()-t0)); anyResponse=true; } catch(e){}
+                clearTimeout(to);
             }
+            return { anyResponse, bestPing };
+        })();
 
-            console.warn('Failed to load ' + fileName, errors);
+        const [speedResult, countryResult, pingOnlyResult] = await Promise.all([speedPromise, countryPromise, pingOnly]);
+
+        c.checking = false;
+        if (speedResult && speedResult.speed !== undefined) {
+            c.status = 'online';
+            c.speed = speedResult.speed;
+            c.ping = speedResult.ping || pingOnlyResult.bestPing || null;
+        } else if (pingOnlyResult.anyResponse) {
+            c.status = 'online';
+            c.ping = pingOnlyResult.bestPing;
+            c.speed = null;
+        } else {
+            c.status = 'offline';
+            c.ping = null;
+            c.speed = null;
+        }
+        if (countryResult) c.country = countryResult;
+        c.details = parseDetails(c.config);
+        refreshCard(c.id);
+    }
+
+    function parseDetails(cfg) {
+        try {
+            const url = new URL(cfg.replace(/^\w+:\/\//, 'https://'));
+            const params = new URLSearchParams(url.search);
+            const details = {};
+            for (const [key, val] of params) {
+                details[key] = val;
+            }
+            if (cfg.startsWith('vmess://')) {
+                const b64 = cfg.slice(8).split('#')[0];
+                const pad = b64.length % 4 ? '='.repeat(4-b64.length%4) : '';
+                const json = JSON.parse(atob(b64+pad));
+                Object.assign(details, json);
+            }
+            return details;
+        } catch(e) {
             return null;
         }
+    }
 
-        async function startLoading() {
-            const ids = getSelected();
-            if (!ids.length) { alert('Выберите источники'); return; }
-            const btn = document.getElementById('btnLoad');
-            btn.disabled = true;
-            checkAbort = false;
-            document.getElementById('progressWrap').style.display = 'block';
-            document.getElementById('errorBox').innerHTML = '';
-            document.getElementById('resultsArea').style.display = 'none';
-            allConfigs = [];
-            let skipped = [];
-
-            const sel = sources.filter(s => ids.includes(s.id));
-            for (let i = 0; i < sel.length; i++) {
-                if (checkAbort) break;
-                const s = sel[i];
-                document.getElementById('progressBar').style.width = Math.round((i/sel.length)*100) + '%';
-                document.getElementById('progressText').textContent = 'Загрузка ' + s.label + '...';
-                document.getElementById('progressCount').textContent = (i+1) + '/' + sel.length;
-
-                const meta = fileMeta[s.file];
-                if (meta && meta.size > 20 * 1024 * 1024) {
-                    skipped.push(s.label + ' (' + formatSize(meta.size) + ')');
-                    document.getElementById('count-' + s.id).textContent = 'Пропущен (слишком большой)';
-                    continue;
-                }
-
-                const text = await fetchText(s.file);
-                if (!text) {
-                    document.getElementById('count-' + s.id).textContent = 'Ошибка загрузки';
-                    continue;
-                }
-                const lines = text.split(/\r?\n/).filter(l=>l.trim());
-                const protos = new Set();
-                lines.forEach(line => {
-                    const proto = detectProtocol(line);
-                    protos.add(proto);
-                    const hi = parseHost(line);
-                    allConfigs.push({
-                        id: allConfigs.length,
-                        config: line.trim(),
-                        protocol: proto,
-                        host: hi.host,
-                        port: hi.port,
-                        status: 'unknown',
-                        ping: null,
-                        checking: false,
-                        sourceId: s.id,
-                        country: null
-                    });
-                });
-                document.getElementById('count-' + s.id).textContent = lines.length.toLocaleString('ru') + ' серверов';
-                document.getElementById('protos-' + s.id).textContent = Array.from(protos).join(' / ');
-            }
-
-            document.getElementById('progressBar').style.width = '100%';
-            document.getElementById('progressText').textContent = 'Загружено ' + allConfigs.length + ' конфигов. Проверка...';
-
-            if (!allConfigs.length) {
-                let errHtml = '<div class="error-box">Не удалось загрузить конфиги.</div>';
-                if (skipped.length) {
-                    errHtml += '<div class="warn-box">Пропущены слишком большие файлы: ' + skipped.join(', ') + '.<br>Для их загрузки откройте страницу через локальный сервер (например, <code>npx serve</code> или <code>python -m http.server</code>).</div>';
-                }
-                document.getElementById('errorBox').innerHTML = errHtml;
-                btn.disabled = false;
-                return;
-            }
-
-            buildFilters();
+    async function checkAllConfigs() {
+        checkAbort = false;
+        const toCheck = allConfigs.filter(c=>c.host);
+        const total = toCheck.length;
+        for (let i=0; i<total; i+=20) {
+            if (checkAbort) break;
+            const batch = toCheck.slice(i, i+20);
+            await Promise.all(batch.map(c=>checkSingle(c)));
+            document.getElementById('progressText').textContent = 'Проверка серверов...';
+            document.getElementById('progressCount').textContent = Math.min(i+20, total)+'/'+total;
+            document.getElementById('progressBar').style.width = Math.round((Math.min(i+20, total)/total)*100)+'%';
+            sortConfigs();
             applyFilters();
-            document.getElementById('resultsArea').style.display = 'block';
-            window.scrollTo({top: document.getElementById('resultsArea').offsetTop-20, behavior:'smooth'});
-
-            await checkAllConfigs();
-            btn.disabled = false;
+            await new Promise(r=>setTimeout(r,50));
         }
+        document.getElementById('progressText').textContent = 'Проверка завершена';
+        document.getElementById('progressCount').textContent = '';
+        sortConfigs(); applyFilters();
+        updateGlobalStats();
+    }
 
-        async function checkSingle(c) {
-            if (!c.host) { c.status = 'offline'; c.ping = null; return; }
-            c.checking = true; c.status = 'checking';
-            refreshCard(c.id);
-
-            const pingPromise = (async () => {
-                const urls = ['https://' + c.host + (c.port ? ':'+c.port : '') + '/', 'https://' + c.host + '/'];
-                let bestPing = Infinity, anyResponse = false;
-                for (const testUrl of urls) {
-                    const ctrl = new AbortController();
-                    const to = setTimeout(() => ctrl.abort(), 3000);
-                    const t0 = performance.now();
-                    try { await fetch(testUrl, {mode:'no-cors', signal:ctrl.signal}); bestPing = Math.min(bestPing, Math.round(performance.now()-t0)); anyResponse = true; } catch(e){}
-                    clearTimeout(to);
-                }
-                return { anyResponse, bestPing };
-            })();
-
-            const countryPromise = resolveCountry(c.host);
-            const [pingResult, countryResult] = await Promise.all([pingPromise, countryPromise]);
-
-            c.checking = false;
-            c.status = pingResult.anyResponse ? 'online' : 'offline';
-            c.ping = pingResult.anyResponse ? pingResult.bestPing : null;
-            if (countryResult) c.country = countryResult;
-            refreshCard(c.id);
-        }
-
-        async function checkAllConfigs() {
-            isChecking = true; checkAbort = false;
-            const toCheck = allConfigs.filter(c => c.host);
-            const batchSize = 20;
-            const total = toCheck.length;
-
-            for (let i = 0; i < total; i += batchSize) {
-                if (checkAbort) break;
-                const batch = toCheck.slice(i, i + batchSize);
-                await Promise.all(batch.map(c => checkSingle(c)));
-
-                document.getElementById('progressText').textContent = 'Проверка серверов...';
-                document.getElementById('progressCount').textContent = Math.min(i+batchSize, total) + '/' + total;
-                document.getElementById('progressBar').style.width = Math.round((Math.min(i+batchSize, total)/total)*100) + '%';
-
-                sortConfigs();
-                applyFilters();
-                await new Promise(r => setTimeout(r, 50));
-            }
-
-            document.getElementById('progressText').textContent = 'Проверка завершена';
-            document.getElementById('progressCount').textContent = '';
-            sortConfigs(); applyFilters();
-            isChecking = false;
-        }
-
-        function sortConfigs() {
-            allConfigs.sort((a, b) => {
-                const order = { online: 0, checking: 1, unknown: 2, offline: 3 };
-                const oa = order[a.status] ?? 2;
-                const ob = order[b.status] ?? 2;
-                if (oa !== ob) return oa - ob;
-                if (a.status === 'online' && b.status === 'online') {
-                    return (a.ping ?? 99999) - (b.ping ?? 99999);
-                }
+    function sortConfigs() {
+        if (sortMode === 'ping') {
+            allConfigs.sort((a,b) => {
+                const order = { online:0, checking:1, unknown:2, offline:3 };
+                const oa = order[a.status]??2, ob = order[b.status]??2;
+                if (oa!==ob) return oa-ob;
+                if (a.status==='online' && b.status==='online') return (a.ping??99999) - (b.ping??99999);
                 return 0;
             });
+        } else if (sortMode === 'country') {
+            allConfigs.sort((a,b) => {
+                const nameA = a.country?.name || 'ZZZ';
+                const nameB = b.country?.name || 'ZZZ';
+                return nameA.localeCompare(nameB);
+            });
+        } else if (sortMode === 'protocol') {
+            allConfigs.sort((a,b) => a.protocol.localeCompare(b.protocol));
         }
+    }
 
-        function buildFilters() {
-            const counts = {};
-            allConfigs.forEach(c => counts[c.protocol] = (counts[c.protocol]||0)+1);
-            const protos = Object.keys(counts).sort((a,b)=>counts[b]-counts[a]);
-            document.getElementById('protocolFilters').innerHTML = `
-                <button class="filter-btn ${currentProtocol==='all'?'active':''}" onclick="setProto('all')">Все (${allConfigs.length})</button>
-                ${protos.map(p=>`<button class="filter-btn ${currentProtocol===p?'active':''}" onclick="setProto('${p}')">${p} (${counts[p]})</button>`).join('')}
-            `;
+    // ---------- Фильтрация и рендеринг ----------
+    function buildFilters() {
+        const counts = {};
+        allConfigs.forEach(c=>counts[c.protocol]=(counts[c.protocol]||0)+1);
+        const protos = Object.keys(counts).sort((a,b)=>counts[b]-counts[a]);
+        document.getElementById('protocolFilters').innerHTML = `
+            <button class="filter-btn ${currentProtocol==='all'?'active':''}" onclick="setProto('all')">Все (${allConfigs.length})</button>
+            ${protos.map(p=>`<button class="filter-btn ${currentProtocol===p?'active':''}" onclick="setProto('${p}')">${p} (${counts[p]})</button>`).join('')}
+        `;
+
+        const chipsDiv = document.getElementById('countryChips');
+        const countries = new Map();
+        allConfigs.forEach(c => {
+            if (c.country && c.country.code) {
+                const code = c.country.code;
+                const name = c.country.name;
+                if (!countries.has(code)) countries.set(code, {name, count:0});
+                countries.get(code).count++;
+            }
+        });
+        let chipsHtml = `<span class="country-chip ${currentCountryFilter==='all'?'active':''}" onclick="setCountry('all')">🌍 Все</span>`;
+        [...countries.entries()].sort((a,b) => a[1].name.localeCompare(b[1].name)).forEach(([code, data]) => {
+            const flag = getFlagEmoji(code);
+            chipsHtml += `<span class="country-chip ${currentCountryFilter===code?'active':''}" onclick="setCountry('${code}')">${flag} ${data.name} (${data.count})</span>`;
+        });
+        chipsDiv.innerHTML = chipsHtml;
+    }
+
+    function setCountry(code) {
+        currentCountryFilter = code;
+        currentPage = 1;
+        buildFilters();
+        applyFilters();
+    }
+
+    function setProto(p) { currentProtocol=p; currentPage=1; buildFilters(); applyFilters(); }
+    function setStatus(s) { currentStatus=s; currentPage=1; applyFilters(); }
+
+    function getActiveTab() {
+        const active = document.querySelector('.tab-btn.active');
+        return active ? active.dataset.tab : 'all';
+    }
+
+    function applyFilters() {
+        const q = document.getElementById('searchBox').value.toLowerCase().trim();
+        const tab = getActiveTab();
+        const country = currentCountryFilter;
+        const source = document.getElementById('sourceFilter').value;
+
+        filteredConfigs = allConfigs.filter(c => {
+            const mp = currentProtocol==='all' || c.protocol===currentProtocol;
+            const ms = currentStatus==='all' || c.status===currentStatus;
+            const mq = !q || c.config.toLowerCase().includes(q) || c.host.toLowerCase().includes(q) ||
+                (c.country && (c.country.name.toLowerCase().includes(q) || c.country.code.toLowerCase().includes(q)));
+            const mc = country==='all' || (c.country && c.country.code===country);
+            const msrc = source==='all' || c.sourceId == source;
+            let mt = true;
+            if (tab==='working') mt = c.status==='online' && (c.ping!==null && c.ping<500);
+            else if (tab==='favorites') mt = favoriteIds.has(c.id);
+            else if (tab==='devices') mt = deviceMap[c.id] && deviceMap[c.id].length>0;
+            else if (tab==='source') mt = source!=='all' && c.sourceId == source;
+            return mp && ms && mq && mc && msrc && mt;
+        });
+        updateStats();
+        renderPage();
+        updateGlobalStats();
+    }
+
+    function updateStats() {
+        const total = allConfigs.length;
+        const online = allConfigs.filter(c=>c.status==='online').length;
+        const offline = allConfigs.filter(c=>c.status==='offline').length;
+        const checking = allConfigs.filter(c=>c.status==='checking').length;
+        const unknown = allConfigs.filter(c=>c.status==='unknown').length;
+
+        document.getElementById('statsRow').innerHTML = `
+            <span class="stat-pill ${currentStatus==='all'?'active-filter':''}" onclick="setStatus('all')">Всего <b>${total}</b></span>
+            <span class="stat-pill online ${currentStatus==='online'?'active-filter':''}" onclick="setStatus('online')">Онлайн <b>${online}</b></span>
+            <span class="stat-pill offline ${currentStatus==='offline'?'active-filter':''}" onclick="setStatus('offline')">Оффлайн <b>${offline}</b></span>
+            <span class="stat-pill checking ${currentStatus==='checking'?'active-filter':''}" onclick="setStatus('checking')">Проверка <b>${checking}</b></span>
+            <span class="stat-pill ${currentStatus==='unknown'?'active-filter':''}" onclick="setStatus('unknown')">Не проверено <b>${unknown}</b></span>
+            <span class="stat-pill">Показано <b>${filteredConfigs.length}</b></span>
+        `;
+    }
+
+    function updateGlobalStats() {
+        const total = allConfigs.length;
+        const online = allConfigs.filter(c=>c.status==='online').length;
+        const pings = allConfigs.filter(c=>c.status==='online' && c.ping!==null).map(c=>c.ping);
+        const avgPing = pings.length ? Math.round(pings.reduce((a,b)=>a+b,0)/pings.length) : '—';
+        const countries = new Set();
+        allConfigs.forEach(c => { if (c.country && c.country.code) countries.add(c.country.code); });
+        document.getElementById('statTotal').textContent = total;
+        document.getElementById('statOnline').textContent = online;
+        document.getElementById('statAvgPing').textContent = avgPing;
+        document.getElementById('statCountries').textContent = countries.size;
+    }
+
+    // ---------- Управление устройствами и избранным ----------
+    function toggleFavorite(idx) {
+        if (favoriteIds.has(idx)) favoriteIds.delete(idx);
+        else favoriteIds.add(idx);
+        saveFavorites();
+        const c = allConfigs.find(x=>x.id===idx);
+        if (c) c.favorite = favoriteIds.has(idx);
+        applyFilters();
+    }
+
+    function addDevice(idx, deviceName) {
+        if (!deviceName.trim()) return;
+        if (!deviceMap[idx]) deviceMap[idx] = [];
+        if (!deviceMap[idx].includes(deviceName.trim())) {
+            deviceMap[idx].push(deviceName.trim());
+            saveDevices();
+            applyFilters();
         }
+    }
 
-        function setProto(p) {
-            currentProtocol = p; currentPage = 1;
+    function removeDevice(idx, deviceName) {
+        if (deviceMap[idx]) {
+            deviceMap[idx] = deviceMap[idx].filter(d=>d!==deviceName);
+            if (deviceMap[idx].length===0) delete deviceMap[idx];
+            saveDevices();
+            applyFilters();
+        }
+    }
+
+    function renderDevices(idx) {
+        const devices = deviceMap[idx] || [];
+        if (!devices.length) return '';
+        return devices.map(d => `
+            <span class="device-tag">
+                <span>${d}</span>
+                <span class="remove-device" onclick="removeDevice(${idx}, '${d}')">✕</span>
+            </span>
+        `).join(' ');
+    }
+
+    // ---------- Экспорт и подписки ----------
+    function exportOnline() {
+        const online = allConfigs.filter(c => c.status==='online' && c.ping!==null && c.ping<500);
+        if (!online.length) { showToast('Нет онлайн серверов'); return; }
+        const text = online.map(c => c.config).join('\n');
+        const blob = new Blob([text], {type:'text/plain'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'online_servers.txt';
+        a.click();
+        URL.revokeObjectURL(a.href);
+        showToast('Экспортировано ' + online.length + ' серверов');
+    }
+
+    function exportSubscription() {
+        const selected = allConfigs.filter(c => c.status==='online');
+        if (!selected.length) { showToast('Нет онлайн серверов для подписки'); return; }
+        const text = selected.map(c => c.config).join('\n');
+        const b64 = btoa(text);
+        navigator.clipboard.writeText(b64).then(() => {
+            showToast('Base64 подписки скопирован');
+        }).catch(() => {
+            prompt('Скопируйте base64 подписки:', b64);
+        });
+    }
+
+    function copySubscription() {
+        const online = allConfigs.filter(c => c.status==='online');
+        if (!online.length) { showToast('Нет онлайн серверов'); return; }
+        const text = online.map(c => c.config).join('\n');
+        const b64 = btoa(text);
+        navigator.clipboard.writeText(b64).then(() => {
+            showToast('Подписка (base64) скопирована');
+        }).catch(() => {
+            prompt('Скопируйте base64:', b64);
+        });
+    }
+
+    function importConfig() {
+        const input = prompt('Вставьте конфиг (vless://, vmess://, и т.д.) или несколько строк:');
+        if (!input) return;
+        const lines = input.split('\n').filter(l=>l.trim());
+        let added = 0;
+        lines.forEach(line => {
+            const trimmed = line.trim();
+            if (!trimmed) return;
+            const proto = detectProtocol(trimmed);
+            if (proto === 'other') { showToast('Пропущен неизвестный протокол'); return; }
+            const hi = parseHost(trimmed);
+            allConfigs.push({
+                id: allConfigs.length,
+                config: trimmed,
+                protocol: proto,
+                host: hi.host,
+                port: hi.port,
+                status: 'unknown',
+                ping: null,
+                checking: false,
+                sourceId: -1,
+                country: null,
+                favorite: false,
+                speed: null,
+                details: parseDetails(trimmed)
+            });
+            added++;
+        });
+        if (added) {
+            allConfigs.forEach(c=>{ c.favorite = favoriteIds.has(c.id); });
             buildFilters();
             applyFilters();
+            updateGlobalStats();
+            populateSourceFilter();
+            showToast('Импортировано ' + added + ' конфигов');
+            checkAllConfigs();
+        } else {
+            showToast('Ничего не импортировано');
         }
+    }
 
-        function setStatus(s) {
-            currentStatus = s; currentPage = 1;
-            applyFilters();
+    // ---------- Автообновление ----------
+    function toggleAutoUpdate() {
+        autoUpdateEnabled = !autoUpdateEnabled;
+        document.getElementById('btnAutoUpdate').textContent = autoUpdateEnabled ? '⏱️ Автообновление: ВКЛ' : '⏱️ Автообновление: ВЫКЛ';
+        if (autoUpdateEnabled) {
+            startAutoUpdate();
+        } else {
+            if (autoUpdateInterval) clearInterval(autoUpdateInterval);
         }
+    }
 
-        function applyFilters() {
-            const q = document.getElementById('searchBox').value.toLowerCase().trim();
-            filteredConfigs = allConfigs.filter(c => {
-                const mp = currentProtocol === 'all' || c.protocol === currentProtocol;
-                const ms = currentStatus === 'all' || c.status === currentStatus;
-                const mq = !q || c.config.toLowerCase().includes(q) || c.host.toLowerCase().includes(q) ||
-                          (c.country && (c.country.name.toLowerCase().includes(q) || c.country.code.toLowerCase().includes(q)));
-                return mp && ms && mq;
-            });
-            updateStats();
-            renderPage();
-        }
-
-        function updateStats() {
-            const total = allConfigs.length;
-            const online = allConfigs.filter(c=>c.status==='online').length;
-            const offline = allConfigs.filter(c=>c.status==='offline').length;
-            const checking = allConfigs.filter(c=>c.status==='checking').length;
-            const unknown = allConfigs.filter(c=>c.status==='unknown').length;
-
-            document.getElementById('statsRow').innerHTML =  `
-                <span class="stat-pill ${currentStatus==='all'?'active-filter':''}" onclick="setStatus('all')">Всего: <b>${total}</b></span>
-                <span class="stat-pill online ${currentStatus==='online'?'active-filter':''}" onclick="setStatus('online')">Онлайн: <b>${online}</b></span>
-                <span class="stat-pill offline ${currentStatus==='offline'?'active-filter':''}" onclick="setStatus('offline')">Оффлайн: <b>${offline}</b></span>
-                <span class="stat-pill checking ${currentStatus==='checking'?'active-filter':''}" onclick="setStatus('checking')">Проверка: <b>${checking}</b></span>
-                <span class="stat-pill ${currentStatus==='unknown'?'active-filter':''}" onclick="setStatus('unknown')">Не проверено: <b>${unknown}</b></span>
-                <span class="stat-pill">Показано: <b>${filteredConfigs.length}</b></span>
-            `;
-        }
-
-        function toggleDropdown(idx, event) {
-            event.stopPropagation();
-            closeAllDropdowns();
-            const wrap = document.getElementById('dropdown-' + idx);
-            if (wrap) {
-                wrap.classList.add('open');
-                openDropdownId = idx;
+    function startAutoUpdate() {
+        if (autoUpdateInterval) clearInterval(autoUpdateInterval);
+        autoUpdateInterval = setInterval(() => {
+            if (allConfigs.length) {
+                checkAllConfigs();
+                showToast('🔄 Автообновление выполнено');
             }
-        }
+        }, 30000);
+    }
 
-        function closeAllDropdowns() {
-            document.querySelectorAll('.dropdown-wrap.open').forEach(el => el.classList.remove('open'));
-            openDropdownId = null;
-        }
+    // ---------- Рендер карточек ----------
+    function renderPage() {
+        const container = document.getElementById('cardsContainer');
+        const start = (currentPage-1)*perPage;
+        const page = filteredConfigs.slice(start, start+perPage);
 
-        function openInApp(idx, appName) {
-            const c = allConfigs.find(x => x.id === idx);
-            if (!c) return;
-            const link = appLinks[appName](c.config);
-            window.open(link, '_blank');
-            closeAllDropdowns();
-        }
+        if (!page.length) {
+            container.innerHTML = '<div class="empty-state">Ничего не найдено</div>';
+        } else {
+            container.innerHTML = page.map((c, idx) => {
+                const short = c.config.length>100 ? c.config.slice(0,100)+'...' : c.config;
+                let statusHtml = '';
+                if (c.status==='checking') statusHtml = '<span class="status-pill checking"><span class="dot checking"></span>Проверка...</span>';
+                else if (c.status==='online') {
+                    let extra = '';
+                    if (c.speed) extra = ` ⚡${c.speed.toFixed(2)} MB/s`;
+                    else if (c.ping) extra = ` 📶${c.ping} ms`;
+                    statusHtml = `<span class="status-pill online"><span class="dot online"></span>${extra}</span>`;
+                } else if (c.status==='offline') statusHtml = '<span class="status-pill offline"><span class="dot offline"></span>Недоступен</span>';
+                else statusHtml = '<span class="status-pill unknown"><span class="dot unknown"></span>Не проверен</span>';
 
-        function renderDropdown(idx) {
-            const apps = ['Happ', 'v2rayNG', 'V2Box', 'Streisand', 'Shadowrocket', 'Hiddify', 'V2RayTun'];
-            return `
-                <div class="dropdown-wrap" id="dropdown-${idx}">
-                    <button class="btn-add" onclick="toggleDropdown(${idx}, event)">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-                        Добавить
-                    </button>
-                    <div class="dropdown-menu">
-                        ${apps.map(app => `<div class="dropdown-item" onclick="openInApp(${idx}, '${app}')"><span class="app-icon">${appIcons[app]}</span>${app}</div>`).join('')}
+                let countryHtml = '';
+                if (c.country && c.country.code) {
+                    countryHtml = '<span class="flag">'+getFlagEmoji(c.country.code)+'</span><span class="country-name">'+c.country.name+'</span>';
+                } else if (c.status==='checking') {
+                    countryHtml = '<span class="country-loading">Определение страны...</span>';
+                }
+
+                const isFav = favoriteIds.has(c.id);
+                const devicesHtml = renderDevices(c.id);
+
+                return `
+                <div class="config-card ${c.protocol}" data-idx="${c.id}">
+                    <div class="card-top">
+                        <span class="proto-badge pb-${c.protocol}">${c.protocol}</span>
+                        ${statusHtml}
+                        <div style="display:flex;gap:4px;">
+                            <button class="btn ${isFav ? 'btn-success' : 'btn-secondary'}" style="padding:2px 12px;font-size:0.75rem;" onclick="toggleFavorite(${c.id})">${isFav ? '★' : '☆'}</button>
+                        </div>
+                    </div>
+                    <div class="server-info">
+                        ${countryHtml}
+                        ${c.host ? '<b>'+c.host+'</b>'+(c.port?':'+c.port:'') : 'Адрес не распознан'}
+                        ${c.sourceId !== undefined && c.sourceId !== -1 ? '<span style="font-size:0.7rem;color:#555;">['+sources.find(s=>s.id===c.sourceId)?.label+']</span>' : ''}
+                    </div>
+                    <div class="config-text">${escapeHtml(short)}</div>
+                    <div class="card-actions">
+                        <button class="btn-copy" onclick="copyCfg(${c.id})">Копировать</button>
+                        ${renderDropdown(c.id)}
+                        <button class="btn-check" onclick="checkOne(${c.id})">Перепроверить</button>
+                        <button class="btn-details" onclick="toggleDetails(${c.id})">📖 Детали</button>
+                        <span style="display:inline-flex;align-items:center;gap:4px;margin-left:4px;">
+                            <input type="text" class="device-input" id="deviceInput-${c.id}" placeholder="Устройство" onkeydown="if(event.key==='Enter'){addDevice(${c.id}, this.value); this.value='';}">
+                            <button class="btn btn-ghost" style="padding:2px 6px;" onclick="const inp=document.getElementById('deviceInput-${c.id}'); addDevice(${c.id}, inp.value); inp.value='';">➕</button>
+                        </span>
+                    </div>
+                    ${devicesHtml ? '<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px;">'+devicesHtml+'</div>' : ''}
+                    <div class="details-panel" id="details-${c.id}">
+                        ${c.details ? Object.entries(c.details).map(([k,v]) => `<div class="param"><span class="key">${k}</span><span class="value">${v}</span></div>`).join('') : 'Нет деталей'}
                     </div>
                 </div>
-            `;
+                `;
+            }).join('');
         }
+        const tp = Math.ceil(filteredConfigs.length/perPage);
+        document.getElementById('pagination').innerHTML = tp<=1 ? '' : `
+            <button class="page-btn" onclick="changePage(-1)" ${currentPage===1?'disabled':''}>Назад</button>
+            <span class="page-info">${currentPage} / ${tp}</span>
+            <button class="page-btn" onclick="changePage(1)" ${currentPage===tp?'disabled':''}>Вперёд</button>
+        `;
+    }
 
-        function renderPage() {
-            const container = document.getElementById('cardsContainer');
-            const start = (currentPage-1)*perPage;
-            const page = filteredConfigs.slice(start, start+perPage);
+    function toggleDetails(id) {
+        const panel = document.getElementById('details-'+id);
+        if (panel) panel.classList.toggle('open');
+    }
 
-            if (!page.length) {
-                container.innerHTML = '<div class="empty-state">Ничего не найдено</div>';
-            } else {
-                container.innerHTML = page.map((c, idx) => {
-                    const realIdx = start + idx;
-                    const short = c.config.length > 100 ? c.config.slice(0,100)+'...' : c.config;
-                    let statusHtml = '';
-                    if (c.status === 'checking') statusHtml = '<span class="status-pill checking"><span class="dot checking"></span>Проверка...</span>';
-                    else if (c.status === 'online') statusHtml = '<span class="status-pill online"><span class="dot online"></span>' + c.ping + ' ms</span>';
-                    else if (c.status === 'offline') statusHtml = '<span class="status-pill offline"><span class="dot offline"></span>Недоступен</span>';
-                    else statusHtml = '<span class="status-pill unknown"><span class="dot unknown"></span>Не проверен</span>';
+    function changePage(d) {
+        const tp = Math.ceil(filteredConfigs.length/perPage);
+        currentPage = Math.max(1, Math.min(tp, currentPage+d));
+        renderPage();
+        document.getElementById('resultsArea').scrollIntoView({behavior:'smooth', block:'start'});
+    }
 
-                    let countryHtml = '';
-                    if (c.country && c.country.code) {
-                        const flag = getFlagEmoji(c.country.code);
-                        countryHtml = '<span class="flag">' + flag + '</span><span class="country-name">' + c.country.name + '</span>';
-                    } else if (c.status === 'checking') {
-                        countryHtml = '<span class="country-loading">Определение страны...</span>';
-                    }
-
-                    return `
-                    <div class="config-card ${c.protocol}" data-idx="${c.id}">
-                        <div class="card-top">
-                            <span class="proto-badge pb-${c.protocol}">${c.protocol}</span>
-                            ${statusHtml}
-                        </div>
-                        <div class="server-info">
-                            ${countryHtml}
-                            ${c.host ? '<b>' + c.host + '</b>' + (c.port ? ':'+c.port : '') : 'Адрес не распознан'}
-                        </div>
-                        <div class="config-text">${escapeHtml(short)}</div>
-                        <div class="card-actions">
-                            <button class="btn-copy" onclick="copyCfg(${c.id})">Копировать</button>
-                            ${renderDropdown(c.id)}
-                            <button class="btn-check" onclick="checkOne(${c.id})">Перепроверить</button>
-                        </div>
-                    </div>`;
-                }).join('');
-            }
-            const tp = Math.ceil(filteredConfigs.length/perPage);
-            document.getElementById('pagination').innerHTML = tp <= 1 ? '' : `
-                <button class="page-btn" onclick="changePage(-1)" ${currentPage===1?'disabled':''}>Назад</button>
-                <span class="page-info">${currentPage} / ${tp}</span>
-                <button class="page-btn" onclick="changePage(1)" ${currentPage===tp?'disabled':''}>Вперёд</button>
-            `;
+    function refreshCard(id) {
+        const card = document.querySelector('.config-card[data-idx="'+id+'"]');
+        if (!card) return;
+        const c = allConfigs.find(x=>x.id===id);
+        if (!c) return;
+        let statusHtml = '';
+        if (c.status==='checking') statusHtml = '<span class="status-pill checking"><span class="dot checking"></span>Проверка...</span>';
+        else if (c.status==='online') {
+            let extra = '';
+            if (c.speed) extra = ` ⚡${c.speed.toFixed(2)} MB/s`;
+            else if (c.ping) extra = ` 📶${c.ping} ms`;
+            statusHtml = `<span class="status-pill online"><span class="dot online"></span>${extra}</span>`;
+        } else if (c.status==='offline') statusHtml = '<span class="status-pill offline"><span class="dot offline"></span>Недоступен</span>';
+        else statusHtml = '<span class="status-pill unknown"><span class="dot unknown"></span>Не проверен</span>';
+        const isFav = favoriteIds.has(c.id);
+        card.querySelector('.card-top').innerHTML = `
+            <span class="proto-badge pb-${c.protocol}">${c.protocol}</span>
+            ${statusHtml}
+            <div style="display:flex;gap:4px;">
+                <button class="btn ${isFav ? 'btn-success' : 'btn-secondary'}" style="padding:2px 12px;font-size:0.75rem;" onclick="toggleFavorite(${c.id})">${isFav ? '★' : '☆'}</button>
+            </div>
+        `;
+        let countryHtml = '';
+        if (c.country && c.country.code) {
+            countryHtml = '<span class="flag">'+getFlagEmoji(c.country.code)+'</span><span class="country-name">'+c.country.name+'</span>';
+        } else if (c.status==='checking') {
+            countryHtml = '<span class="country-loading">Определение страны...</span>';
         }
-
-        function changePage(d) {
-            const tp = Math.ceil(filteredConfigs.length/perPage);
-            currentPage = Math.max(1, Math.min(tp, currentPage+d));
-            renderPage();
-            document.getElementById('resultsArea').scrollIntoView({behavior:'smooth', block:'start'});
+        const serverInfo = card.querySelector('.server-info');
+        if (serverInfo) {
+            serverInfo.innerHTML = countryHtml + (c.host ? '<b>'+c.host+'</b>'+(c.port?':'+c.port:'') : 'Адрес не распознан')
+                + (c.sourceId !== undefined && c.sourceId !== -1 ? '<span style="font-size:0.7rem;color:#555;">['+sources.find(s=>s.id===c.sourceId)?.label+']</span>' : '');
         }
-
-        function refreshCard(id) {
-            const card = document.querySelector('.config-card[data-idx="' + id + '"]');
-            if (!card) return;
-            const c = allConfigs.find(x => x.id === id);
-            if (!c) return;
-            let statusHtml = '';
-            if (c.status === 'checking') statusHtml = '<span class="status-pill checking"><span class="dot checking"></span>Проверка...</span>';
-            else if (c.status === 'online') statusHtml = '<span class="status-pill online"><span class="dot online"></span>' + c.ping + ' ms</span>';
-            else if (c.status === 'offline') statusHtml = '<span class="status-pill offline"><span class="dot offline"></span>Недоступен</span>';
-            else statusHtml = '<span class="status-pill unknown"><span class="dot unknown"></span>Не проверен</span>';
-            card.querySelector('.card-top').innerHTML = `
-                <span class="proto-badge pb-${c.protocol}">${c.protocol}</span>
-                ${statusHtml}
-            `;
-
-            let countryHtml = '';
-            if (c.country && c.country.code) {
-                const flag = getFlagEmoji(c.country.code);
-                countryHtml = '<span class="flag">' + flag + '</span><span class="country-name">' + c.country.name + '</span>';
-            } else if (c.status === 'checking') {
-                countryHtml = '<span class="country-loading">Определение страны...</span>';
-            }
-            const serverInfo = card.querySelector('.server-info');
-            if (serverInfo) {
-                serverInfo.innerHTML = countryHtml + (c.host ? '<b>' + c.host + '</b>' + (c.port ? ':'+c.port : '') : 'Адрес не распознан');
-            }
+        const detailsPanel = document.getElementById('details-'+id);
+        if (detailsPanel && c.details) {
+            detailsPanel.innerHTML = Object.entries(c.details).map(([k,v]) => `<div class="param"><span class="key">${k}</span><span class="value">${v}</span></div>`).join('');
         }
+    }
 
-        async function checkOne(idx) {
-            const c = allConfigs.find(x => x.id === idx);
-            if (!c || !c.host) return;
-            c.checking = true; c.status = 'checking';
-            refreshCard(idx); updateStats();
+    async function checkOne(idx) {
+        const c = allConfigs.find(x=>x.id===idx);
+        if (!c || !c.host) return;
+        c.checking = true; c.status='checking';
+        refreshCard(idx); updateStats();
 
-            const pingPromise = (async () => {
-                const urls = ['https://' + c.host + (c.port ? ':'+c.port : '') + '/', 'https://' + c.host + '/'];
-                let bestPing = Infinity, anyResponse = false;
-                for (const testUrl of urls) {
-                    const ctrl = new AbortController();
-                    const to = setTimeout(() => ctrl.abort(), 3000);
-                    const t0 = performance.now();
-                    try { await fetch(testUrl, {mode:'no-cors', signal:ctrl.signal}); bestPing = Math.min(bestPing, Math.round(performance.now()-t0)); anyResponse = true; } catch(e){}
-                    clearTimeout(to);
-                }
-                return { anyResponse, bestPing };
-            })();
-
-            const countryPromise = resolveCountry(c.host);
-            const [pingResult, countryResult] = await Promise.all([pingPromise, countryPromise]);
-
-            c.checking = false;
-            c.status = pingResult.anyResponse ? 'online' : 'offline';
-            c.ping = pingResult.anyResponse ? pingResult.bestPing : null;
-            if (countryResult) c.country = countryResult;
-            refreshCard(idx); updateStats();
-            sortConfigs(); applyFilters();
-        }
-
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            t.textContent = msg || 'Скопировано';
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 1500);
-        }
-
-        function copyCfg(idx) {
-            const c = allConfigs.find(x => x.id === idx);
-            if (!c) return;
-            const text = c.config;
-
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(() => showToast()).catch(() => fallbackCopy(text));
-            } else {
-                fallbackCopy(text);
-            }
-        }
-
-        function fallbackCopy(text) {
-            const ta = document.createElement('textarea');
-            ta.value = text;
-            ta.style.position = 'fixed';
-            ta.style.left = '-9999px';
-            ta.style.top = '0';
-            document.body.appendChild(ta);
-            ta.focus();
-            ta.select();
+        const speedPromise = (async () => {
             try {
-                const ok = document.execCommand('copy');
-                showToast(ok ? 'Скопировано' : 'Не удалось скопировать');
+                const testUrl = 'https://' + c.host + (c.port?':'+c.port:'') + '/speedtest/1MB.bin';
+                const start = performance.now();
+                const ctrl = new AbortController();
+                const to = setTimeout(()=>ctrl.abort(), 5000);
+                const res = await fetch(testUrl, {signal:ctrl.signal});
+                clearTimeout(to);
+                if (!res.ok) throw new Error('status '+res.status);
+                const reader = res.body.getReader();
+                let received = 0;
+                while (true) {
+                    const {done, value} = await reader.read();
+                    if (done) break;
+                    received += value.length;
+                }
+                const elapsed = (performance.now() - start) / 1000;
+                const speed = received / elapsed / 1024 / 1024;
+                return { speed, ping: null };
             } catch(e) {
-                showToast('Ошибка копирования');
+                return null;
             }
-            document.body.removeChild(ta);
-        }
+        })();
+        const countryPromise = resolveCountry(c.host);
+        const pingOnly = (async () => {
+            const urls = ['https://'+c.host+(c.port?':'+c.port:'')+'/', 'https://'+c.host+'/'];
+            let bestPing = Infinity, anyResponse = false;
+            for (const testUrl of urls) {
+                const ctrl = new AbortController();
+                const to = setTimeout(()=>ctrl.abort(), 2000);
+                const t0 = performance.now();
+                try { await fetch(testUrl, {mode:'no-cors', signal:ctrl.signal}); bestPing=Math.min(bestPing, Math.round(performance.now()-t0)); anyResponse=true; } catch(e){}
+                clearTimeout(to);
+            }
+            return { anyResponse, bestPing };
+        })();
 
-        function clearResults() {
-            checkAbort = true;
-            allConfigs = []; filteredConfigs = [];
-            document.getElementById('resultsArea').style.display = 'none';
-            document.getElementById('progressWrap').style.display = 'none';
-            document.getElementById('errorBox').innerHTML = '';
-            document.getElementById('btnLoad').disabled = false;
-            sources.forEach(s => {
-                document.getElementById('count-' + s.id).textContent = '';
-                document.getElementById('protos-' + s.id).textContent = '';
-            });
-        }
+        const [speedResult, countryResult, pingOnlyResult] = await Promise.all([speedPromise, countryPromise, pingOnly]);
 
-        function escapeHtml(t) {
-            const d = document.createElement('div');
-            d.textContent = t;
-            return d.innerHTML;
+        c.checking = false;
+        if (speedResult && speedResult.speed !== undefined) {
+            c.status = 'online';
+            c.speed = speedResult.speed;
+            c.ping = speedResult.ping || pingOnlyResult.bestPing || null;
+        } else if (pingOnlyResult.anyResponse) {
+            c.status = 'online';
+            c.ping = pingOnlyResult.bestPing;
+            c.speed = null;
+        } else {
+            c.status = 'offline';
+            c.ping = null;
+            c.speed = null;
         }
+        if (countryResult) c.country = countryResult;
+        c.details = parseDetails(c.config);
+        refreshCard(idx); updateStats();
+        sortConfigs(); applyFilters();
+        updateGlobalStats();
+    }
 
-        init();
-    </script>
+    // ---------- Вспомогательные UI ----------
+    function renderDropdown(idx) {
+        const apps = ['Happ', 'v2rayNG', 'V2Box', 'Streisand', 'Shadowrocket', 'Hiddify', 'V2RayTun'];
+        return `
+            <div class="dropdown-wrap" id="dropdown-${idx}">
+                <button class="btn-add" onclick="toggleDropdown(${idx}, event)">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+                    Добавить
+                </button>
+                <div class="dropdown-menu">
+                    ${apps.map(app => `<div class="dropdown-item" onclick="openInApp(${idx}, '${app}')"><span class="app-icon">${appIcons[app]}</span>${app}</div>`).join('')}
+                </div>
+            </div>
+        `;
+    }
+
+    function toggleDropdown(idx, event) {
+        event.stopPropagation();
+        closeAllDropdowns();
+        const wrap = document.getElementById('dropdown-'+idx);
+        if (wrap) { wrap.classList.add('open'); openDropdownId=idx; }
+    }
+    function closeAllDropdowns() {
+        document.querySelectorAll('.dropdown-wrap.open').forEach(el=>el.classList.remove('open'));
+        openDropdownId=null;
+    }
+    function openInApp(idx, appName) {
+        const c = allConfigs.find(x=>x.id===idx);
+        if (!c) return;
+        const link = appLinks[appName](c.config);
+        window.open(link, '_blank');
+        closeAllDropdowns();
+    }
+
+    function copyCfg(idx) {
+        const c = allConfigs.find(x=>x.id===idx);
+        if (!c) return;
+        const text = c.config;
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(()=>showToast()).catch(()=>fallbackCopy(text));
+        } else {
+            fallbackCopy(text);
+        }
+    }
+    function fallbackCopy(text) {
+        const ta = document.createElement('textarea');
+        ta.value=text;
+        ta.style.position='fixed'; ta.style.left='-9999px'; ta.style.top='0';
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        try { showToast(document.execCommand('copy') ? 'Скопировано' : 'Ошибка'); } catch(e) { showToast('Ошибка'); }
+        document.body.removeChild(ta);
+    }
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg || 'Скопировано';
+        t.classList.add('show');
+        setTimeout(()=>t.classList.remove('show'), 1500);
+    }
+
+    function clearResults() {
+        checkAbort = true;
+        if (autoUpdateInterval) clearInterval(autoUpdateInterval);
+        autoUpdateEnabled = false;
+        document.getElementById('btnAutoUpdate').textContent = '⏱️ Автообновление: ВЫКЛ';
+        allConfigs = []; filteredConfigs = [];
+        document.getElementById('resultsArea').style.display = 'none';
+        document.getElementById('progressWrap').style.display = 'none';
+        document.getElementById('errorBox').innerHTML = '';
+        document.getElementById('btnLoad').disabled = false;
+        sources.forEach(s=>{
+            document.getElementById('count-'+s.id).textContent = '';
+            document.getElementById('protos-'+s.id).textContent = '';
+        });
+        updateGlobalStats();
+    }
+
+    function escapeHtml(t) {
+        const d = document.createElement('div');
+        d.textContent = t;
+        return d.innerHTML;
+    }
+
+    // ---------- Старт ----------
+    init();
+</script>
 </body>
 </html>
