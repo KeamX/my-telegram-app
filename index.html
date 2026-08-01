@@ -706,7 +706,43 @@
             .sources-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
             .dropdown-menu { left: auto; right: 0; }
         }
+
+        .qr-panel {
+            background: rgba(0,0,0,0.25);
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 10px;
+            text-align: center;
+            display: none;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .qr-panel.open { display: block; }
+        .qr-panel img {
+            max-width: 220px;
+            border-radius: 8px;
+            image-rendering: pixelated;
+        }
+        .qr-panel .qr-label {
+            font-size: 0.7rem;
+            color: #555;
+            margin-top: 8px;
+        }
+        .btn-qr {
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.04);
+            color: #777;
+            font-size: 0.78rem;
+            font-weight: 600;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-qr:hover { background: rgba(255,255,255,0.08); color: white; }
+        .btn-qr.active { background: rgba(0,212,255,0.1); color: #00d4ff; border-color: rgba(0,212,255,0.3); }
     </style>
+<base target="_blank">
 </head>
 <body>
 <div class="container">
@@ -723,13 +759,12 @@
         </div>
     </div>
 
-    <!-- Tabs -->
+    <!-- Tabs (убрана вкладка "По источнику") -->
     <div class="tabs" id="tabContainer">
         <button class="tab-btn active" data-tab="all"><span class="icon">📋</span> Все</button>
         <button class="tab-btn" data-tab="working"><span class="icon">✅</span> Рабочие</button>
         <button class="tab-btn" data-tab="favorites"><span class="icon">⭐</span> Избранное</button>
         <button class="tab-btn" data-tab="devices"><span class="icon">📱</span> По устройствам</button>
-        <button class="tab-btn" data-tab="source"><span class="icon">📂</span> По источнику</button>
     </div>
 
     <div class="sources-panel">
@@ -746,10 +781,6 @@
         <div class="actions-bar">
             <button class="btn btn-primary" id="btnLoad" onclick="startLoading()">⚡ Загрузить и проверить</button>
             <button class="btn btn-secondary" onclick="clearResults()">🗑️ Очистить</button>
-            <button class="btn btn-secondary" onclick="exportOnline()">💾 Экспорт онлайн</button>
-            <button class="btn btn-secondary" onclick="exportSubscription()">📡 Подписка (base64)</button>
-            <button class="btn btn-secondary" onclick="copySubscription()">📋 Копировать подписку</button>
-            <button class="btn btn-secondary" onclick="importConfig()">📤 Импорт</button>
             <button class="btn btn-secondary" id="btnAutoUpdate" onclick="toggleAutoUpdate()">⏱️ Автообновление: ВЫКЛ</button>
         </div>
         <div class="progress-wrap" id="progressWrap">
@@ -767,9 +798,6 @@
             <div class="toolbar-left" id="statsRow"></div>
             <div class="toolbar-right">
                 <input type="text" class="search-box" id="searchBox" placeholder="🔍 Поиск..." oninput="applyFilters()">
-                <select class="select-filter" id="sourceFilter" onchange="applyFilters()">
-                    <option value="all">Все источники</option>
-                </select>
                 <select class="select-filter" id="sortSelect" onchange="applyFilters()">
                     <option value="ping">📶 По пингу</option>
                     <option value="country">🌍 По стране</option>
@@ -867,7 +895,6 @@
     let autoUpdateEnabled = false;
     let sortMode = 'ping';
     let currentCountryFilter = 'all';
-    let currentSourceFilter = 'all';
 
     // Загрузка из localStorage
     try {
@@ -1009,24 +1036,7 @@
             sortMode = this.value;
             applyFilters();
         });
-        document.getElementById('sourceFilter').addEventListener('change', function() {
-            currentSourceFilter = this.value;
-            applyFilters();
-        });
         updateGlobalStats();
-        populateSourceFilter();
-    }
-
-    function populateSourceFilter() {
-        const sel = document.getElementById('sourceFilter');
-        const labels = {};
-        sources.forEach(s => labels[s.id] = s.label);
-        const used = new Set();
-        allConfigs.forEach(c => { if (c.sourceId !== undefined && c.sourceId !== -1) used.add(c.sourceId); });
-        sel.innerHTML = '<option value="all">Все источники</option>';
-        [...used].sort((a,b) => labels[a].localeCompare(labels[b])).forEach(id => {
-            sel.innerHTML += `<option value="${id}">${labels[id]}</option>`;
-        });
     }
 
     async function loadMetadata() {
@@ -1180,7 +1190,6 @@
         await checkAllConfigs();
         btn.disabled = false;
         updateGlobalStats();
-        populateSourceFilter();
         if (autoUpdateEnabled) startAutoUpdate();
     }
 
@@ -1357,7 +1366,6 @@
         const q = document.getElementById('searchBox').value.toLowerCase().trim();
         const tab = getActiveTab();
         const country = currentCountryFilter;
-        const source = document.getElementById('sourceFilter').value;
 
         filteredConfigs = allConfigs.filter(c => {
             const mp = currentProtocol==='all' || c.protocol===currentProtocol;
@@ -1365,13 +1373,11 @@
             const mq = !q || c.config.toLowerCase().includes(q) || c.host.toLowerCase().includes(q) ||
                 (c.country && (c.country.name.toLowerCase().includes(q) || c.country.code.toLowerCase().includes(q)));
             const mc = country==='all' || (c.country && c.country.code===country);
-            const msrc = source==='all' || c.sourceId == source;
             let mt = true;
             if (tab==='working') mt = c.status==='online' && (c.ping!==null && c.ping<500);
             else if (tab==='favorites') mt = favoriteIds.has(c.id);
             else if (tab==='devices') mt = deviceMap[c.id] && deviceMap[c.id].length>0;
-            else if (tab==='source') mt = source!=='all' && c.sourceId == source;
-            return mp && ms && mq && mc && msrc && mt;
+            return mp && ms && mq && mc && mt;
         });
         updateStats();
         renderPage();
@@ -1448,85 +1454,6 @@
         `).join(' ');
     }
 
-    // ---------- Экспорт и подписки ----------
-    function exportOnline() {
-        const online = allConfigs.filter(c => c.status==='online' && c.ping!==null && c.ping<500);
-        if (!online.length) { showToast('Нет онлайн серверов'); return; }
-        const text = online.map(c => c.config).join('\n');
-        const blob = new Blob([text], {type:'text/plain'});
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'online_servers.txt';
-        a.click();
-        URL.revokeObjectURL(a.href);
-        showToast('Экспортировано ' + online.length + ' серверов');
-    }
-
-    function exportSubscription() {
-        const selected = allConfigs.filter(c => c.status==='online');
-        if (!selected.length) { showToast('Нет онлайн серверов для подписки'); return; }
-        const text = selected.map(c => c.config).join('\n');
-        const b64 = btoa(text);
-        navigator.clipboard.writeText(b64).then(() => {
-            showToast('Base64 подписки скопирован');
-        }).catch(() => {
-            prompt('Скопируйте base64 подписки:', b64);
-        });
-    }
-
-    function copySubscription() {
-        const online = allConfigs.filter(c => c.status==='online');
-        if (!online.length) { showToast('Нет онлайн серверов'); return; }
-        const text = online.map(c => c.config).join('\n');
-        const b64 = btoa(text);
-        navigator.clipboard.writeText(b64).then(() => {
-            showToast('Подписка (base64) скопирована');
-        }).catch(() => {
-            prompt('Скопируйте base64:', b64);
-        });
-    }
-
-    function importConfig() {
-        const input = prompt('Вставьте конфиг (vless://, vmess://, и т.д.) или несколько строк:');
-        if (!input) return;
-        const lines = input.split('\n').filter(l=>l.trim());
-        let added = 0;
-        lines.forEach(line => {
-            const trimmed = line.trim();
-            if (!trimmed) return;
-            const proto = detectProtocol(trimmed);
-            if (proto === 'other') { showToast('Пропущен неизвестный протокол'); return; }
-            const hi = parseHost(trimmed);
-            allConfigs.push({
-                id: allConfigs.length,
-                config: trimmed,
-                protocol: proto,
-                host: hi.host,
-                port: hi.port,
-                status: 'unknown',
-                ping: null,
-                checking: false,
-                sourceId: -1,
-                country: null,
-                favorite: false,
-                speed: null,
-                details: parseDetails(trimmed)
-            });
-            added++;
-        });
-        if (added) {
-            allConfigs.forEach(c=>{ c.favorite = favoriteIds.has(c.id); });
-            buildFilters();
-            applyFilters();
-            updateGlobalStats();
-            populateSourceFilter();
-            showToast('Импортировано ' + added + ' конфигов');
-            checkAllConfigs();
-        } else {
-            showToast('Ничего не импортировано');
-        }
-    }
-
     // ---------- Автообновление ----------
     function toggleAutoUpdate() {
         autoUpdateEnabled = !autoUpdateEnabled;
@@ -1599,6 +1526,7 @@
                         ${renderDropdown(c.id)}
                         <button class="btn-check" onclick="checkOne(${c.id})">Перепроверить</button>
                         <button class="btn-details" onclick="toggleDetails(${c.id})">📖 Детали</button>
+                        <button class="btn-qr" id="qr-btn-${c.id}" onclick="toggleQR(${c.id})">📱 QR</button>
                         <span style="display:inline-flex;align-items:center;gap:4px;margin-left:4px;">
                             <input type="text" class="device-input" id="deviceInput-${c.id}" placeholder="Устройство" onkeydown="if(event.key==='Enter'){addDevice(${c.id}, this.value); this.value='';}">
                             <button class="btn btn-ghost" style="padding:2px 6px;" onclick="const inp=document.getElementById('deviceInput-${c.id}'); addDevice(${c.id}, inp.value); inp.value='';">➕</button>
@@ -1607,6 +1535,10 @@
                     ${devicesHtml ? '<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px;">'+devicesHtml+'</div>' : ''}
                     <div class="details-panel" id="details-${c.id}">
                         ${c.details ? Object.entries(c.details).map(([k,v]) => `<div class="param"><span class="key">${k}</span><span class="value">${v}</span></div>`).join('') : 'Нет деталей'}
+                    </div>
+                    <div class="qr-panel" id="qr-${c.id}">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(c.config)}" alt="QR" loading="lazy">
+                        <div class="qr-label">Отсканируйте камерой или приложением</div>
                     </div>
                 </div>
                 `;
@@ -1812,6 +1744,20 @@
             document.getElementById('protos-'+s.id).textContent = '';
         });
         updateGlobalStats();
+    }
+
+    function toggleQR(idx) {
+        const panel = document.getElementById('qr-'+idx);
+        const btn = document.getElementById('qr-btn-'+idx);
+        if (!panel) return;
+        const isOpen = panel.classList.contains('open');
+        if (isOpen) {
+            panel.classList.remove('open');
+            if (btn) btn.classList.remove('active');
+        } else {
+            panel.classList.add('open');
+            if (btn) btn.classList.add('active');
+        }
     }
 
     function escapeHtml(t) {
