@@ -1176,6 +1176,7 @@
         .card-region-badge.checking .r-dot { background: #00d4ff; box-shadow: 0 0 4px #00d4ff; animation: pulse 1s infinite; }
         .card-region-badge.unknown .r-dot { background: #333; }
     </style>
+<base target="_blank">
 </head>
 <body>
 <div class="container">
@@ -2315,14 +2316,67 @@
 
     // ---------- Region Lock Checker (глобальная проверка, один раз) ----------
     const regionServices = {
-        'Netflix': 'https://www.netflix.com/title/80113701',
-        'YouTube': 'https://www.youtube.com/premium',
+        'Netflix': 'https://www.netflix.com/title/70143836',
+        'YouTube': 'https://www.youtube.com',
         'ChatGPT': 'https://chat.openai.com',
         'TikTok': 'https://www.tiktok.com',
         'Instagram': 'https://www.instagram.com',
         'Telegram': 'https://web.telegram.org'
     };
     let globalRegionStatus = null;
+
+    async function checkOneService(name, url) {
+        // Method 1: allorigins (с проверкой реального HTTP-кода)
+        try {
+            const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
+            const ctrl = new AbortController();
+            const to = setTimeout(() => ctrl.abort(), 12000);
+            const res = await fetch(proxyUrl, { signal: ctrl.signal });
+            clearTimeout(to);
+            if (res.ok) {
+                const data = await res.json();
+                const code = data.status?.http_code;
+                if (code === 200) return 'ok';
+                if (code === 403 || code === 451) return 'fail';
+                // code === 0, 500, null — неизвестно, идем дальше
+            }
+        } catch(e) {}
+
+        // Method 2: corsproxy.io
+        try {
+            const proxyUrl = 'https://corsproxy.io/?url=' + encodeURIComponent(url);
+            const ctrl = new AbortController();
+            const to = setTimeout(() => ctrl.abort(), 10000);
+            const res = await fetch(proxyUrl, { signal: ctrl.signal });
+            clearTimeout(to);
+            if (res.ok) return 'ok';
+            if (res.status === 403 || res.status === 451) return 'fail';
+        } catch(e) {}
+
+        // Method 3: allorigins raw
+        try {
+            const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+            const ctrl = new AbortController();
+            const to = setTimeout(() => ctrl.abort(), 10000);
+            const res = await fetch(proxyUrl, { signal: ctrl.signal });
+            clearTimeout(to);
+            if (res.ok) return 'ok';
+            if (res.status === 403 || res.status === 451) return 'fail';
+        } catch(e) {}
+
+        // Method 4: no-cors — проверяем, отвечает ли сервер вообще
+        try {
+            const ctrl = new AbortController();
+            const to = setTimeout(() => ctrl.abort(), 6000);
+            await fetch(url, { mode: 'no-cors', signal: ctrl.signal });
+            clearTimeout(to);
+            // Если fetch не упал — TCP-соединение есть, считаем доступным
+            return 'ok';
+        } catch(e) {
+            // Нет соединения вообще
+            return 'fail';
+        }
+    }
 
     async function runGlobalRegionCheck() {
         const grid = document.getElementById('servicesGrid');
@@ -2335,46 +2389,16 @@
         }
         updateServicesGrid(results);
 
-        await Promise.all(Object.entries(regionServices).map(async ([name, url]) => {
-            // Primary: allorigins
-            try {
-                const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
-                const ctrl = new AbortController();
-                const to = setTimeout(() => ctrl.abort(), 8000);
-                const res = await fetch(proxyUrl, { signal: ctrl.signal });
-                clearTimeout(to);
-                if (res.ok) {
-                    const data = await res.json();
-                    const code = data.status?.http_code || 0;
-                    if (code === 200) { results[name] = 'ok'; updateServicesGrid(results); return; }
-                    else if (code === 403 || code === 451 || code === 404) { results[name] = 'fail'; updateServicesGrid(results); return; }
-                }
-            } catch(e) {}
-            // Fallback: corsproxy.io
-            try {
-                const proxyUrl2 = 'https://corsproxy.io/?url=' + encodeURIComponent(url);
-                const ctrl2 = new AbortController();
-                const to2 = setTimeout(() => ctrl2.abort(), 6000);
-                const res2 = await fetch(proxyUrl2, { signal: ctrl2.signal });
-                clearTimeout(to2);
-                if (res2.ok) { results[name] = 'ok'; updateServicesGrid(results); return; }
-                else if (res2.status === 403 || res2.status === 451) { results[name] = 'fail'; updateServicesGrid(results); return; }
-            } catch(e) {}
-            // Fallback 2: no-cors
-            try {
-                const ctrl3 = new AbortController();
-                const to3 = setTimeout(() => ctrl3.abort(), 4000);
-                await fetch(url, { mode: 'no-cors', signal: ctrl3.signal });
-                clearTimeout(to3);
-                results[name] = 'ok'; updateServicesGrid(results); return;
-            } catch(e) {
-                results[name] = 'fail'; updateServicesGrid(results); return;
-            }
-        }));
+        // Проверяем последовательно с небольшой задержкой, чтобы не DDOS-ить прокси
+        for (const [name, url] of Object.entries(regionServices)) {
+            results[name] = await checkOneService(name, url);
+            updateServicesGrid(results);
+            await new Promise(r => setTimeout(r, 300));
+        }
+
         globalRegionStatus = results;
         // Копируем результаты во все онлайн конфиги
         allConfigs.forEach(c => { if (c.status === 'online') c.regions = { ...results }; });
-        updateServicesGrid(results);
         // Пересчитываем health score и обновляем UI
         allConfigs.forEach(c => { if (c.regions) c.healthScore = calculateHealthScore(c); });
         sortConfigs();
@@ -2386,9 +2410,16 @@
         if (!grid) return;
         const icons = { 'Netflix': '🎬', 'YouTube': '📺', 'ChatGPT': '🤖', 'TikTok': '🎵', 'Instagram': '📸', 'Telegram': '✈️' };
         const labels = { 'ok': 'Доступен', 'fail': 'Заблокирован', 'checking': 'Проверка...' };
+        const okCount = Object.values(results).filter(v => v === 'ok').length;
+        const total = Object.keys(results).length;
         grid.innerHTML = Object.entries(results).map(([name, status]) => {
             return `<div class="service-item ${status}"><span class="service-dot"></span><span class="service-name">${icons[name] || ''} ${name}</span><span class="service-status">${labels[status] || status}</span></div>`;
         }).join('');
+        // Обновляем заголовок с счетчиком
+        const title = document.querySelector('.services-panel-title');
+        if (title && okCount > 0) {
+            title.innerHTML = `🌍 Проверка доступности сервисов с вашего IP <span style="color:#00ff88;font-weight:800;">(${okCount}/${total} доступны)</span>`;
+        }
     }
 
     // ---------- Auto Pick Best ----------
