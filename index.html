@@ -776,7 +776,7 @@
                 files.forEach(f => { if (f.type === 'file') fileMap[f.name] = f; });
                 fileMeta = fileMap;
 
-                const batchSize = 5;
+                const batchSize = 10;
                 for (let i = 0; i < sources.length; i += batchSize) {
                     const batch = sources.slice(i, i + batchSize);
                     await Promise.all(batch.map(async s => {
@@ -871,7 +871,7 @@
             for (const ep of endpoints.slice(0, 2)) {
                 try {
                     const ctrl = new AbortController();
-                    const to = setTimeout(() => ctrl.abort(), 15000);
+                    const to = setTimeout(() => ctrl.abort(), 10000);
                     const r = await fetch(ep.base + fileName, {cache:'no-store', signal: ctrl.signal});
                     clearTimeout(to);
                     if (r.ok) return await r.text();
@@ -882,7 +882,7 @@
             for (const p of corsProxies) {
                 try {
                     const ctrl = new AbortController();
-                    const to = setTimeout(() => ctrl.abort(), 15000);
+                    const to = setTimeout(() => ctrl.abort(), 10000);
                     const r = await fetch(p(rawUrl), {cache:'no-store', signal: ctrl.signal});
                     clearTimeout(to);
                     if (r.ok) return await r.text();
@@ -980,7 +980,7 @@
                 let bestPing = Infinity, anyResponse = false;
                 for (const testUrl of urls) {
                     const ctrl = new AbortController();
-                    const to = setTimeout(() => ctrl.abort(), 5000);
+                    const to = setTimeout(() => ctrl.abort(), 3000);
                     const t0 = performance.now();
                     try { await fetch(testUrl, {mode:'no-cors', signal:ctrl.signal}); bestPing = Math.min(bestPing, Math.round(performance.now()-t0)); anyResponse = true; } catch(e){}
                     clearTimeout(to);
@@ -1001,7 +1001,7 @@
         async function checkAllConfigs() {
             isChecking = true; checkAbort = false;
             const toCheck = allConfigs.filter(c => c.host);
-            const batchSize = 10;
+            const batchSize = 20;
             const total = toCheck.length;
 
             for (let i = 0; i < total; i += batchSize) {
@@ -1015,7 +1015,7 @@
 
                 sortConfigs();
                 applyFilters();
-                await new Promise(r => setTimeout(r, 200));
+                await new Promise(r => setTimeout(r, 50));
             }
 
             document.getElementById('progressText').textContent = 'Проверка завершена';
@@ -1224,7 +1224,7 @@
                 let bestPing = Infinity, anyResponse = false;
                 for (const testUrl of urls) {
                     const ctrl = new AbortController();
-                    const to = setTimeout(() => ctrl.abort(), 5000);
+                    const to = setTimeout(() => ctrl.abort(), 3000);
                     const t0 = performance.now();
                     try { await fetch(testUrl, {mode:'no-cors', signal:ctrl.signal}); bestPing = Math.min(bestPing, Math.round(performance.now()-t0)); anyResponse = true; } catch(e){}
                     clearTimeout(to);
