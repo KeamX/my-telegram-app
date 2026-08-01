@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0a0a0f;
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        .hero {
+            text-align: center;
+            padding: 30px 0 20px;
+            position: relative;
+        }
+        .hero h1 {
+            font-size: clamp(1.3rem, 4vw, 2.2rem);
+            font-weight: 800;
+            letter-spacing: 1px;
+            line-height: 1.4;
+        }
+        .hero h1 span {
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf, #ff0080, #ffa500, #00ff88);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 6s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .hero-sub {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+        .hero-line {
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00d4ff, #7b2cbf, transparent);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .sources-panel {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 18px 22px;
+            margin-bottom: 18px;
+        }
+        .sources-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .sources-header h3 {
+            font-size: 0.95rem;
+            color: #fff;
+            font-weight: 600;
+        }
+        .sources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 8px;
+        }
+        .source-chip {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 10px 12px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+            min-height: 72px;
+        }
+        .source-chip:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.12);
+            transform: translateY(-2px);
+        }
+        .source-chip.active {
+            background: linear-gradient(135deg, rgba(0,212,255,0.12), rgba(123,44,191,0.12));
+            border-color: rgba(0,212,255,0.3);
+            box-shadow: 0 4px 15px rgba(0,212,255,0.08);
+        }
+        .source-chip .chip-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #888;
+            transition: color 0.2s;
+            line-height: 1.2;
+        }
+        .source-chip.active .chip-label { color: #fff; }
+        .source-chip .chip-meta {
+            font-size: 0.7rem;
+            color: #555;
+            margin-top: 4px;
+        }
+        .source-chip .chip-count {
+            font-size: 0.75rem;
+            color: #00d4ff;
+            margin-top: 3px;
+            font-weight: 600;
+        }
+        .source-chip .chip-protos {
+            font-size: 0.65rem;
+            color: #444;
+            margin-top: 2px;
+            line-height: 1.2;
+        }
+        .source-chip input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; top:0; left:0; }
+
+        .actions-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+            align-items: center;
+        }
+        .btn {
+            padding: 9px 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            white-space: nowrap;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            color: white;
+        }
+        .btn-primary:hover { transform: scale(1.03); box-shadow: 0 5px 25px rgba(0,212,255,0.35); }
+        .btn-secondary {
+            background: rgba(255,255,255,0.06);
+            color: #aaa;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-secondary:hover { background: rgba(255,255,255,0.12); color: white; }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+        .btn-ghost {
+            background: transparent;
+            color: #555;
+            border: 1px solid rgba(255,255,255,0.06);
+            font-size: 0.78rem;
+            padding: 6px 12px;
+        }
+        .btn-ghost:hover { color: #888; border-color: rgba(255,255,255,0.12); }
+
+        .progress-wrap {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-top: 14px;
+            display: none;
+        }
+        .progress-bar-bg {
+            height: 6px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .progress-text {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0 12px;
+        }
+        .toolbar-left { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .toolbar-right { display: flex; gap: 10px; align-items: center; }
+
+        .stat-pill {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            color: #777;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .stat-pill:hover { border-color: rgba(255,255,255,0.15); }
+        .stat-pill.active-filter {
+            background: linear-gradient(90deg, rgba(0,212,255,0.15), rgba(123,44,191,0.15));
+            border-color: rgba(0,212,255,0.3);
+            color: #fff;
+        }
+        .stat-pill b { color: #fff; }
+        .stat-pill.online { border-color: rgba(0,255,136,0.15); color: #00ff88; }
+        .stat-pill.online.active-filter { background: rgba(0,255,136,0.1); }
+        .stat-pill.offline { border-color: rgba(255,68,68,0.15); color: #ff4444; }
+        .stat-pill.offline.active-filter { background: rgba(255,68,68,0.1); }
+        .stat-pill.checking { border-color: rgba(0,212,255,0.15); color: #00d4ff; }
+        .stat-pill.checking.active-filter { background: rgba(0,212,255,0.1); }
+
+        .search-box {
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.02);
+            color: white;
+            font-size: 0.9rem;
+            outline: none;
+            min-width: 200px;
+        }
+        .search-box::placeholder { color: #444; }
+        .search-box:focus { border-color: #00d4ff; }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .filter-btn {
+            padding: 5px 14px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.02);
+            color: #555;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.8rem;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            color: white;
+            border-color: transparent;
+        }
+
+        .sort-hint {
+            font-size: 0.75rem;
+            color: #444;
+            margin-bottom: 10px;
+            text-align: right;
+        }
+
+        .config-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 14px;
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+        .config-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 3px; height: 100%;
+        }
+        .config-card.vless::before { background: #00d4ff; }
+        .config-card.vmess::before { background: #c77dff; }
+        .config-card.trojan::before { background: #ff0080; }
+        .config-card.shadowsocks::before { background: #00ff88; }
+        .config-card.hysteria::before { background: #ffa500; }
+        .config-card.reality::before { background: #fff; }
+        .config-card.tuic::before { background: #ff4444; }
+        .config-card.other::before { background: #444; }
+        .config-card:hover {
+            transform: translateX(4px);
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .proto-badge {
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .pb-vless { background: rgba(0,212,255,0.1); color: #00d4ff; border: 1px solid rgba(0,212,255,0.15); }
+        .pb-vmess { background: rgba(199,125,255,0.1); color: #c77dff; border: 1px solid rgba(199,125,255,0.15); }
+        .pb-trojan { background: rgba(255,0,128,0.1); color: #ff0080; border: 1px solid rgba(255,0,128,0.15); }
+        .pb-ss { background: rgba(0,255,136,0.1); color: #00ff88; border: 1px solid rgba(0,255,136,0.15); }
+        .pb-hysteria { background: rgba(255,165,0,0.1); color: #ffa500; border: 1px solid rgba(255,165,0,0.15); }
+        .pb-reality { background: rgba(255,255,255,0.06); color: #ddd; border: 1px solid rgba(255,255,255,0.1); }
+        .pb-tuic { background: rgba(255,68,68,0.1); color: #ff4444; border: 1px solid rgba(255,68,68,0.15); }
+        .pb-other { background: rgba(68,68,68,0.1); color: #888; border: 1px solid rgba(68,68,68,0.15); }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .status-pill.online { background: rgba(0,255,136,0.08); color: #00ff88; border: 1px solid rgba(0,255,136,0.15); }
+        .status-pill.offline { background: rgba(255,68,68,0.08); color: #ff4444; border: 1px solid rgba(255,68,68,0.15); }
+        .status-pill.unknown { background: rgba(255,255,255,0.03); color: #555; border: 1px solid rgba(255,255,255,0.06); }
+        .status-pill.checking { background: rgba(0,212,255,0.08); color: #00d4ff; border: 1px solid rgba(0,212,255,0.15); }
+        .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+        .dot.online { background: #00ff88; box-shadow: 0 0 6px #00ff88; }
+        .dot.offline { background: #ff4444; box-shadow: 0 0 6px #ff4444; }
+        .dot.unknown { background: #333; }
+        .dot.checking { background: #00d4ff; box-shadow: 0 0 6px #00d4ff; animation: pulse 1s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+        .server-info {
+            font-size: 0.82rem;
+            color: #888;
+            margin-bottom: 8px;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .server-info b { color: #bbb; font-family: 'Courier New', monospace; }
+        .flag {
+            font-size: 1.3rem;
+            line-height: 1;
+            margin-right: 2px;
+        }
+        .country-name {
+            font-size: 0.75rem;
+            color: #777;
+            margin-right: 6px;
+        }
+        .country-loading {
+            font-size: 0.75rem;
+            color: #444;
+            font-style: italic;
+        }
+
+        .config-text {
+            background: rgba(0,0,0,0.25);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: #666;
+            word-break: break-all;
+            line-height: 1.4;
+            border: 1px solid rgba(255,255,255,0.04);
+            margin-bottom: 10px;
+            max-height: 85px;
+            overflow-y: auto;
+        }
+        .config-text::-webkit-scrollbar { width: 5px; }
+        .config-text::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+
+        .card-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        .btn-copy {
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: none;
+            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            color: white;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-copy:hover { transform: scale(1.05); }
+        .btn-check {
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.04);
+            color: #777;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-check:hover { background: rgba(255,255,255,0.08); color: white; }
+
+        .dropdown-wrap {
+            position: relative;
+            display: inline-block;
+        }
+        .btn-add {
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(0,212,255,0.2);
+            background: rgba(0,212,255,0.06);
+            color: #00d4ff;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-add:hover { background: rgba(0,212,255,0.12); }
+        .dropdown-menu {
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 0;
+            background: rgba(15,15,25,0.98);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 6px;
+            min-width: 160px;
+            display: none;
+            z-index: 100;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+        }
+        .dropdown-wrap.open .dropdown-menu { display: block; }
+        .dropdown-item {
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            color: #aaa;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .dropdown-item:hover {
+            background: rgba(255,255,255,0.06);
+            color: #fff;
+        }
+        .dropdown-item .app-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 25px;
+            padding-bottom: 30px;
+        }
+        .page-btn {
+            padding: 8px 18px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.03);
+            color: #777;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .page-btn:hover:not(:disabled) { background: rgba(255,255,255,0.08); color: white; }
+        .page-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+        .page-info { color: #444; font-size: 0.85rem; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0,0,0,0.95);
+            color: #00ff88;
+            padding: 12px 24px;
+            border-radius: 25px;
+            border: 1px solid rgba(0,255,136,0.25);
+            opacity: 0;
+            transition: all 0.4s;
+            z-index: 1000;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        .error-box {
+            background: rgba(255,0,0,0.06);
+            border: 1px solid rgba(255,0,0,0.15);
+            color: #ff5555;
+            padding: 14px;
+            border-radius: 12px;
+            margin-top: 12px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .empty-state { text-align: center; padding: 50px; color: #333; font-size: 0.9rem; }
+
+        @media (max-width: 600px) {
+            .toolbar { flex-direction: column; align-items: stretch; }
+            .toolbar-left, .toolbar-right { width: 100%; justify-content: center; }
+            .search-box { width: 100%; }
+            .config-card { padding: 12px 14px; }
+            .sources-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+            .dropdown-menu { left: auto; right: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <h1><span>V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks</span></h1>
+            <div class="hero-sub">V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks</div>
+            <div class="hero-line"></div>
+        </div>
+
+        <div class="sources-panel">
+            <div class="sources-header">
+                <h3>Источники</h3>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                    <button class="btn btn-ghost" onclick="loadMetadata()">Обновить инфо</button>
+                    <button class="btn btn-secondary" style="padding:6px 12px;font-size:0.75rem;" onclick="selectRec()">Рекомендуемые</button>
+                    <button class="btn btn-secondary" style="padding:6px 12px;font-size:0.75rem;" onclick="selectAll(true)">Все</button>
+                    <button class="btn btn-secondary" style="padding:6px 12px;font-size:0.75rem;" onclick="selectAll(false)">Снять</button>
+                </div>
+            </div>
+            <div class="sources-grid" id="sourcesGrid"></div>
+            <div class="actions-bar">
+                <button class="btn btn-primary" id="btnLoad" onclick="startLoading()">Загрузить и проверить</button>
+                <button class="btn btn-secondary" onclick="clearResults()">Очистить</button>
+            </div>
+            <div class="progress-wrap" id="progressWrap">
+                <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressBar"></div></div>
+                <div class="progress-text">
+                    <span id="progressText">Ожидание...</span>
+                    <span id="progressCount"></span>
+                </div>
+            </div>
+            <div id="errorBox"></div>
+        </div>
+
+        <div id="resultsArea" style="display:none;">
+            <div class="toolbar">
+                <div class="toolbar-left" id="statsRow"></div>
+                <div class="toolbar-right">
+                    <input type="text" class="search-box" id="searchBox" placeholder="Поиск..." oninput="applyFilters()">
+                </div>
+            </div>
+            <div class="filters" id="protocolFilters"></div>
+            <div class="sort-hint">Сортировка: онлайн по пингу (вверху) → проверка → не проверены → оффлайн</div>
+            <div id="cardsContainer"></div>
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">Скопировано</div>
+
+    <script>
+
+        const sources = [
+            { id: 1,  file: "1.txt",  label: "OpenRay Mix",               rec: true,  sni: false },
+            { id: 2,  file: "2.txt",  label: "Subscription",              rec: false, sni: false },
+            { id: 3,  file: "3.txt",  label: "Proxy Mining",              rec: false, sni: false },
+            { id: 4,  file: "4.txt",  label: "AutoVPN",                   rec: false, sni: false },
+            { id: 5,  file: "5.txt",  label: "V2Ray Dumper",              rec: false, sni: false },
+            { id: 6,  file: "6.txt",  label: "Open Proxy List",           rec: true,  sni: false },
+            { id: 7,  file: "7.txt",  label: "V2Ray Configs",             rec: false, sni: false },
+            { id: 8,  file: "8.txt",  label: "ConfigForge",               rec: false, sni: false },
+            { id: 9,  file: "9.txt",  label: "Telegram Collector",        rec: false, sni: false },
+            { id: 10, file: "10.txt", label: "Proxy List",                rec: false, sni: false },
+            { id: 11, file: "11.txt", label: "V2Ray Collector",           rec: false, sni: false },
+            { id: 12, file: "12.txt", label: "VOID Bypass",               rec: false, sni: false },
+            { id: 13, file: "13.txt", label: "Daily Free VPN",            rec: false, sni: false },
+            { id: 14, file: "14.txt", label: "Mineral",                   rec: false, sni: false },
+            { id: 15, file: "15.txt", label: "Config Collector",          rec: false, sni: false },
+            { id: 16, file: "16.txt", label: "Free Servers",              rec: false, sni: false },
+            { id: 17, file: "17.txt", label: "V2Ray Collector Py",        rec: false, sni: false },
+            { id: 18, file: "18.txt", label: "V2Ray Free",                rec: false, sni: false },
+            { id: 19, file: "19.txt", label: "V2Ray Collector 2",         rec: false, sni: false },
+            { id: 20, file: "20.txt", label: "Proxy List 2",              rec: false, sni: false },
+            { id: 21, file: "21.txt", label: "Kamaji",                    rec: false, sni: false },
+            { id: 22, file: "22.txt", label: "Xray Toolkit",              rec: true,  sni: false },
+            { id: 23, file: "23.txt", label: "Russia VPN",                rec: true,  sni: false },
+            { id: 24, file: "24.txt", label: "Vify",                      rec: true,  sni: false },
+            { id: 25, file: "25.txt", label: "V2Ray Config",              rec: true,  sni: false },
+            { id: 26, file: "26.txt", label: "SNI/CIDR Bypass",           rec: false, sni: true  }
+        ];
+
+        const baseUrl = "https://raw.githubusercontent.com/AvenCores/goida-vpn-configs/main/githubmirror/";
+        const corsProxies = [
+            u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+            u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`
+        ];
+
+        const appLinks = {
+            'Happ': (cfg) => 'happ://import/' + btoa(unescape(encodeURIComponent(cfg))),
+            'v2rayNG': (cfg) => cfg,
+            'V2Box': (cfg) => cfg,
+            'Streisand': (cfg) => cfg,
+            'Shadowrocket': (cfg) => 'shadowrocket://add/' + btoa(unescape(encodeURIComponent(cfg))),
+            'Hiddify': (cfg) => cfg,
+            'V2RayTun': (cfg) => cfg
+        };
+
+        let allConfigs = [];
+        let filteredConfigs = [];
+        let currentPage = 1;
+        const perPage = 40;
+        let currentProtocol = 'all';
+        let currentStatus = 'all';
+        let isChecking = false;
+        let checkAbort = false;
+        let countryCache = {};
+        let openDropdownId = null;
+
+        try {
+            const saved = localStorage.getItem('vpn_country_cache_v2');
+            if (saved) countryCache = JSON.parse(saved);
+        } catch(e) {}
+
+        function saveCountryCache() {
+            try { localStorage.setItem('vpn_country_cache_v2', JSON.stringify(countryCache)); } catch(e) {}
+        }
+
+        function getFlagEmoji(cc) {
+            if (!cc || cc.length !== 2) return '';
+            const code = cc.toUpperCase();
+            return String.fromCodePoint(code.charCodeAt(0) + 127397, code.charCodeAt(1) + 127397);
+        }
+
+        async function resolveCountry(host) {
+            if (!host) return null;
+            if (countryCache[host]) return countryCache[host];
+            if (/^(10\.|172\.(1[6-9]|2[0-9]|3[01])\.|192\.168\.|127\.|0\.0\.0\.|localhost)/i.test(host)) {
+                countryCache[host] = { code: 'LO', name: 'Local' };
+                return countryCache[host];
+            }
+            try {
+                const res = await fetch('https://ipwho.is/' + host, { cache: 'no-store' });
+                const data = await res.json();
+                if (data.success && data.country_code) {
+                    countryCache[host] = { code: data.country_code, name: data.country };
+                    saveCountryCache();
+                    return countryCache[host];
+                }
+            } catch(e) {}
+            for (const proxy of corsProxies) {
+                try {
+                    const res = await fetch(proxy('http://ip-api.com/json/' + host + '?fields=status,country,countryCode'), { cache: 'no-store' });
+                    const data = await res.json();
+                    if (data.status === 'success' && data.countryCode) {
+                        countryCache[host] = { code: data.countryCode, name: data.country };
+                        saveCountryCache();
+                        return countryCache[host];
+                    }
+                } catch(e) {}
+            }
+            return null;
+        }
+
+        function formatSize(bytes) {
+            if (bytes > 1024*1024) return (bytes/1024/1024).toFixed(1) + ' MB';
+            if (bytes > 1024) return (bytes/1024).toFixed(1) + ' KB';
+            return bytes + ' B';
+        }
+
+        function init() {
+            const grid = document.getElementById('sourcesGrid');
+            grid.innerHTML = sources.map(s => `
+                <label class="source-chip ${s.rec || s.sni ? 'active' : ''}" id="chip-${s.id}">
+                    <input type="checkbox" value="${s.id}" ${s.rec || s.sni ? 'checked' : ''} onchange="toggleChip(${s.id})">
+                    <span class="chip-label">${s.label}</span>
+                    <span class="chip-meta" id="meta-${s.id}">Загрузка...</span>
+                    <span class="chip-count" id="count-${s.id}"></span>
+                    <span class="chip-protos" id="protos-${s.id}"></span>
+                </label>
+            `).join('');
+            loadMetadata();
+            document.addEventListener('click', closeAllDropdowns);
+        }
+
+        async function loadMetadata() {
+            sources.forEach(s => {
+                document.getElementById('meta-' + s.id).textContent = 'Загрузка...';
+            });
+            try {
+                const res = await fetch('https://api.github.com/repos/AvenCores/goida-vpn-configs/contents/githubmirror', {cache:'no-store'});
+                if (!res.ok) throw new Error('API error');
+                const files = await res.json();
+                const fileMap = {};
+                files.forEach(f => { if (f.type === 'file') fileMap[f.name] = f; });
+
+                const batchSize = 5;
+                for (let i = 0; i < sources.length; i += batchSize) {
+                    const batch = sources.slice(i, i + batchSize);
+                    await Promise.all(batch.map(async s => {
+                        const f = fileMap[s.file];
+                        const metaEl = document.getElementById('meta-' + s.id);
+                        if (!f) { metaEl.textContent = 'Нет данных'; return; }
+
+                        let dateStr = '';
+                        try {
+                            const cres = await fetch(`https://api.github.com/repos/AvenCores/goida-vpn-configs/commits?path=githubmirror/${s.file}&per_page=1`, {cache:'no-store'});
+                            const commits = await cres.json();
+                            if (commits && commits[0] && commits[0].commit && commits[0].commit.committer) {
+                                const d = new Date(commits[0].commit.committer.date);
+                                dateStr = `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
+                            }
+                        } catch(e) {}
+
+                        const sizeStr = formatSize(f.size);
+                        const approxCount = Math.round(f.size / 220);
+                        metaEl.textContent = `${approxCount.toLocaleString('ru')} серверов  |  ${sizeStr}  |  ${dateStr}`;
+                    }));
+                }
+            } catch(e) {
+                sources.forEach(s => {
+                    document.getElementById('meta-' + s.id).textContent = 'Недоступно (CORS)';
+                });
+            }
+        }
+
+        function toggleChip(id) {
+            const chip = document.getElementById('chip-' + id);
+            const cb = chip.querySelector('input');
+            chip.classList.toggle('active', cb.checked);
+        }
+
+        function getSelected() { return Array.from(document.querySelectorAll('.source-chip input:checked')).map(cb => parseInt(cb.value)); }
+        function selectAll(v) {
+            document.querySelectorAll('.source-chip').forEach(chip => {
+                const cb = chip.querySelector('input');
+                cb.checked = v;
+                chip.classList.toggle('active', v);
+            });
+        }
+        function selectRec() {
+            document.querySelectorAll('.source-chip').forEach(chip => {
+                const id = parseInt(chip.querySelector('input').value);
+                const src = sources.find(s => s.id === id);
+                const v = src.rec || src.sni;
+                chip.querySelector('input').checked = v;
+                chip.classList.toggle('active', v);
+            });
+        }
+
+        function parseHost(cfg) {
+            try {
+                let url = cfg.trim();
+                if (url.startsWith('vmess://')) {
+                    const b64 = url.slice(8).split('#')[0].split('?')[0];
+                    const pad = b64.length % 4 ? '='.repeat(4 - b64.length % 4) : '';
+                    const json = JSON.parse(atob(b64 + pad));
+                    return { host: json.add || json.host || '', port: json.port || '' };
+                }
+                if (url.includes('://')) {
+                    const u = new URL(url.replace(/^\w+:\/\//, 'proto://'));
+                    return { host: u.hostname, port: u.port };
+                }
+            } catch(e) {}
+            const m = cfg.match(/@([^:]+):(\d+)/);
+            if (m) return { host: m[1], port: m[2] };
+            return { host: '', port: '' };
+        }
+
+        function detectProtocol(cfg) {
+            const c = cfg.trim();
+            if (c.startsWith('vless://')) return c.includes('reality') ? 'reality' : 'vless';
+            if (c.startsWith('vmess://')) return 'vmess';
+            if (c.startsWith('trojan://')) return 'trojan';
+            if (c.startsWith('ss://')) return 'shadowsocks';
+            if (c.startsWith('hysteria://') || c.startsWith('hysteria2://') || c.startsWith('hy2://')) return 'hysteria';
+            if (c.startsWith('tuic://')) return 'tuic';
+            return 'other';
+        }
+
+        async function fetchText(url) {
+            try { const r = await fetch(url, {cache:'no-store'}); if (r.ok) return await r.text(); } catch(e){}
+            for (const p of corsProxies) {
+                try { const r = await fetch(p(url), {cache:'no-store'}); if (r.ok) return await r.text(); } catch(e){}
+            }
+            return null;
+        }
+
+        async function startLoading() {
+            const ids = getSelected();
+            if (!ids.length) { alert('Выберите источники'); return; }
+            const btn = document.getElementById('btnLoad');
+            btn.disabled = true;
+            checkAbort = false;
+            document.getElementById('progressWrap').style.display = 'block';
+            document.getElementById('errorBox').innerHTML = '';
+            document.getElementById('resultsArea').style.display = 'none';
+            allConfigs = [];
+
+            const sel = sources.filter(s => ids.includes(s.id));
+            for (let i = 0; i < sel.length; i++) {
+                if (checkAbort) break;
+                const s = sel[i];
+                document.getElementById('progressBar').style.width = Math.round((i/sel.length)*100) + '%';
+                document.getElementById('progressText').textContent = 'Загрузка ' + s.label + '...';
+                document.getElementById('progressCount').textContent = (i+1) + '/' + sel.length;
+                const text = await fetchText(baseUrl + s.file);
+                if (!text) continue;
+                const lines = text.split(/\r?\n/).filter(l=>l.trim());
+                const protos = new Set();
+                lines.forEach(line => {
+                    const proto = detectProtocol(line);
+                    protos.add(proto);
+                    const hi = parseHost(line);
+                    allConfigs.push({
+                        id: allConfigs.length,
+                        config: line.trim(),
+                        protocol: proto,
+                        host: hi.host,
+                        port: hi.port,
+                        status: 'unknown',
+                        ping: null,
+                        checking: false,
+                        sourceId: s.id,
+                        country: null
+                    });
+                });
+                document.getElementById('count-' + s.id).textContent = lines.length.toLocaleString('ru') + ' серверов';
+                document.getElementById('protos-' + s.id).textContent = Array.from(protos).join(' / ');
+            }
+
+            document.getElementById('progressBar').style.width = '100%';
+            document.getElementById('progressText').textContent = 'Загружено ' + allConfigs.length + ' конфигов. Проверка...';
+
+            if (!allConfigs.length) {
+                document.getElementById('errorBox').innerHTML = '<div class="error-box">Не удалось загрузить конфиги. Попробуйте открыть через локальный сервер.</div>';
+                btn.disabled = false;
+                return;
+            }
+
+            buildFilters();
+            applyFilters();
+            document.getElementById('resultsArea').style.display = 'block';
+            window.scrollTo({top: document.getElementById('resultsArea').offsetTop-20, behavior:'smooth'});
+
+            await checkAllConfigs();
+            btn.disabled = false;
+        }
+
+        async function checkSingle(c) {
+            if (!c.host) { c.status = 'offline'; c.ping = null; return; }
+            c.checking = true; c.status = 'checking';
+            refreshCard(c.id);
+
+            const pingPromise = (async () => {
+                const urls = ['https://' + c.host + (c.port ? ':'+c.port : '') + '/', 'https://' + c.host + '/'];
+                let bestPing = Infinity, anyResponse = false;
+                for (const testUrl of urls) {
+                    const ctrl = new AbortController();
+                    const to = setTimeout(() => ctrl.abort(), 5000);
+                    const t0 = performance.now();
+                    try { await fetch(testUrl, {mode:'no-cors', signal:ctrl.signal}); bestPing = Math.min(bestPing, Math.round(performance.now()-t0)); anyResponse = true; } catch(e){}
+                    clearTimeout(to);
+                }
+                return { anyResponse, bestPing };
+            })();
+
+            const countryPromise = resolveCountry(c.host);
+            const [pingResult, countryResult] = await Promise.all([pingPromise, countryPromise]);
+
+            c.checking = false;
+            c.status = pingResult.anyResponse ? 'online' : 'offline';
+            c.ping = pingResult.anyResponse ? pingResult.bestPing : null;
+            if (countryResult) c.country = countryResult;
+            refreshCard(c.id);
+        }
+
+        async function checkAllConfigs() {
+            isChecking = true; checkAbort = false;
+            const toCheck = allConfigs.filter(c => c.host);
+            const batchSize = 10;
+            const total = toCheck.length;
+
+            for (let i = 0; i < total; i += batchSize) {
+                if (checkAbort) break;
+                const batch = toCheck.slice(i, i + batchSize);
+                await Promise.all(batch.map(c => checkSingle(c)));
+
+                document.getElementById('progressText').textContent = 'Проверка серверов...';
+                document.getElementById('progressCount').textContent = Math.min(i+batchSize, total) + '/' + total;
+                document.getElementById('progressBar').style.width = Math.round((Math.min(i+batchSize, total)/total)*100) + '%';
+
+                sortConfigs();
+                applyFilters();
+                await new Promise(r => setTimeout(r, 200));
+            }
+
+            document.getElementById('progressText').textContent = 'Проверка завершена';
+            document.getElementById('progressCount').textContent = '';
+            sortConfigs(); applyFilters();
+            isChecking = false;
+        }
+
+        function sortConfigs() {
+            allConfigs.sort((a, b) => {
+                const order = { online: 0, checking: 1, unknown: 2, offline: 3 };
+                const oa = order[a.status] ?? 2;
+                const ob = order[b.status] ?? 2;
+                if (oa !== ob) return oa - ob;
+                if (a.status === 'online' && b.status === 'online') {
+                    return (a.ping ?? 99999) - (b.ping ?? 99999);
+                }
+                return 0;
+            });
+        }
+
+        function buildFilters() {
+            const counts = {};
+            allConfigs.forEach(c => counts[c.protocol] = (counts[c.protocol]||0)+1);
+            const protos = Object.keys(counts).sort((a,b)=>counts[b]-counts[a]);
+            document.getElementById('protocolFilters').innerHTML = `
+                <button class="filter-btn ${currentProtocol==='all'?'active':''}" onclick="setProto('all')">Все (${allConfigs.length})</button>
+                ${protos.map(p=>`<button class="filter-btn ${currentProtocol===p?'active':''}" onclick="setProto('${p}')">${p} (${counts[p]})</button>`).join('')}
+            `;
+        }
+
+        function setProto(p) {
+            currentProtocol = p; currentPage = 1;
+            buildFilters();
+            applyFilters();
+        }
+
+        function setStatus(s) {
+            currentStatus = s; currentPage = 1;
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const q = document.getElementById('searchBox').value.toLowerCase().trim();
+            filteredConfigs = allConfigs.filter(c => {
+                const mp = currentProtocol === 'all' || c.protocol === currentProtocol;
+                const ms = currentStatus === 'all' || c.status === currentStatus;
+                const mq = !q || c.config.toLowerCase().includes(q) || c.host.toLowerCase().includes(q) ||
+                          (c.country && (c.country.name.toLowerCase().includes(q) || c.country.code.toLowerCase().includes(q)));
+                return mp && ms && mq;
+            });
+            updateStats();
+            renderPage();
+        }
+
+        function updateStats() {
+            const total = allConfigs.length;
+            const online = allConfigs.filter(c=>c.status==='online').length;
+            const offline = allConfigs.filter(c=>c.status==='offline').length;
+            const checking = allConfigs.filter(c=>c.status==='checking').length;
+            const unknown = allConfigs.filter(c=>c.status==='unknown').length;
+
+            document.getElementById('statsRow').innerHTML =  `
+                <span class="stat-pill ${currentStatus==='all'?'active-filter':''}" onclick="setStatus('all')">Всего: <b>${total}</b></span>
+                <span class="stat-pill online ${currentStatus==='online'?'active-filter':''}" onclick="setStatus('online')">Онлайн: <b>${online}</b></span>
+                <span class="stat-pill offline ${currentStatus==='offline'?'active-filter':''}" onclick="setStatus('offline')">Оффлайн: <b>${offline}</b></span>
+                <span class="stat-pill checking ${currentStatus==='checking'?'active-filter':''}" onclick="setStatus('checking')">Проверка: <b>${checking}</b></span>
+                <span class="stat-pill ${currentStatus==='unknown'?'active-filter':''}" onclick="setStatus('unknown')">Не проверено: <b>${unknown}</b></span>
+                <span class="stat-pill">Показано: <b>${filteredConfigs.length}</b></span>
+            `;
+        }
+
+        function toggleDropdown(idx, event) {
+            event.stopPropagation();
+            closeAllDropdowns();
+            const wrap = document.getElementById('dropdown-' + idx);
+            if (wrap) {
+                wrap.classList.add('open');
+                openDropdownId = idx;
+            }
+        }
+
+        function closeAllDropdowns() {
+            document.querySelectorAll('.dropdown-wrap.open').forEach(el => el.classList.remove('open'));
+            openDropdownId = null;
+        }
+
+        function openInApp(idx, appName) {
+            const c = allConfigs.find(x => x.id === idx);
+            if (!c) return;
+            const link = appLinks[appName](c.config);
+            window.open(link, '_blank');
+            closeAllDropdowns();
+        }
+
+        function renderDropdown(idx) {
+            const apps = ['Happ', 'v2rayNG', 'V2Box', 'Streisand', 'Shadowrocket', 'Hiddify'];
+            return `
+                <div class="dropdown-wrap" id="dropdown-${idx}">
+                    <button class="btn-add" onclick="toggleDropdown(${idx}, event)">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+                        Добавить
+                    </button>
+                    <div class="dropdown-menu">
+                        ${apps.map(app => `<div class="dropdown-item" onclick="openInApp(${idx}, '${app}')"><span class="app-icon">${app[0]}</span>${app}</div>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderPage() {
+            const container = document.getElementById('cardsContainer');
+            const start = (currentPage-1)*perPage;
+            const page = filteredConfigs.slice(start, start+perPage);
+
+            if (!page.length) {
+                container.innerHTML = '<div class="empty-state">Ничего не найдено</div>';
+            } else {
+                container.innerHTML = page.map((c, idx) => {
+                    const realIdx = start + idx;
+                    const short = c.config.length > 100 ? c.config.slice(0,100)+'...' : c.config;
+                    let statusHtml = '';
+                    if (c.status === 'checking') statusHtml = '<span class="status-pill checking"><span class="dot checking"></span>Проверка...</span>';
+                    else if (c.status === 'online') statusHtml = '<span class="status-pill online"><span class="dot online"></span>' + c.ping + ' ms</span>';
+                    else if (c.status === 'offline') statusHtml = '<span class="status-pill offline"><span class="dot offline"></span>Недоступен</span>';
+                    else statusHtml = '<span class="status-pill unknown"><span class="dot unknown"></span>Не проверен</span>';
+
+                    let countryHtml = '';
+                    if (c.country && c.country.code) {
+                        const flag = getFlagEmoji(c.country.code);
+                        countryHtml = '<span class="flag">' + flag + '</span><span class="country-name">' + c.country.name + '</span>';
+                    } else if (c.status === 'checking') {
+                        countryHtml = '<span class="country-loading">Определение страны...</span>';
+                    }
+
+                    return `
+                    <div class="config-card ${c.protocol}" data-idx="${c.id}">
+                        <div class="card-top">
+                            <span class="proto-badge pb-${c.protocol}">${c.protocol}</span>
+                            ${statusHtml}
+                        </div>
+                        <div class="server-info">
+                            ${countryHtml}
+                            ${c.host ? '<b>' + c.host + '</b>' + (c.port ? ':'+c.port : '') : 'Адрес не распознан'}
+                        </div>
+                        <div class="config-text">${escapeHtml(short)}</div>
+                        <div class="card-actions">
+                            <button class="btn-copy" onclick="copyCfg(${c.id})">Копировать</button>
+                            ${renderDropdown(c.id)}
+                            <button class="btn-check" onclick="checkOne(${c.id})">Перепроверить</button>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+            const tp = Math.ceil(filteredConfigs.length/perPage);
+            document.getElementById('pagination').innerHTML = tp <= 1 ? '' : `
+                <button class="page-btn" onclick="changePage(-1)" ${currentPage===1?'disabled':''}>Назад</button>
+                <span class="page-info">${currentPage} / ${tp}</span>
+                <button class="page-btn" onclick="changePage(1)" ${currentPage===tp?'disabled':''}>Вперёд</button>
+            `;
+        }
+
+        function changePage(d) {
+            const tp = Math.ceil(filteredConfigs.length/perPage);
+            currentPage = Math.max(1, Math.min(tp, currentPage+d));
+            renderPage();
+            document.getElementById('resultsArea').scrollIntoView({behavior:'smooth', block:'start'});
+        }
+
+        function refreshCard(id) {
+            const card = document.querySelector('.config-card[data-idx="' + id + '"]');
+            if (!card) return;
+            const c = allConfigs.find(x => x.id === id);
+            if (!c) return;
+            let statusHtml = '';
+            if (c.status === 'checking') statusHtml = '<span class="status-pill checking"><span class="dot checking"></span>Проверка...</span>';
+            else if (c.status === 'online') statusHtml = '<span class="status-pill online"><span class="dot online"></span>' + c.ping + ' ms</span>';
+            else if (c.status === 'offline') statusHtml = '<span class="status-pill offline"><span class="dot offline"></span>Недоступен</span>';
+            else statusHtml = '<span class="status-pill unknown"><span class="dot unknown"></span>Не проверен</span>';
+            card.querySelector('.card-top').innerHTML = `
+                <span class="proto-badge pb-${c.protocol}">${c.protocol}</span>
+                ${statusHtml}
+            `;
+
+            let countryHtml = '';
+            if (c.country && c.country.code) {
+                const flag = getFlagEmoji(c.country.code);
+                countryHtml = '<span class="flag">' + flag + '</span><span class="country-name">' + c.country.name + '</span>';
+            } else if (c.status === 'checking') {
+                countryHtml = '<span class="country-loading">Определение страны...</span>';
+            }
+            const serverInfo = card.querySelector('.server-info');
+            if (serverInfo) {
+                serverInfo.innerHTML = countryHtml + (c.host ? '<b>' + c.host + '</b>' + (c.port ? ':'+c.port : '') : 'Адрес не распознан');
+            }
+        }
+
+        async function checkOne(idx) {
+            const c = allConfigs.find(x => x.id === idx);
+            if (!c || !c.host) return;
+            c.checking = true; c.status = 'checking';
+            refreshCard(idx); updateStats();
+
+            const pingPromise = (async () => {
+                const urls = ['https://' + c.host + (c.port ? ':'+c.port : '') + '/', 'https://' + c.host + '/'];
+                let bestPing = Infinity, anyResponse = false;
+                for (const testUrl of urls) {
+                    const ctrl = new AbortController();
+                    const to = setTimeout(() => ctrl.abort(), 5000);
+                    const t0 = performance.now();
+                    try { await fetch(testUrl, {mode:'no-cors', signal:ctrl.signal}); bestPing = Math.min(bestPing, Math.round(performance.now()-t0)); anyResponse = true; } catch(e){}
+                    clearTimeout(to);
+                }
+                return { anyResponse, bestPing };
+            })();
+
+            const countryPromise = resolveCountry(c.host);
+            const [pingResult, countryResult] = await Promise.all([pingPromise, countryPromise]);
+
+            c.checking = false;
+            c.status = pingResult.anyResponse ? 'online' : 'offline';
+            c.ping = pingResult.anyResponse ? pingResult.bestPing : null;
+            if (countryResult) c.country = countryResult;
+            refreshCard(idx); updateStats();
+            sortConfigs(); applyFilters();
+        }
+
+        function copyCfg(idx) {
+            const c = allConfigs.find(x => x.id === idx);
+            if (!c) return;
+            navigator.clipboard.writeText(c.config).then(() => {
+                const t = document.getElementById('toast');
+                t.classList.add('show');
+                setTimeout(() => t.classList.remove('show'), 1500);
+            });
+        }
+
+        function clearResults() {
+            checkAbort = true;
+            allConfigs = []; filteredConfigs = [];
+            document.getElementById('resultsArea').style.display = 'none';
+            document.getElementById('progressWrap').style.display = 'none';
+            document.getElementById('errorBox').innerHTML = '';
+            document.getElementById('btnLoad').disabled = false;
+            sources.forEach(s => {
+                document.getElementById('count-' + s.id).textContent = '';
+                document.getElementById('protos-' + s.id).textContent = '';
+            });
+        }
+
+        function escapeHtml(t) {
+            const d = document.createElement('div');
+            d.textContent = t;
+            return d.innerHTML;
+        }
+
+        init();
+    </script>
+</body>
+</html>
