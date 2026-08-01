@@ -887,6 +887,230 @@
             width: 140px;
         }
         .ip-compare input:focus { border-color: #00d4ff; }
+    
+        /* Region Lock Badges */
+        .region-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 8px;
+        }
+        .region-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .region-badge.ok {
+            background: rgba(0,255,136,0.08);
+            color: #00ff88;
+            border-color: rgba(0,255,136,0.15);
+        }
+        .region-badge.fail {
+            background: rgba(255,68,68,0.08);
+            color: #ff4444;
+            border-color: rgba(255,68,68,0.15);
+        }
+        .region-badge.checking {
+            background: rgba(0,212,255,0.08);
+            color: #00d4ff;
+            border-color: rgba(0,212,255,0.15);
+        }
+        .region-badge.unknown {
+            background: rgba(255,255,255,0.03);
+            color: #555;
+            border-color: rgba(255,255,255,0.06);
+        }
+
+        /* Health Score */
+        .health-bar-wrap {
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 2px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+        .health-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+        .health-score-text {
+            font-size: 0.7rem;
+            color: #666;
+            margin-top: 3px;
+            text-align: right;
+        }
+
+        /* ASN / Provider info */
+        .asn-info {
+            font-size: 0.72rem;
+            color: #666;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .asn-info b { color: #999; }
+
+        /* Port scan */
+        .port-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 6px;
+        }
+        .port-tag {
+            padding: 1px 7px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            font-family: 'Nunito', monospace;
+        }
+        .port-tag.open {
+            background: rgba(0,255,136,0.08);
+            color: #00ff88;
+            border: 1px solid rgba(0,255,136,0.12);
+        }
+        .port-tag.closed {
+            background: rgba(255,68,68,0.06);
+            color: #ff6666;
+            border: 1px solid rgba(255,68,68,0.1);
+        }
+
+        /* Best config highlight */
+        .config-card.best-pick {
+            border-color: rgba(255,215,0,0.3) !important;
+            box-shadow: 0 0 25px rgba(255,215,0,0.1), 0 0 50px rgba(255,215,0,0.05) !important;
+        }
+        .config-card.best-pick::before {
+            background: linear-gradient(180deg, #ffd700, #ffaa00) !important;
+        }
+        .best-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            color: #0a0a0f;
+            font-size: 0.65rem;
+            font-weight: 900;
+            padding: 2px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 2;
+        }
+
+        /* Auto-pick button */
+        .autopick-bar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+        }
+        .autopick-result {
+            background: rgba(255,215,0,0.05);
+            border: 1px solid rgba(255,215,0,0.15);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+            display: none;
+        }
+        .autopick-result.open { display: block; }
+        .autopick-result h4 {
+            color: #ffd700;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+    
+        /* Region filter chips */
+        .region-filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+        .region-filter-label {
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 700;
+            margin-right: 4px;
+        }
+        .region-filter-chip {
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            color: #888;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .region-filter-chip:hover { background: rgba(255,255,255,0.05); }
+        .region-filter-chip.active {
+            background: linear-gradient(90deg, rgba(0,212,255,0.15), rgba(123,44,191,0.15));
+            border-color: rgba(0,212,255,0.3);
+            color: #fff;
+        }
+
+        /* Global region stats panel */
+        .region-stats-panel {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 14px;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+        }
+        .region-stats-panel h4 {
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .region-stats-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .region-stat-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            border: 1px solid transparent;
+        }
+        .region-stat-item.ok {
+            background: rgba(0,255,136,0.06);
+            color: #00ff88;
+            border-color: rgba(0,255,136,0.12);
+        }
+        .region-stat-item.fail {
+            background: rgba(255,68,68,0.06);
+            color: #ff4444;
+            border-color: rgba(255,68,68,0.12);
+        }
+        .region-stat-item.partial {
+            background: rgba(255,170,0,0.06);
+            color: #ffaa00;
+            border-color: rgba(255,170,0,0.12);
+        }
+        .region-stat-item span { opacity: 0.7; font-weight: 400; }
     </style>
 <base target="_blank">
 </head>
@@ -977,12 +1201,21 @@
     </div>
 
     <div id="resultsArea" style="display:none;">
+        <div class="autopick-bar">
+            <button class="btn btn-primary" onclick="autoPickBest()">🏆 Автоподбор лучшего</button>
+            <span style="font-size:0.78rem;color:#555;">Автоматически выбирает сервер с лучшим рейтингом</span>
+        </div>
+        <div class="autopick-result" id="autopickResult">
+            <h4>🏆 Лучший сервер найден</h4>
+            <div id="autopickContent"></div>
+        </div>
         <div class="toolbar">
             <div class="toolbar-left" id="statsRow"></div>
             <div class="toolbar-right">
                 <input type="text" class="search-box" id="searchBox" placeholder="🔍 Поиск..." oninput="applyFilters()">
                 <select class="select-filter" id="sortSelect" onchange="applyFilters()">
                     <option value="ping">📶 По пингу</option>
+                    <option value="health">🏆 По рейтингу</option>
                     <option value="country">🌍 По стране</option>
                     <option value="protocol">📡 По протоколу</option>
                 </select>
@@ -1078,6 +1311,7 @@
     let autoUpdateEnabled = false;
     let sortMode = 'ping';
     let currentCountryFilter = 'all';
+    let currentRegionFilter = 'all';
 
     // Загрузка из localStorage
     try {
@@ -1227,49 +1461,71 @@
             document.getElementById('meta-'+s.id).textContent = 'Загрузка...';
             document.getElementById('warn-'+s.id).textContent = '';
         });
-        try {
-            let res;
-            try {
-                res = await fetch('https://api.github.com/repos/AvenCores/goida-vpn-configs/contents/githubmirror', {cache:'no-store'});
-            } catch(e) {
-                for (const p of corsProxies) {
+        const fileMap = {};
+        for (let i=0; i<sources.length; i+=5) {
+            const batch = sources.slice(i, i+5);
+            await Promise.all(batch.map(async s => {
+                const metaEl = document.getElementById('meta-'+s.id);
+                const warnEl = document.getElementById('warn-'+s.id);
+                let size = null;
+                // Пробуем HEAD запрос через endpoints
+                for (const ep of endpoints) {
                     try {
-                        res = await fetch(p('https://api.github.com/repos/AvenCores/goida-vpn-configs/contents/githubmirror'), {cache:'no-store'});
-                        if (res.ok) break;
-                    } catch(e2) {}
-                }
-            }
-            if (!res || !res.ok) throw new Error('API error');
-            const files = await res.json();
-            const fileMap = {};
-            files.forEach(f=>{ if(f.type==='file') fileMap[f.name]=f; });
-            fileMeta = fileMap;
-
-            for (let i=0; i<sources.length; i+=10) {
-                const batch = sources.slice(i, i+10);
-                await Promise.all(batch.map(async s => {
-                    const f = fileMap[s.file];
-                    const metaEl = document.getElementById('meta-'+s.id);
-                    const warnEl = document.getElementById('warn-'+s.id);
-                    if (!f) { metaEl.textContent = 'Нет данных'; return; }
-                    let dateStr = '';
-                    try {
-                        const cres = await fetch(`https://api.github.com/repos/AvenCores/goida-vpn-configs/commits?path=githubmirror/${s.file}&per_page=1`, {cache:'no-store'});
-                        const commits = await cres.json();
-                        if (commits && commits[0] && commits[0].commit && commits[0].commit.committer) {
-                            const d = new Date(commits[0].commit.committer.date);
-                            dateStr = `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
+                        const ctrl = new AbortController();
+                        const to = setTimeout(()=>ctrl.abort(), 5000);
+                        const res = await fetch(ep.base + s.file, { method: 'HEAD', cache: 'no-store', signal: ctrl.signal });
+                        clearTimeout(to);
+                        if (res.ok) {
+                            const cl = res.headers.get('content-length');
+                            if (cl) { size = parseInt(cl); break; }
                         }
                     } catch(e) {}
-                    const sizeStr = formatSize(f.size);
-                    const approxCount = Math.round(f.size/220);
-                    metaEl.textContent = `${approxCount.toLocaleString('ru')} серверов  |  ${sizeStr}  |  ${dateStr}`;
-                    if (f.size > 20*1024*1024) warnEl.textContent = '⚠️ >20 МБ';
-                }));
-            }
-        } catch(e) {
-            sources.forEach(s=>document.getElementById('meta-'+s.id).textContent='Недоступно');
+                }
+                // Fallback: попробуем через CORS прокси HEAD
+                if (size === null) {
+                    for (const p of corsProxies) {
+                        try {
+                            const ctrl = new AbortController();
+                            const to = setTimeout(()=>ctrl.abort(), 6000);
+                            const res = await fetch(p(endpoints[0].base + s.file), { method: 'HEAD', cache: 'no-store', signal: ctrl.signal });
+                            clearTimeout(to);
+                            if (res.ok) {
+                                const cl = res.headers.get('content-length');
+                                if (cl) { size = parseInt(cl); break; }
+                            }
+                        } catch(e) {}
+                    }
+                }
+                // Fallback 2: GET с range=0-0 чтобы получить Content-Range
+                if (size === null) {
+                    for (const ep of endpoints) {
+                        try {
+                            const ctrl = new AbortController();
+                            const to = setTimeout(()=>ctrl.abort(), 5000);
+                            const res = await fetch(ep.base + s.file, { headers: {'Range':'bytes=0-0'}, cache: 'no-store', signal: ctrl.signal });
+                            clearTimeout(to);
+                            if (res.ok || res.status === 206) {
+                                const cr = res.headers.get('content-range');
+                                if (cr) {
+                                    const m = cr.match(/\/(\d+)$/);
+                                    if (m) { size = parseInt(m[1]); break; }
+                                }
+                            }
+                        } catch(e) {}
+                    }
+                }
+                if (size !== null) {
+                    fileMap[s.file] = { size: size };
+                    const sizeStr = formatSize(size);
+                    const approxCount = Math.max(1, Math.round(size/220));
+                    metaEl.textContent = `${approxCount.toLocaleString('ru')} серверов  |  ${sizeStr}`;
+                    if (size > 20*1024*1024) warnEl.textContent = '⚠️ >20 МБ';
+                } else {
+                    metaEl.textContent = 'Недоступно';
+                }
+            }));
         }
+        fileMeta = fileMap;
     }
 
     function toggleChip(id) {
@@ -1377,20 +1633,57 @@
     }
 
     // ---- Проверка с тестом скорости ----
+    // ---------- Легкая проверка (быстрая) ----------
     async function checkSingle(c) {
         if (!c.host) { c.status='offline'; c.ping=null; c.speed=null; return; }
         c.checking = true; c.status='checking';
         refreshCard(c.id);
 
-        const speedPromise = (async () => {
-            try {
-                const testUrl = 'https://' + c.host + (c.port?':'+c.port:'') + '/speedtest/1MB.bin';
-                const start = performance.now();
+        const countryPromise = resolveCountry(c.host);
+        const pingOnly = (async () => {
+            const urls = ['https://'+c.host+(c.port?':'+c.port:'')+'/', 'https://'+c.host+'/'];
+            let bestPing = Infinity, anyResponse = false;
+            for (const testUrl of urls) {
                 const ctrl = new AbortController();
-                const to = setTimeout(()=>ctrl.abort(), 5000);
-                const res = await fetch(testUrl, {signal:ctrl.signal});
+                const to = setTimeout(()=>ctrl.abort(), 1500);
+                const t0 = performance.now();
+                try { await fetch(testUrl, {mode:'no-cors', signal:ctrl.signal}); bestPing=Math.min(bestPing, Math.round(performance.now()-t0)); anyResponse=true; } catch(e){}
                 clearTimeout(to);
-                if (!res.ok) throw new Error('status '+res.status);
+            }
+            return { anyResponse, bestPing };
+        })();
+
+        const [countryResult, pingOnlyResult] = await Promise.all([countryPromise, pingOnly]);
+
+        c.checking = false;
+        if (pingOnlyResult.anyResponse) {
+            c.status = 'online';
+            c.ping = pingOnlyResult.bestPing;
+        } else {
+            c.status = 'offline';
+            c.ping = null;
+        }
+        if (countryResult) c.country = countryResult;
+        c.details = parseDetails(c.config);
+        c.healthScore = calculateHealthScore(c);
+        refreshCard(c.id);
+    }
+
+    // ---------- Полная проверка одного сервера (по кнопке) ----------
+    async function checkFull(c) {
+        if (!c || !c.host) return;
+        c.checking = true; c.status='checking';
+        refreshCard(c.id);
+
+        // Speed test
+        try {
+            const testUrl = 'https://' + c.host + (c.port?':'+c.port:'') + '/speedtest/1MB.bin';
+            const start = performance.now();
+            const ctrl = new AbortController();
+            const to = setTimeout(()=>ctrl.abort(), 4000);
+            const res = await fetch(testUrl, {signal:ctrl.signal});
+            clearTimeout(to);
+            if (res.ok) {
                 const reader = res.body.getReader();
                 let received = 0;
                 while (true) {
@@ -1399,46 +1692,26 @@
                     received += value.length;
                 }
                 const elapsed = (performance.now() - start) / 1000;
-                const speed = received / elapsed / 1024 / 1024;
-                return { speed, ping: null };
-            } catch(e) {
-                return null;
+                c.speed = received / elapsed / 1024 / 1024;
             }
-        })();
+        } catch(e) { c.speed = null; }
 
-        const countryPromise = resolveCountry(c.host);
-        const pingOnly = (async () => {
-            const urls = ['https://'+c.host+(c.port?':'+c.port:'')+'/', 'https://'+c.host+'/'];
-            let bestPing = Infinity, anyResponse = false;
-            for (const testUrl of urls) {
-                const ctrl = new AbortController();
-                const to = setTimeout(()=>ctrl.abort(), 2000);
-                const t0 = performance.now();
-                try { await fetch(testUrl, {mode:'no-cors', signal:ctrl.signal}); bestPing=Math.min(bestPing, Math.round(performance.now()-t0)); anyResponse=true; } catch(e){}
-                clearTimeout(to);
-            }
-            return { anyResponse, bestPing };
-        })();
+        // ASN
+        resolveASN(c.host).then(asn => { if(asn) { c.asn = asn; refreshCard(c.id); } });
 
-        const [speedResult, countryResult, pingOnlyResult] = await Promise.all([speedPromise, countryPromise, pingOnly]);
+        // Ports
+        checkPorts(c.host).then(ports => { c.ports = ports; refreshCard(c.id); });
+
+        // Region lock
+        if (c.status !== 'offline') {
+            const regions = await checkRegionLock();
+            c.regions = regions;
+        }
 
         c.checking = false;
-        if (speedResult && speedResult.speed !== undefined) {
-            c.status = 'online';
-            c.speed = speedResult.speed;
-            c.ping = speedResult.ping || pingOnlyResult.bestPing || null;
-        } else if (pingOnlyResult.anyResponse) {
-            c.status = 'online';
-            c.ping = pingOnlyResult.bestPing;
-            c.speed = null;
-        } else {
-            c.status = 'offline';
-            c.ping = null;
-            c.speed = null;
-        }
-        if (countryResult) c.country = countryResult;
-        c.details = parseDetails(c.config);
+        c.healthScore = calculateHealthScore(c);
         refreshCard(c.id);
+        updateRegionStats();
     }
 
     function parseDetails(cfg) {
@@ -1465,21 +1738,23 @@
         checkAbort = false;
         const toCheck = allConfigs.filter(c=>c.host);
         const total = toCheck.length;
-        for (let i=0; i<total; i+=20) {
+        const batchSize = 50;
+        for (let i=0; i<total; i+=batchSize) {
             if (checkAbort) break;
-            const batch = toCheck.slice(i, i+20);
+            const batch = toCheck.slice(i, i+batchSize);
             await Promise.all(batch.map(c=>checkSingle(c)));
             document.getElementById('progressText').textContent = 'Проверка серверов...';
-            document.getElementById('progressCount').textContent = Math.min(i+20, total)+'/'+total;
-            document.getElementById('progressBar').style.width = Math.round((Math.min(i+20, total)/total)*100)+'%';
+            document.getElementById('progressCount').textContent = Math.min(i+batchSize, total)+'/'+total;
+            document.getElementById('progressBar').style.width = Math.round((Math.min(i+batchSize, total)/total)*100)+'%';
             sortConfigs();
             applyFilters();
-            await new Promise(r=>setTimeout(r,50));
+            await new Promise(r=>setTimeout(r, 5));
         }
         document.getElementById('progressText').textContent = 'Проверка завершена';
         document.getElementById('progressCount').textContent = '';
         sortConfigs(); applyFilters();
         updateGlobalStats();
+        updateRegionStats();
     }
 
     function sortConfigs() {
@@ -1490,6 +1765,13 @@
                 if (oa!==ob) return oa-ob;
                 if (a.status==='online' && b.status==='online') return (a.ping??99999) - (b.ping??99999);
                 return 0;
+            });
+        } else if (sortMode === 'health') {
+            allConfigs.sort((a,b) => {
+                const order = { online:0, checking:1, unknown:2, offline:3 };
+                const oa = order[a.status]??2, ob = order[b.status]??2;
+                if (oa!==ob) return oa-ob;
+                return (b.healthScore??0) - (a.healthScore??0);
             });
         } else if (sortMode === 'country') {
             allConfigs.sort((a,b) => {
@@ -1549,17 +1831,24 @@
         const q = document.getElementById('searchBox').value.toLowerCase().trim();
         const tab = getActiveTab();
         const country = currentCountryFilter;
+        const region = currentRegionFilter;
 
         // Показ/скрытие областей по вкладкам
         const resultsArea = document.getElementById('resultsArea');
         const leaktestArea = document.getElementById('leaktestArea');
+        const regionFilterBar = document.getElementById('regionFilterBar');
+        const regionStatsPanel = document.getElementById('regionStatsPanel');
         if (tab === 'leaktest') {
             if (resultsArea) resultsArea.style.display = 'none';
             if (leaktestArea) { leaktestArea.style.display = 'block'; runLeakTest(); }
             return;
         } else {
             if (leaktestArea) leaktestArea.style.display = 'none';
-            if (resultsArea && allConfigs.length) resultsArea.style.display = 'block';
+            if (resultsArea && allConfigs.length) {
+                resultsArea.style.display = 'block';
+                if (regionFilterBar) regionFilterBar.style.display = 'flex';
+                if (regionStatsPanel) regionStatsPanel.style.display = 'block';
+            }
         }
 
         filteredConfigs = allConfigs.filter(c => {
@@ -1568,15 +1857,21 @@
             const mq = !q || c.config.toLowerCase().includes(q) || c.host.toLowerCase().includes(q) ||
                 (c.country && (c.country.name.toLowerCase().includes(q) || c.country.code.toLowerCase().includes(q)));
             const mc = country==='all' || (c.country && c.country.code===country);
+            // Фильтр по региону (сервису)
+            let mr = true;
+            if (region !== 'all') {
+                mr = c.regions && c.regions[region] === 'ok';
+            }
             let mt = true;
             if (tab==='working') mt = c.status==='online' && (c.ping!==null && c.ping<500);
             else if (tab==='favorites') mt = favoriteIds.has(c.id);
             else if (tab==='devices') mt = deviceMap[c.id] && deviceMap[c.id].length>0;
-            return mp && ms && mq && mc && mt;
+            return mp && ms && mq && mc && mr && mt;
         });
         updateStats();
         renderPage();
         updateGlobalStats();
+        updateRegionStats();
     }
 
     function updateStats() {
@@ -1672,6 +1967,7 @@
 
     // ---------- Рендер карточек ----------
     function renderPage() {
+        updateRegionStats();
         const container = document.getElementById('cardsContainer');
         const start = (currentPage-1)*perPage;
         const page = filteredConfigs.slice(start, start+perPage);
@@ -1706,7 +2002,8 @@
                     <div class="card-top">
                         <span class="proto-badge pb-${c.protocol}">${c.protocol}</span>
                         ${statusHtml}
-                        <div style="display:flex;gap:4px;">
+                        <div style="display:flex;gap:4px;align-items:center;">
+                            ${c.healthScore !== undefined ? '<span style="font-size:0.7rem;color:'+(c.healthScore>=80?'#00ff88':c.healthScore>=50?'#ffaa00':'#ff4444')+';font-weight:800;">🏆 '+c.healthScore+'</span>' : ''}
                             <button class="btn ${isFav ? 'btn-success' : 'btn-secondary'}" style="padding:2px 12px;font-size:0.75rem;" onclick="toggleFavorite(${c.id})">${isFav ? '★' : '☆'}</button>
                         </div>
                     </div>
@@ -1715,11 +2012,16 @@
                         ${c.host ? '<b>'+c.host+'</b>'+(c.port?':'+c.port:'') : 'Адрес не распознан'}
                         ${c.sourceId !== undefined && c.sourceId !== -1 ? '<span style="font-size:0.7rem;color:#555;">['+sources.find(s=>s.id===c.sourceId)?.label+']</span>' : ''}
                     </div>
+                    ${c.asn ? '<div class="asn-info">🏢 <b>'+c.asn.org+'</b> | ASN '+c.asn.asn+' | '+c.asn.type+'</div>' : ''}
+                    ${c.healthScore !== undefined ? '<div class="health-bar-wrap"><div class="health-bar-fill" style="width:'+c.healthScore+'%;background:'+(c.healthScore>=80?'linear-gradient(90deg,#00ff88,#00b894)':c.healthScore>=50?'linear-gradient(90deg,#ffaa00,#ff7700)':'linear-gradient(90deg,#ff4444,#ff0000)')+';"></div></div><div class="health-score-text">Health Score: '+c.healthScore+'/100</div>' : ''}
+                    ${c.ports && c.ports.length ? '<div class="port-list">'+c.ports.map(p=>'<span class="port-tag '+(p.open?'open':'closed')+'">'+p.port+'</span>').join('')+'</div>' : ''}
+                    ${c.regions ? '<div class="region-badges">'+Object.entries(c.regions).map(([k,v])=>'<span class="region-badge '+(v==='ok'?'ok':v==='fail'?'fail':v==='checking'?'checking':'unknown')+'">'+(v==='ok'?'✅':v==='fail'?'❌':v==='checking'?'⏳':'?')+' '+k+'</span>').join('')+'</div>' : ''}
                     <div class="config-text">${escapeHtml(short)}</div>
                     <div class="card-actions">
                         <button class="btn-copy" onclick="copyCfg(${c.id})">Копировать</button>
                         ${renderDropdown(c.id)}
                         <button class="btn-check" onclick="checkOne(${c.id})">Перепроверить</button>
+                        <button class="btn-check" onclick="checkFull(allConfigs.find(x=>x.id===${c.id}))">🔍 Детально</button>
                         <button class="btn-details" onclick="toggleDetails(${c.id})">📖 Детали</button>
                         <button class="btn-qr" id="qr-btn-${c.id}" onclick="toggleQR(${c.id})">📱 QR</button>
                         <span style="display:inline-flex;align-items:center;gap:4px;margin-left:4px;">
@@ -1777,7 +2079,8 @@
         card.querySelector('.card-top').innerHTML = `
             <span class="proto-badge pb-${c.protocol}">${c.protocol}</span>
             ${statusHtml}
-            <div style="display:flex;gap:4px;">
+            <div style="display:flex;gap:4px;align-items:center;">
+                ${c.healthScore !== undefined ? '<span style="font-size:0.7rem;color:'+(c.healthScore>=80?'#00ff88':c.healthScore>=50?'#ffaa00':'#ff4444')+';font-weight:800;">🏆 '+c.healthScore+'</span>' : ''}
                 <button class="btn ${isFav ? 'btn-success' : 'btn-secondary'}" style="padding:2px 12px;font-size:0.75rem;" onclick="toggleFavorite(${c.id})">${isFav ? '★' : '☆'}</button>
             </div>
         `;
@@ -1801,65 +2104,8 @@
     async function checkOne(idx) {
         const c = allConfigs.find(x=>x.id===idx);
         if (!c || !c.host) return;
-        c.checking = true; c.status='checking';
-        refreshCard(idx); updateStats();
-
-        const speedPromise = (async () => {
-            try {
-                const testUrl = 'https://' + c.host + (c.port?':'+c.port:'') + '/speedtest/1MB.bin';
-                const start = performance.now();
-                const ctrl = new AbortController();
-                const to = setTimeout(()=>ctrl.abort(), 5000);
-                const res = await fetch(testUrl, {signal:ctrl.signal});
-                clearTimeout(to);
-                if (!res.ok) throw new Error('status '+res.status);
-                const reader = res.body.getReader();
-                let received = 0;
-                while (true) {
-                    const {done, value} = await reader.read();
-                    if (done) break;
-                    received += value.length;
-                }
-                const elapsed = (performance.now() - start) / 1000;
-                const speed = received / elapsed / 1024 / 1024;
-                return { speed, ping: null };
-            } catch(e) {
-                return null;
-            }
-        })();
-        const countryPromise = resolveCountry(c.host);
-        const pingOnly = (async () => {
-            const urls = ['https://'+c.host+(c.port?':'+c.port:'')+'/', 'https://'+c.host+'/'];
-            let bestPing = Infinity, anyResponse = false;
-            for (const testUrl of urls) {
-                const ctrl = new AbortController();
-                const to = setTimeout(()=>ctrl.abort(), 2000);
-                const t0 = performance.now();
-                try { await fetch(testUrl, {mode:'no-cors', signal:ctrl.signal}); bestPing=Math.min(bestPing, Math.round(performance.now()-t0)); anyResponse=true; } catch(e){}
-                clearTimeout(to);
-            }
-            return { anyResponse, bestPing };
-        })();
-
-        const [speedResult, countryResult, pingOnlyResult] = await Promise.all([speedPromise, countryPromise, pingOnly]);
-
-        c.checking = false;
-        if (speedResult && speedResult.speed !== undefined) {
-            c.status = 'online';
-            c.speed = speedResult.speed;
-            c.ping = speedResult.ping || pingOnlyResult.bestPing || null;
-        } else if (pingOnlyResult.anyResponse) {
-            c.status = 'online';
-            c.ping = pingOnlyResult.bestPing;
-            c.speed = null;
-        } else {
-            c.status = 'offline';
-            c.ping = null;
-            c.speed = null;
-        }
-        if (countryResult) c.country = countryResult;
-        c.details = parseDetails(c.config);
-        refreshCard(idx); updateStats();
+        await checkFull(c);
+        updateStats();
         sortConfigs(); applyFilters();
         updateGlobalStats();
     }
@@ -1961,6 +2207,210 @@
         return d.innerHTML;
     }
 
+
+
+
+    // ---------- Фильтр по сервисам ----------
+    function setRegionFilter(service) {
+        currentRegionFilter = service;
+        currentPage = 1;
+        document.querySelectorAll('.region-filter-chip').forEach(chip => {
+            chip.classList.toggle('active', 
+                (service === 'all' && chip.textContent === 'Все') ||
+                chip.textContent.includes(service)
+            );
+        });
+        applyFilters();
+    }
+
+    // ---------- Глобальная статистика по сервисам ----------
+    function updateRegionStats() {
+        const grid = document.getElementById('regionStatsGrid');
+        if (!grid) return;
+        const online = allConfigs.filter(c => c.status === 'online');
+        if (!online.length) { grid.innerHTML = '<span style="color:#444;font-size:0.8rem;">Нет онлайн серверов для анализа</span>'; return; }
+
+        const services = ['YouTube', 'ChatGPT', 'TikTok', 'Instagram', 'Telegram'];
+        let html = '';
+        services.forEach(svc => {
+            const checked = online.filter(c => c.regions && c.regions[svc] !== undefined);
+            const ok = checked.filter(c => c.regions[svc] === 'ok').length;
+            const total = checked.length || online.length;
+            const pct = total ? Math.round((ok/total)*100) : 0;
+            let cls = 'fail';
+            if (pct >= 70) cls = 'ok';
+            else if (pct >= 30) cls = 'partial';
+            const icon = svc === 'YouTube' ? '📺' : svc === 'ChatGPT' ? '🤖' : svc === 'TikTok' ? '🎵' : svc === 'Instagram' ? '📸' : '✈️';
+            html += `<span class="region-stat-item ${cls}">${icon} ${svc}: <b>${ok}</b>/<b>${total}</b> <span>(${pct}%)</span></span>`;
+        });
+        grid.innerHTML = html;
+    }
+
+    // ---------- Health Score ----------
+    function calculateHealthScore(c) {
+        if (c.status !== 'online') return 0;
+        let score = 50;
+        // Ping: <30ms = +30, <100ms = +20, <200ms = +10, >500ms = -10
+        const ping = c.ping ?? 9999;
+        if (ping < 30) score += 30;
+        else if (ping < 100) score += 20;
+        else if (ping < 200) score += 10;
+        else if (ping > 500) score -= 10;
+        // Speed: >5MB/s = +15, >1MB/s = +10, >0.5MB/s = +5
+        const speed = c.speed ?? 0;
+        if (speed > 5) score += 15;
+        else if (speed > 1) score += 10;
+        else if (speed > 0.5) score += 5;
+        // Protocol bonus: reality/vless more reliable
+        if (c.protocol === 'reality') score += 5;
+        else if (c.protocol === 'vless') score += 3;
+        // Region lock bonus (6 сервисов: Netflix, YouTube, ChatGPT, TikTok, Instagram, Telegram)
+        if (c.regions) {
+            const okCount = Object.values(c.regions).filter(v => v === 'ok').length;
+            score += okCount * 2;
+        }
+        return Math.min(100, Math.max(0, Math.round(score)));
+    }
+
+    // ---------- ASN / Provider Info ----------
+    async function resolveASN(host) {
+        if (!host) return null;
+        try {
+            const res = await fetch('https://ipwho.is/' + host, { cache: 'no-store' });
+            const data = await res.json();
+            if (data.success) {
+                return {
+                    asn: data.connection?.asn || '—',
+                    org: data.connection?.org || data.isp || '—',
+                    type: data.connection?.route || data.type || '—'
+                };
+            }
+        } catch(e) {}
+        return null;
+    }
+
+    // ---------- Port Scan (реальная проверка) ----------
+    const commonPorts = [80, 443, 2052, 2053, 2082, 2083, 2086, 2087, 2095, 2096, 8443, 8080, 8880];
+    async function checkPorts(host) {
+        if (!host) return [];
+        const results = [];
+        // Проверяем порты последовательно с небольшой задержкой, чтобы не DDOS-ить
+        for (const port of commonPorts) {
+            const url = 'https://' + host + ':' + port + '/';
+            const ctrl = new AbortController();
+            const to = setTimeout(() => ctrl.abort(), 3000);
+            let open = false;
+            try {
+                await fetch(url, { mode: 'no-cors', signal: ctrl.signal });
+                // Если fetch не выбросил исключение — TCP-соединение установлено
+                open = true;
+            } catch(e) {
+                // TypeError = connection refused / timeout / SSL error
+                open = false;
+            }
+            clearTimeout(to);
+            results.push({ port, open });
+            // Небольшая задержка между проверками
+            await new Promise(r => setTimeout(r, 150));
+        }
+        return results;
+    }
+
+    // ---------- Region Lock Checker (реальная проверка) ----------
+    const regionServices = {
+        'Netflix': 'https://www.netflix.com/title/80113701',
+        'YouTube': 'https://www.youtube.com/premium',
+        'ChatGPT': 'https://chat.openai.com',
+        'TikTok': 'https://www.tiktok.com',
+        'Instagram': 'https://www.instagram.com',
+        'Telegram': 'https://web.telegram.org'
+    };
+    async function checkRegionLock() {
+        const results = {};
+        for (const [name, url] of Object.entries(regionServices)) {
+            results[name] = 'checking';
+        }
+        await Promise.all(Object.entries(regionServices).map(async ([name, url]) => {
+            // Пробуем allorigins (даёт реальный HTTP код)
+            try {
+                const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
+                const ctrl = new AbortController();
+                const to = setTimeout(() => ctrl.abort(), 10000);
+                const res = await fetch(proxyUrl, { signal: ctrl.signal });
+                clearTimeout(to);
+                if (res.ok) {
+                    const data = await res.json();
+                    const code = data.status?.http_code || 0;
+                    if (code === 200) {
+                        results[name] = 'ok';
+                        return;
+                    } else if (code === 403 || code === 451 || code === 404) {
+                        results[name] = 'fail';
+                        return;
+                    }
+                }
+            } catch(e) {}
+            // Fallback: corsproxy.io (проверяем доступность через прокси)
+            try {
+                const proxyUrl2 = 'https://corsproxy.io/?url=' + encodeURIComponent(url);
+                const ctrl2 = new AbortController();
+                const to2 = setTimeout(() => ctrl2.abort(), 8000);
+                const res2 = await fetch(proxyUrl2, { signal: ctrl2.signal });
+                clearTimeout(to2);
+                if (res2.ok) {
+                    results[name] = 'ok';
+                    return;
+                } else if (res2.status === 403 || res2.status === 451) {
+                    results[name] = 'fail';
+                    return;
+                }
+            } catch(e) {}
+            // Fallback 2: no-cors (худший вариант, но лучше чем ничего)
+            try {
+                const ctrl3 = new AbortController();
+                const to3 = setTimeout(() => ctrl3.abort(), 5000);
+                await fetch(url, { mode: 'no-cors', signal: ctrl3.signal });
+                clearTimeout(to3);
+                results[name] = 'ok';
+                return;
+            } catch(e) {
+                results[name] = 'fail';
+                return;
+            }
+        }));
+        return results;
+    }
+
+    // ---------- Auto Pick Best ----------
+    function autoPickBest() {
+        const online = allConfigs.filter(c => c.status === 'online' && c.healthScore > 0);
+        if (!online.length) {
+            showToast('❌ Нет рабочих серверов');
+            return;
+        }
+        online.sort((a,b) => (b.healthScore??0) - (a.healthScore??0));
+        const best = online[0];
+        const resultDiv = document.getElementById('autopickResult');
+        const contentDiv = document.getElementById('autopickContent');
+        const flag = best.country ? getFlagEmoji(best.country.code) : '';
+        contentDiv.innerHTML = `
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px;">
+                <span class="proto-badge pb-${best.protocol}">${best.protocol}</span>
+                <span style="font-size:0.85rem;color:#fff;font-weight:700;">${flag} ${best.host}${best.port?':'+best.port:''}</span>
+                <span style="font-size:0.8rem;color:#00ff88;">🏆 ${best.healthScore}/100</span>
+                ${best.ping ? '<span style="font-size:0.8rem;color:#00d4ff;">📶 '+best.ping+'ms</span>' : ''}
+                ${best.speed ? '<span style="font-size:0.8rem;color:#ffa500;">⚡ '+best.speed.toFixed(2)+' MB/s</span>' : ''}
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="btn btn-primary" onclick="copyCfg(${best.id}); showToast('✅ Лучший сервер скопирован')">📋 Копировать</button>
+                <button class="btn btn-success" onclick="toggleFavorite(${best.id}); showToast('⭐ Добавлено в избранное')">⭐ В избранное</button>
+                <button class="btn btn-secondary" onclick="checkOne(${best.id})">🔄 Перепроверить</button>
+            </div>
+        `;
+        resultDiv.classList.add('open');
+        resultDiv.scrollIntoView({behavior:'smooth', block:'center'});
+        showToast('🏆 Лучший сервер найден!');
+    }
 
     // ---------- Leak Test ----------
     let leakData = { publicIp: null, geo: null, webrtcIps: [] };
