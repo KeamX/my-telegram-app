@@ -1126,8 +1126,56 @@
         .service-item.ok .service-status { color: #00ff88; }
         .service-item.fail .service-status { color: #ff4444; }
         .service-item.checking .service-status { color: #00d4ff; }
+    
+        /* Region badges в карточках */
+        .card-region-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 8px;
+        }
+        .card-region-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 9px;
+            border-radius: 8px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .card-region-badge.ok {
+            background: rgba(0,255,136,0.08);
+            color: #00ff88;
+            border-color: rgba(0,255,136,0.15);
+        }
+        .card-region-badge.fail {
+            background: rgba(255,68,68,0.08);
+            color: #ff4444;
+            border-color: rgba(255,68,68,0.15);
+        }
+        .card-region-badge.checking {
+            background: rgba(0,212,255,0.08);
+            color: #00d4ff;
+            border-color: rgba(0,212,255,0.15);
+        }
+        .card-region-badge.unknown {
+            background: rgba(255,255,255,0.03);
+            color: #555;
+            border-color: rgba(255,255,255,0.06);
+        }
+        .card-region-badge .r-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .card-region-badge.ok .r-dot { background: #00ff88; box-shadow: 0 0 4px #00ff88; }
+        .card-region-badge.fail .r-dot { background: #ff4444; box-shadow: 0 0 4px #ff4444; }
+        .card-region-badge.checking .r-dot { background: #00d4ff; box-shadow: 0 0 4px #00d4ff; animation: pulse 1s infinite; }
+        .card-region-badge.unknown .r-dot { background: #333; }
     </style>
-<base target="_blank">
 </head>
 <body>
 <div class="container">
@@ -1674,6 +1722,10 @@
         if (pingOnlyResult.anyResponse) {
             c.status = 'online';
             c.ping = pingOnlyResult.bestPing;
+            // Если глобальная проверка сервисов уже завершена — копируем результаты
+            if (globalRegionStatus) {
+                c.regions = { ...globalRegionStatus };
+            }
         } else {
             c.status = 'offline';
             c.ping = null;
@@ -1978,6 +2030,7 @@
                         ${c.sourceId !== undefined && c.sourceId !== -1 ? '<span style="font-size:0.7rem;color:#555;">['+sources.find(s=>s.id===c.sourceId)?.label+']</span>' : ''}
                     </div>
                     ${c.asn ? '<div class="asn-info">🏢 <b>'+c.asn.org+'</b> | ASN '+c.asn.asn+' | '+c.asn.type+'</div>' : ''}
+                    ${c.regions ? '<div class="card-region-badges">'+Object.entries(c.regions).map(([k,v])=>'<span class="card-region-badge '+(v==='ok'?'ok':v==='fail'?'fail':v==='checking'?'checking':'unknown')+'"><span class="r-dot"></span>'+k+'</span>').join('')+'</div>' : ''}
                     ${c.healthScore !== undefined ? '<div class="health-bar-wrap"><div class="health-bar-fill" style="width:'+c.healthScore+'%;background:'+(c.healthScore>=80?'linear-gradient(90deg,#00ff88,#00b894)':c.healthScore>=50?'linear-gradient(90deg,#ffaa00,#ff7700)':'linear-gradient(90deg,#ff4444,#ff0000)')+';"></div></div><div class="health-score-text">Health Score: '+c.healthScore+'/100</div>' : ''}
                     ${c.ports && c.ports.length ? '<div class="port-list">'+c.ports.map(p=>'<span class="port-tag '+(p.open?'open':'closed')+'">'+p.port+'</span>').join('')+'</div>' : ''}
                     
@@ -2059,6 +2112,19 @@
         if (serverInfo) {
             serverInfo.innerHTML = countryHtml + (c.host ? '<b>'+c.host+'</b>'+(c.port?':'+c.port:'') : 'Адрес не распознан')
                 + (c.sourceId !== undefined && c.sourceId !== -1 ? '<span style="font-size:0.7rem;color:#555;">['+sources.find(s=>s.id===c.sourceId)?.label+']</span>' : '');
+        }
+        // Обновляем region badges
+        let existingBadges = card.querySelector('.card-region-badges');
+        if (c.regions) {
+            const badgesHtml = '<div class="card-region-badges">'+Object.entries(c.regions).map(([k,v])=>'<span class="card-region-badge '+(v==='ok'?'ok':v==='fail'?'fail':v==='checking'?'checking':'unknown')+'"><span class="r-dot"></span>'+k+'</span>').join('')+'</div>';
+            if (existingBadges) {
+                existingBadges.outerHTML = badgesHtml;
+            } else {
+                const configText = card.querySelector('.config-text');
+                if (configText) configText.insertAdjacentHTML('beforebegin', badgesHtml);
+            }
+        } else if (existingBadges) {
+            existingBadges.remove();
         }
         const detailsPanel = document.getElementById('details-'+id);
         if (detailsPanel && c.details) {
@@ -2309,6 +2375,10 @@
         // Копируем результаты во все онлайн конфиги
         allConfigs.forEach(c => { if (c.status === 'online') c.regions = { ...results }; });
         updateServicesGrid(results);
+        // Пересчитываем health score и обновляем UI
+        allConfigs.forEach(c => { if (c.regions) c.healthScore = calculateHealthScore(c); });
+        sortConfigs();
+        applyFilters();
     }
 
     function updateServicesGrid(results) {
