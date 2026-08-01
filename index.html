@@ -2,6 +2,11 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjogIlZQTiBDb25maWdzIiwgInNob3J0X25hbWUiOiAiVlBOQ2ZnIiwgInN0YXJ0X3VybCI6ICIuIiwgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwYTBhMGYiLCAidGhlbWVfY29sb3IiOiAiIzBhMGEwZiIsICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdC1wcmltYXJ5IiwgImljb25zIjogW3sic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbCwlM0NzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiIlM0UlM0NyZWN0IGZpbGw9IiUyMzBhMGEwZiIgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIHJ4PSIzMiIvJTNFJTNDcGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiUyMzAwZDRmZiIgc3Ryb2tlLXdpZHRoPSIxMiIgZD0iTTk2IDMydjEyOE0zMiA5NmgxMjgiLyUzRSUzQ2NpcmNsZSBmaWxsPSIlMjM3YjJjYmYiIGN4PSI5NiIgY3k9Ijk2IiByPSIyNCIvJTNFJTNDL3N2ZyUzRSIsICJzaXplcyI6ICIxOTJ4MTkyIiwgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCJ9XX0=">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -741,6 +746,147 @@
         }
         .btn-qr:hover { background: rgba(255,255,255,0.08); color: white; }
         .btn-qr.active { background: rgba(0,212,255,0.1); color: #00d4ff; border-color: rgba(0,212,255,0.3); }
+    
+        /* Glow-эффект карточек */
+        .config-card {
+            transition: all 0.3s ease;
+        }
+        .config-card.vless:hover {
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.15), 0 0 40px rgba(0, 212, 255, 0.08);
+            border-color: rgba(0, 212, 255, 0.25);
+        }
+        .config-card.vmess:hover {
+            box-shadow: 0 0 20px rgba(199, 125, 255, 0.15), 0 0 40px rgba(199, 125, 255, 0.08);
+            border-color: rgba(199, 125, 255, 0.25);
+        }
+        .config-card.trojan:hover {
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.15), 0 0 40px rgba(255, 0, 128, 0.08);
+            border-color: rgba(255, 0, 128, 0.25);
+        }
+        .config-card.shadowsocks:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.15), 0 0 40px rgba(0, 255, 136, 0.08);
+            border-color: rgba(0, 255, 136, 0.25);
+        }
+        .config-card.hysteria:hover {
+            box-shadow: 0 0 20px rgba(255, 165, 0, 0.15), 0 0 40px rgba(255, 165, 0, 0.08);
+            border-color: rgba(255, 165, 0, 0.25);
+        }
+        .config-card.reality:hover {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.12), 0 0 40px rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        .config-card.tuic:hover {
+            box-shadow: 0 0 20px rgba(255, 68, 68, 0.15), 0 0 40px rgba(255, 68, 68, 0.08);
+            border-color: rgba(255, 68, 68, 0.25);
+        }
+        .config-card.other:hover {
+            box-shadow: 0 0 20px rgba(100, 100, 100, 0.1), 0 0 40px rgba(100, 100, 100, 0.05);
+            border-color: rgba(100, 100, 100, 0.2);
+        }
+    
+        .leak-panel {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 14px;
+        }
+        .leak-panel h3 {
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .leak-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 14px;
+        }
+        .leak-card {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s;
+        }
+        .leak-card:hover {
+            border-color: rgba(0,212,255,0.2);
+            background: rgba(0,212,255,0.03);
+        }
+        .leak-card .leak-title {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .leak-card .leak-value {
+            font-family: 'Nunito', monospace;
+            font-size: 0.9rem;
+            color: #ddd;
+            word-break: break-all;
+            line-height: 1.5;
+        }
+        .leak-card .leak-status {
+            margin-top: 10px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .leak-status.safe {
+            background: rgba(0,255,136,0.08);
+            color: #00ff88;
+            border: 1px solid rgba(0,255,136,0.15);
+        }
+        .leak-status.warn {
+            background: rgba(255,170,0,0.08);
+            color: #ffaa00;
+            border: 1px solid rgba(255,170,0,0.15);
+        }
+        .leak-status.danger {
+            background: rgba(255,68,68,0.08);
+            color: #ff4444;
+            border: 1px solid rgba(255,68,68,0.15);
+        }
+        .leak-status.loading {
+            background: rgba(0,212,255,0.08);
+            color: #00d4ff;
+            border: 1px solid rgba(0,212,255,0.15);
+        }
+        .leak-btn {
+            margin-top: 14px;
+        }
+        .webrtc-ip {
+            display: block;
+            padding: 3px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .webrtc-ip:last-child { border: none; }
+        .ip-compare {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        .ip-compare input {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 6px 12px;
+            color: #ddd;
+            font-family: 'Nunito', monospace;
+            font-size: 0.8rem;
+            outline: none;
+            width: 140px;
+        }
+        .ip-compare input:focus { border-color: #00d4ff; }
     </style>
 <base target="_blank">
 </head>
@@ -765,6 +911,7 @@
         <button class="tab-btn" data-tab="working"><span class="icon">✅</span> Рабочие</button>
         <button class="tab-btn" data-tab="favorites"><span class="icon">⭐</span> Избранное</button>
         <button class="tab-btn" data-tab="devices"><span class="icon">📱</span> По устройствам</button>
+        <button class="tab-btn" data-tab="leaktest"><span class="icon">🔒</span> Проверка утечек</button>
     </div>
 
     <div class="sources-panel">
@@ -791,6 +938,42 @@
             </div>
         </div>
         <div id="errorBox"></div>
+    </div>
+
+    
+    <div id="leaktestArea" style="display:none;">
+        <div class="leak-panel">
+            <h3>🔒 Проверка утечек IP и DNS</h3>
+            <div class="leak-grid">
+                <div class="leak-card">
+                    <div class="leak-title">🌐 Ваш публичный IP</div>
+                    <div class="leak-value" id="leakPublicIp">Загрузка...</div>
+                    <div class="leak-status loading" id="leakPublicStatus"><span class="dot checking"></span> Определение...</div>
+                </div>
+                <div class="leak-card">
+                    <div class="leak-title">📍 Геолокация</div>
+                    <div class="leak-value" id="leakGeo">Загрузка...</div>
+                    <div class="leak-status loading" id="leakGeoStatus"><span class="dot checking"></span> Определение...</div>
+                </div>
+                <div class="leak-card">
+                    <div class="leak-title">🕳️ WebRTC локальные IP</div>
+                    <div class="leak-value" id="leakWebrtc">Нажмите проверку</div>
+                    <div class="leak-status loading" id="leakWebrtcStatus"><span class="dot checking"></span> Ожидание...</div>
+                </div>
+                <div class="leak-card">
+                    <div class="leak-title">🛡️ Сравнение с VPN IP</div>
+                    <div class="leak-value" style="font-size:0.8rem;color:#666;">Введите ожидаемый IP вашего VPN для сравнения</div>
+                    <div class="ip-compare">
+                        <input type="text" id="expectedVpnIp" placeholder="VPN IP">
+                        <button class="btn btn-primary" style="padding:6px 14px;font-size:0.78rem;" onclick="compareVpnIp()">Сравнить</button>
+                    </div>
+                    <div class="leak-status loading" id="leakCompareStatus" style="margin-top:10px;display:none;"></div>
+                </div>
+            </div>
+            <div class="leak-btn">
+                <button class="btn btn-primary" onclick="runLeakTest()">🔄 Запустить проверку</button>
+            </div>
+        </div>
     </div>
 
     <div id="resultsArea" style="display:none;">
@@ -1367,6 +1550,18 @@
         const tab = getActiveTab();
         const country = currentCountryFilter;
 
+        // Показ/скрытие областей по вкладкам
+        const resultsArea = document.getElementById('resultsArea');
+        const leaktestArea = document.getElementById('leaktestArea');
+        if (tab === 'leaktest') {
+            if (resultsArea) resultsArea.style.display = 'none';
+            if (leaktestArea) { leaktestArea.style.display = 'block'; runLeakTest(); }
+            return;
+        } else {
+            if (leaktestArea) leaktestArea.style.display = 'none';
+            if (resultsArea && allConfigs.length) resultsArea.style.display = 'block';
+        }
+
         filteredConfigs = allConfigs.filter(c => {
             const mp = currentProtocol==='all' || c.protocol===currentProtocol;
             const ms = currentStatus==='all' || c.status===currentStatus;
@@ -1766,8 +1961,226 @@
         return d.innerHTML;
     }
 
+
+    // ---------- Leak Test ----------
+    let leakData = { publicIp: null, geo: null, webrtcIps: [] };
+
+    async function runLeakTest() {
+        document.getElementById('leakPublicIp').textContent = 'Загрузка...';
+        document.getElementById('leakPublicStatus').className = 'leak-status loading';
+        document.getElementById('leakPublicStatus').innerHTML = '<span class="dot checking"></span> Определение...';
+        document.getElementById('leakGeo').textContent = 'Загрузка...';
+        document.getElementById('leakGeoStatus').className = 'leak-status loading';
+        document.getElementById('leakGeoStatus').innerHTML = '<span class="dot checking"></span> Определение...';
+        document.getElementById('leakWebrtc').textContent = 'Проверка...';
+        document.getElementById('leakWebrtcStatus').className = 'leak-status loading';
+        document.getElementById('leakWebrtcStatus').innerHTML = '<span class="dot checking"></span> Сканирование...';
+
+        // Публичный IP
+        try {
+            const res = await fetch('https://ipwho.is/', { cache: 'no-store' });
+            const data = await res.json();
+            if (data.success) {
+                leakData.publicIp = data.ip;
+                leakData.geo = data;
+                document.getElementById('leakPublicIp').textContent = data.ip;
+                document.getElementById('leakPublicStatus').className = 'leak-status safe';
+                document.getElementById('leakPublicStatus').innerHTML = '✅ Определён';
+                document.getElementById('leakGeo').textContent = (data.country || '') + ', ' + (data.city || '') + ' | ' + (data.isp || '—');
+                document.getElementById('leakGeoStatus').className = 'leak-status safe';
+                document.getElementById('leakGeoStatus').innerHTML = '✅ Определена';
+            } else throw new Error('fail');
+        } catch(e) {
+            document.getElementById('leakPublicIp').textContent = 'Ошибка';
+            document.getElementById('leakPublicStatus').className = 'leak-status danger';
+            document.getElementById('leakPublicStatus').innerHTML = '❌ Не удалось';
+            document.getElementById('leakGeo').textContent = 'Ошибка';
+            document.getElementById('leakGeoStatus').className = 'leak-status danger';
+            document.getElementById('leakGeoStatus').innerHTML = '❌ Не удалось';
+        }
+
+        // WebRTC leak test
+        try {
+            const ips = await getWebRTCIPs();
+            leakData.webrtcIps = ips;
+            const container = document.getElementById('leakWebrtc');
+            if (ips.length === 0) {
+                container.textContent = 'Локальные IP не обнаружены';
+                document.getElementById('leakWebrtcStatus').className = 'leak-status safe';
+                document.getElementById('leakWebrtcStatus').innerHTML = '✅ Утечек нет';
+            } else {
+                container.innerHTML = ips.map(ip => `<span class="webrtc-ip">${ip}</span>`).join('');
+                const hasLocal = ips.some(ip => /^(10\.|172\.(1[6-9]|2[0-9]|3[01])\.|192\.168\.|127\.|0\.0\.0\.|fc00:|fe80:)/i.test(ip));
+                if (hasLocal) {
+                    document.getElementById('leakWebrtcStatus').className = 'leak-status warn';
+                    document.getElementById('leakWebrtcStatus').innerHTML = '⚠️ Обнаружены локальные IP';
+                } else {
+                    document.getElementById('leakWebrtcStatus').className = 'leak-status safe';
+                    document.getElementById('leakWebrtcStatus').innerHTML = '✅ Только публичные';
+                }
+            }
+        } catch(e) {
+            document.getElementById('leakWebrtc').textContent = 'Ошибка проверки';
+            document.getElementById('leakWebrtcStatus').className = 'leak-status danger';
+            document.getElementById('leakWebrtcStatus').innerHTML = '❌ Не удалось';
+        }
+    }
+
+    function getWebRTCIPs() {
+        return new Promise((resolve) => {
+            const ips = new Set();
+            const pc = new RTCPeerConnection({ iceServers: [] });
+            pc.createDataChannel('');
+            pc.createOffer().then(o => pc.setLocalDescription(o));
+            pc.onicecandidate = ice => {
+                if (!ice || !ice.candidate || !ice.candidate.candidate) {
+                    pc.close();
+                    resolve([...ips]);
+                    return;
+                }
+                const parts = ice.candidate.candidate.split(' ');
+                const ip = parts[4];
+                if (ip && !ips.has(ip)) ips.add(ip);
+            };
+            setTimeout(() => { pc.close(); resolve([...ips]); }, 3000);
+        });
+    }
+
+    function compareVpnIp() {
+        const expected = document.getElementById('expectedVpnIp').value.trim();
+        const statusEl = document.getElementById('leakCompareStatus');
+        statusEl.style.display = 'inline-flex';
+        if (!expected) {
+            statusEl.className = 'leak-status warn';
+            statusEl.innerHTML = '⚠️ Введите IP';
+            return;
+        }
+        if (!leakData.publicIp) {
+            statusEl.className = 'leak-status loading';
+            statusEl.innerHTML = '<span class="dot checking"></span> Сначала запустите проверку';
+            return;
+        }
+        if (leakData.publicIp === expected) {
+            statusEl.className = 'leak-status safe';
+            statusEl.innerHTML = '✅ IP совпадает — VPN работает';
+        } else {
+            statusEl.className = 'leak-status danger';
+            statusEl.innerHTML = '❌ IP не совпадает — возможна утечка!';
+        }
+    }
+
     // ---------- Старт ----------
     init();
+</script>
+
+
+
+<!-- Фон с частицами -->
+<canvas id="particleCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;"></canvas>
+<script>
+(function() {
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+    const particles = [];
+    const colors = ['#00d4ff', '#7b2cbf', '#ff0080', '#ffa500', '#00ff88', '#ffffff'];
+    const mouse = { x: null, y: null, radius: 150 };
+
+    function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    window.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+
+    class Particle {
+        constructor() {
+            this.x = Math.random() * W;
+            this.y = Math.random() * H;
+            this.vx = (Math.random() - 0.5) * 0.6;
+            this.vy = (Math.random() - 0.5) * 0.6;
+            this.size = Math.random() * 2.5 + 0.8;
+            this.color = colors[Math.floor(Math.random() * colors.length)];
+            this.alpha = Math.random() * 0.5 + 0.3;
+            this.baseAlpha = this.alpha;
+            this.pulseSpeed = Math.random() * 0.02 + 0.005;
+            this.pulseOffset = Math.random() * Math.PI * 2;
+        }
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            if (this.x < 0) this.x = W;
+            if (this.x > W) this.x = 0;
+            if (this.y < 0) this.y = H;
+            if (this.y > H) this.y = 0;
+
+            // Пульсация прозрачности
+            this.alpha = this.baseAlpha + Math.sin(Date.now() * this.pulseSpeed + this.pulseOffset) * 0.15;
+            if (this.alpha < 0.1) this.alpha = 0.1;
+
+            // Отталкивание от курсора
+            if (mouse.x !== null) {
+                const dx = this.x - mouse.x;
+                const dy = this.y - mouse.y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                if (dist < mouse.radius) {
+                    const force = (mouse.radius - dist) / mouse.radius;
+                    const angle = Math.atan2(dy, dx);
+                    this.x += Math.cos(angle) * force * 2;
+                    this.y += Math.sin(angle) * force * 2;
+                }
+            }
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.globalAlpha = this.alpha;
+            ctx.fill();
+            ctx.globalAlpha = 1;
+        }
+    }
+
+    function initParticles() {
+        const count = Math.min(Math.floor((W * H) / 12000), 120);
+        for (let i = 0; i < count; i++) {
+            particles.push(new Particle());
+        }
+    }
+
+    function drawConnections() {
+        const maxDist = 120;
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                if (dist < maxDist) {
+                    const opacity = (1 - dist / maxDist) * 0.12;
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.strokeStyle = `rgba(0, 212, 255, ${opacity})`;
+                    ctx.lineWidth = 0.6;
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, W, H);
+        particles.forEach(p => { p.update(); p.draw(); });
+        drawConnections();
+        requestAnimationFrame(animate);
+    }
+
+    initParticles();
+    animate();
+})();
 </script>
 </body>
 </html>
