@@ -126,6 +126,12 @@
             margin-top: 2px;
             line-height: 1.2;
         }
+        .source-chip .chip-warn {
+            font-size: 0.65rem;
+            color: #ffaa00;
+            margin-top: 2px;
+            line-height: 1.2;
+        }
         .source-chip input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; top:0; left:0; }
 
         .actions-bar {
@@ -443,7 +449,7 @@
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 10px;
             padding: 6px;
-            min-width: 160px;
+            min-width: 180px;
             display: none;
             z-index: 100;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
@@ -459,23 +465,29 @@
             transition: all 0.15s;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
         .dropdown-item:hover {
             background: rgba(255,255,255,0.06);
             color: #fff;
         }
         .dropdown-item .app-icon {
-            width: 18px;
-            height: 18px;
-            border-radius: 4px;
-            background: linear-gradient(135deg, #00d4ff, #7b2cbf);
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.6rem;
-            font-weight: 700;
-            color: white;
+            flex-shrink: 0;
+        }
+        .dropdown-item .app-icon svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         .pagination {
@@ -527,6 +539,16 @@
             font-size: 0.85rem;
             line-height: 1.5;
         }
+        .warn-box {
+            background: rgba(255,170,0,0.06);
+            border: 1px solid rgba(255,170,0,0.15);
+            color: #ffaa55;
+            padding: 14px;
+            border-radius: 12px;
+            margin-top: 12px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
 
         .empty-state { text-align: center; padding: 50px; color: #333; font-size: 0.9rem; }
 
@@ -539,6 +561,7 @@
             .dropdown-menu { left: auto; right: 0; }
         }
     </style>
+<base target="_blank">
 </head>
 <body>
     <div class="container">
@@ -590,7 +613,6 @@
     <div class="toast" id="toast">Скопировано</div>
 
     <script>
-
         const sources = [
             { id: 1,  file: "1.txt",  label: "OpenRay Mix",               rec: true,  sni: false },
             { id: 2,  file: "2.txt",  label: "Subscription",              rec: false, sni: false },
@@ -620,10 +642,16 @@
             { id: 26, file: "26.txt", label: "SNI/CIDR Bypass",           rec: false, sni: true  }
         ];
 
-        const baseUrl = "https://raw.githubusercontent.com/AvenCores/goida-vpn-configs/main/githubmirror/";
+        const endpoints = [
+            { base: "https://cdn.jsdelivr.net/gh/AvenCores/goida-vpn-configs@main/githubmirror/", name: "jsDelivr" },
+            { base: "https://raw.githack.com/AvenCores/goida-vpn-configs/main/githubmirror/", name: "GitHack" },
+            { base: "https://raw.githubusercontent.com/AvenCores/goida-vpn-configs/main/githubmirror/", name: "GitHub Raw" }
+        ];
+
         const corsProxies = [
-            u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
-            u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`
+            u => `https://corsproxy.io/?url=${encodeURIComponent(u)}`,
+            u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+            u => `https://corsproxy.org/?${encodeURIComponent(u)}`
         ];
 
         const appLinks = {
@@ -636,6 +664,16 @@
             'V2RayTun': (cfg) => cfg
         };
 
+        const appIcons = {
+            'Happ': '<svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>',
+            'v2rayNG': '<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
+            'V2Box': '<svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>',
+            'Streisand': '<svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>',
+            'Shadowrocket': '<svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>',
+            'Hiddify': '<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+            'V2RayTun': '<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="11" r="1"/></svg>'
+        };
+
         let allConfigs = [];
         let filteredConfigs = [];
         let currentPage = 1;
@@ -646,6 +684,7 @@
         let checkAbort = false;
         let countryCache = {};
         let openDropdownId = null;
+        let fileMeta = {};
 
         try {
             const saved = localStorage.getItem('vpn_country_cache_v2');
@@ -707,6 +746,7 @@
                     <span class="chip-meta" id="meta-${s.id}">Загрузка...</span>
                     <span class="chip-count" id="count-${s.id}"></span>
                     <span class="chip-protos" id="protos-${s.id}"></span>
+                    <span class="chip-warn" id="warn-${s.id}"></span>
                 </label>
             `).join('');
             loadMetadata();
@@ -716,13 +756,25 @@
         async function loadMetadata() {
             sources.forEach(s => {
                 document.getElementById('meta-' + s.id).textContent = 'Загрузка...';
+                document.getElementById('warn-' + s.id).textContent = '';
             });
             try {
-                const res = await fetch('https://api.github.com/repos/AvenCores/goida-vpn-configs/contents/githubmirror', {cache:'no-store'});
-                if (!res.ok) throw new Error('API error');
+                let res;
+                try {
+                    res = await fetch('https://api.github.com/repos/AvenCores/goida-vpn-configs/contents/githubmirror', {cache:'no-store'});
+                } catch(e) {
+                    for (const p of corsProxies) {
+                        try {
+                            res = await fetch(p('https://api.github.com/repos/AvenCores/goida-vpn-configs/contents/githubmirror'), {cache:'no-store'});
+                            if (res.ok) break;
+                        } catch(e2) {}
+                    }
+                }
+                if (!res || !res.ok) throw new Error('API error');
                 const files = await res.json();
                 const fileMap = {};
                 files.forEach(f => { if (f.type === 'file') fileMap[f.name] = f; });
+                fileMeta = fileMap;
 
                 const batchSize = 5;
                 for (let i = 0; i < sources.length; i += batchSize) {
@@ -730,6 +782,7 @@
                     await Promise.all(batch.map(async s => {
                         const f = fileMap[s.file];
                         const metaEl = document.getElementById('meta-' + s.id);
+                        const warnEl = document.getElementById('warn-' + s.id);
                         if (!f) { metaEl.textContent = 'Нет данных'; return; }
 
                         let dateStr = '';
@@ -745,11 +798,15 @@
                         const sizeStr = formatSize(f.size);
                         const approxCount = Math.round(f.size / 220);
                         metaEl.textContent = `${approxCount.toLocaleString('ru')} серверов  |  ${sizeStr}  |  ${dateStr}`;
+
+                        if (f.size > 20 * 1024 * 1024) {
+                            warnEl.textContent = '⚠️ Файл >20 МБ, может не загрузиться';
+                        }
                     }));
                 }
             } catch(e) {
                 sources.forEach(s => {
-                    document.getElementById('meta-' + s.id).textContent = 'Недоступно (CORS)';
+                    document.getElementById('meta-' + s.id).textContent = 'Недоступно';
                 });
             }
         }
@@ -808,11 +865,31 @@
             return 'other';
         }
 
-        async function fetchText(url) {
-            try { const r = await fetch(url, {cache:'no-store'}); if (r.ok) return await r.text(); } catch(e){}
-            for (const p of corsProxies) {
-                try { const r = await fetch(p(url), {cache:'no-store'}); if (r.ok) return await r.text(); } catch(e){}
+        async function fetchText(fileName) {
+            const errors = [];
+
+            for (const ep of endpoints.slice(0, 2)) {
+                try {
+                    const ctrl = new AbortController();
+                    const to = setTimeout(() => ctrl.abort(), 15000);
+                    const r = await fetch(ep.base + fileName, {cache:'no-store', signal: ctrl.signal});
+                    clearTimeout(to);
+                    if (r.ok) return await r.text();
+                } catch(e) { errors.push(ep.name + ': ' + e.message); }
             }
+
+            const rawUrl = endpoints[2].base + fileName;
+            for (const p of corsProxies) {
+                try {
+                    const ctrl = new AbortController();
+                    const to = setTimeout(() => ctrl.abort(), 15000);
+                    const r = await fetch(p(rawUrl), {cache:'no-store', signal: ctrl.signal});
+                    clearTimeout(to);
+                    if (r.ok) return await r.text();
+                } catch(e) { errors.push('proxy: ' + e.message); }
+            }
+
+            console.warn('Failed to load ' + fileName, errors);
             return null;
         }
 
@@ -826,6 +903,7 @@
             document.getElementById('errorBox').innerHTML = '';
             document.getElementById('resultsArea').style.display = 'none';
             allConfigs = [];
+            let skipped = [];
 
             const sel = sources.filter(s => ids.includes(s.id));
             for (let i = 0; i < sel.length; i++) {
@@ -834,8 +912,19 @@
                 document.getElementById('progressBar').style.width = Math.round((i/sel.length)*100) + '%';
                 document.getElementById('progressText').textContent = 'Загрузка ' + s.label + '...';
                 document.getElementById('progressCount').textContent = (i+1) + '/' + sel.length;
-                const text = await fetchText(baseUrl + s.file);
-                if (!text) continue;
+
+                const meta = fileMeta[s.file];
+                if (meta && meta.size > 20 * 1024 * 1024) {
+                    skipped.push(s.label + ' (' + formatSize(meta.size) + ')');
+                    document.getElementById('count-' + s.id).textContent = 'Пропущен (слишком большой)';
+                    continue;
+                }
+
+                const text = await fetchText(s.file);
+                if (!text) {
+                    document.getElementById('count-' + s.id).textContent = 'Ошибка загрузки';
+                    continue;
+                }
                 const lines = text.split(/\r?\n/).filter(l=>l.trim());
                 const protos = new Set();
                 lines.forEach(line => {
@@ -863,7 +952,11 @@
             document.getElementById('progressText').textContent = 'Загружено ' + allConfigs.length + ' конфигов. Проверка...';
 
             if (!allConfigs.length) {
-                document.getElementById('errorBox').innerHTML = '<div class="error-box">Не удалось загрузить конфиги. Попробуйте открыть через локальный сервер.</div>';
+                let errHtml = '<div class="error-box">Не удалось загрузить конфиги.</div>';
+                if (skipped.length) {
+                    errHtml += '<div class="warn-box">Пропущены слишком большие файлы: ' + skipped.join(', ') + '.<br>Для их загрузки откройте страницу через локальный сервер (например, <code>npx serve</code> или <code>python -m http.server</code>).</div>';
+                }
+                document.getElementById('errorBox').innerHTML = errHtml;
                 btn.disabled = false;
                 return;
             }
@@ -1019,7 +1112,7 @@
         }
 
         function renderDropdown(idx) {
-            const apps = ['Happ', 'v2rayNG', 'V2Box', 'Streisand', 'Shadowrocket', 'Hiddify'];
+            const apps = ['Happ', 'v2rayNG', 'V2Box', 'Streisand', 'Shadowrocket', 'Hiddify', 'V2RayTun'];
             return `
                 <div class="dropdown-wrap" id="dropdown-${idx}">
                     <button class="btn-add" onclick="toggleDropdown(${idx}, event)">
@@ -1027,7 +1120,7 @@
                         Добавить
                     </button>
                     <div class="dropdown-menu">
-                        ${apps.map(app => `<div class="dropdown-item" onclick="openInApp(${idx}, '${app}')"><span class="app-icon">${app[0]}</span>${app}</div>`).join('')}
+                        ${apps.map(app => `<div class="dropdown-item" onclick="openInApp(${idx}, '${app}')"><span class="app-icon">${appIcons[app]}</span>${app}</div>`).join('')}
                     </div>
                 </div>
             `;
@@ -1150,14 +1243,41 @@
             sortConfigs(); applyFilters();
         }
 
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg || 'Скопировано';
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 1500);
+        }
+
         function copyCfg(idx) {
             const c = allConfigs.find(x => x.id === idx);
             if (!c) return;
-            navigator.clipboard.writeText(c.config).then(() => {
-                const t = document.getElementById('toast');
-                t.classList.add('show');
-                setTimeout(() => t.classList.remove('show'), 1500);
-            });
+            const text = c.config;
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => showToast()).catch(() => fallbackCopy(text));
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            ta.style.top = '0';
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            try {
+                const ok = document.execCommand('copy');
+                showToast(ok ? 'Скопировано' : 'Не удалось скопировать');
+            } catch(e) {
+                showToast('Ошибка копирования');
+            }
+            document.body.removeChild(ta);
         }
 
         function clearResults() {
