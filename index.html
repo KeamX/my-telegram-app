@@ -1212,7 +1212,7 @@
 <div class="container">
     <div class="hero">
         <h1><span>V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks</span></h1>
-        <div class="hero-sub">V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks — <span style="color:#888;">нажмите на бейдж совместимости чтобы отметить работает ли сервер на мобильном интернете, WiFi или везде</span></div>
+        <div class="hero-sub">V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks<span style="color:#888;"></span></div>
         <div class="hero-line"></div>
         <div class="author-link">✦ Автор: <a href="https://t.me/Keamxxd" target="_blank">@Keamxxd</a> ✦</div>
         <div class="stats-bar" id="globalStats">
@@ -1355,13 +1355,13 @@
         { id: 24, file: "24.txt", label: "Vify",                      rec: false,  sni: false },
         { id: 25, file: "25.txt", label: "V2Ray Config",              rec: false,  sni: false },
         { id: 26, file: "26.txt", label: "SNI/CIDR Bypass",           rec: false, sni: false  },
-        { id: 27, file: "all_proxy_configs.json",         label: "KeamX — All Configs",       rec: false, sni: false, source: "keamx", isJson: true },
-        { id: 28, file: "hysteria2_links.txt",      label: "KeamX — Hysteria2",         rec: false, sni: false, source: "keamx" },
-        { id: 29, file: "shadowsocks_links.txt",    label: "KeamX — Shadowsocks",       rec: false, sni: false, source: "keamx" },
-        { id: 30, file: "trojan_links.txt",         label: "KeamX — Trojan",            rec: false, sni: false, source: "keamx" },
-        { id: 31, file: "unique_servers.txt",       label: "KeamX — Unique Servers",    rec: false, sni: false, source: "keamx" },
-        { id: 32, file: "vless_links.txt",          label: "KeamX — VLESS",             rec: false, sni: false, source: "keamx" },
-        { id: 33, file: "vmess_links.txt",          label: "KeamX — VMess",             rec: false, sni: false, source: "keamx" }
+        { id: 27, file: "hysteria2_links.txt",      label: "KeamX — Hysteria2",         rec: false, sni: false, source: "keamx" },
+        { id: 28, file: "shadowsocks_links.txt",    label: "KeamX — Shadowsocks",       rec: false, sni: false, source: "keamx" },
+        { id: 29, file: "trojan_links.txt",         label: "KeamX — Trojan",            rec: false, sni: false, source: "keamx" },
+        { id: 30, file: "unique_servers.txt",       label: "KeamX — Unique Servers",    rec: false, sni: false, source: "keamx" },
+        { id: 31, file: "vless_links.txt",          label: "KeamX — VLESS",             rec: false, sni: false, source: "keamx" },
+        { id: 32, file: "vmess_links.txt",          label: "KeamX — VMess",             rec: false, sni: false, source: "keamx" },
+        { id: 33, file: "PROFILE_FULL_CONFIG.txt",  label: "KeamX — Profile Full",      rec: false, sni: false, source: "keamx" }
     ];
 
     const endpoints = [
@@ -1524,6 +1524,64 @@
         return { host: '', port: '' };
     }
 
+    function convertKeamxJsonToUri(obj) {
+        try {
+            const type = (obj.configType || '').toUpperCase();
+            const server = obj.server || '';
+            const port = obj.serverPort || '';
+            const pwd = obj.password || '';
+            const remarks = encodeURIComponent(obj.remarks || obj.description || '');
+            const params = new URLSearchParams();
+
+            if (type === 'VLESS') {
+                if (obj.security) params.set('security', obj.security);
+                if (obj.sni) params.set('sni', obj.sni);
+                if (obj.host) params.set('host', obj.host);
+                if (obj.path) params.set('path', obj.path);
+                if (obj.network) params.set('type', obj.network);
+                if (obj.fingerPrint) params.set('fp', obj.fingerPrint);
+                if (obj.flow) params.set('flow', obj.flow);
+                if (obj.publicKey) params.set('pbk', obj.publicKey);
+                if (obj.shortId) params.set('sid', obj.shortId);
+                if (obj.insecure === true || obj.insecure === 'true') params.set('allowInsecure', '1');
+                const q = params.toString() ? '?' + params.toString() : '';
+                return `vless://${pwd}@${server}:${port}${q}#${remarks}`;
+            }
+            if (type === 'VMESS') {
+                const vmessObj = {
+                    v: '2', ps: obj.remarks || obj.description || '', add: server, port: String(port),
+                    id: pwd, aid: '0', scy: obj.method || 'auto', net: obj.network || 'tcp',
+                    type: obj.headerType || 'none', host: obj.host || '', path: obj.path || '',
+                    tls: obj.security || '', sni: obj.sni || '', fp: obj.fingerPrint || ''
+                };
+                const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(vmessObj))));
+                return `vmess://${b64}#${remarks}`;
+            }
+            if (type === 'TROJAN') {
+                if (obj.security) params.set('security', obj.security);
+                if (obj.sni) params.set('sni', obj.sni);
+                if (obj.host) params.set('host', obj.host);
+                if (obj.path) params.set('path', obj.path);
+                if (obj.network) params.set('type', obj.network);
+                if (obj.insecure === true || obj.insecure === 'true') params.set('allowInsecure', '1');
+                const q = params.toString() ? '?' + params.toString() : '';
+                return `trojan://${pwd}@${server}:${port}${q}#${remarks}`;
+            }
+            if (type === 'SHADOWSOCKS') {
+                const method = obj.method || 'none';
+                const userInfo = btoa(unescape(encodeURIComponent(`${method}:${pwd}`)));
+                return `ss://${userInfo}@${server}:${port}#${remarks}`;
+            }
+            if (type === 'HYSTERIA2') {
+                if (obj.sni) params.set('sni', obj.sni);
+                if (obj.insecure === true || obj.insecure === 'true') params.set('insecure', '1');
+                const q = params.toString() ? '?' + params.toString() : '';
+                return `hysteria2://${pwd}@${server}:${port}${q}#${remarks}`;
+            }
+            return null;
+        } catch(e) { return null; }
+    }
+
     function normalizeShadowsocks(cfg) {
         if (!cfg || !cfg.startsWith('ss://')) return cfg;
         try {
@@ -1576,10 +1634,11 @@
 
     async function fetchText(fileName, sourceType) {
         const eps = sourceType === 'keamx' ? keamxEndpoints : endpoints;
+        const timeoutMs = sourceType === 'keamx' ? 30000 : 10000;
         for (const ep of eps.slice(0,2)) {
             try {
                 const ctrl = new AbortController();
-                const to = setTimeout(()=>ctrl.abort(), 10000);
+                const to = setTimeout(()=>ctrl.abort(), timeoutMs);
                 const r = await fetch(ep.base+fileName, {cache:'no-store', signal:ctrl.signal});
                 clearTimeout(to);
                 if (r.ok) return await r.text();
@@ -1589,7 +1648,7 @@
         for (const p of corsProxies) {
             try {
                 const ctrl = new AbortController();
-                const to = setTimeout(()=>ctrl.abort(), 10000);
+                const to = setTimeout(()=>ctrl.abort(), timeoutMs);
                 const r = await fetch(p(rawUrl), {cache:'no-store', signal:ctrl.signal});
                 clearTimeout(to);
                 if (r.ok) return await r.text();
@@ -1641,10 +1700,11 @@
                 let size = null;
                 // Пробуем HEAD запрос через endpoints
                 const metaEps = s.source === 'keamx' ? keamxEndpoints : endpoints;
+                const metaTimeout = s.source === 'keamx' ? 15000 : 5000;
                 for (const ep of metaEps) {
                     try {
                         const ctrl = new AbortController();
-                        const to = setTimeout(()=>ctrl.abort(), 5000);
+                        const to = setTimeout(()=>ctrl.abort(), metaTimeout);
                         const res = await fetch(ep.base + s.file, { method: 'HEAD', cache: 'no-store', signal: ctrl.signal });
                         clearTimeout(to);
                         if (res.ok) {
@@ -1658,7 +1718,7 @@
                     for (const p of corsProxies) {
                         try {
                             const ctrl = new AbortController();
-                            const to = setTimeout(()=>ctrl.abort(), 6000);
+                            const to = setTimeout(()=>ctrl.abort(), metaTimeout + 1000);
                             const res = await fetch(p(metaEps[0].base + s.file), { method: 'HEAD', cache: 'no-store', signal: ctrl.signal });
                             clearTimeout(to);
                             if (res.ok) {
@@ -1673,7 +1733,7 @@
                     for (const ep of metaEps) {
                         try {
                             const ctrl = new AbortController();
-                            const to = setTimeout(()=>ctrl.abort(), 5000);
+                            const to = setTimeout(()=>ctrl.abort(), metaTimeout);
                             const res = await fetch(ep.base + s.file, { headers: {'Range':'bytes=0-0'}, cache: 'no-store', signal: ctrl.signal });
                             clearTimeout(to);
                             if (res.ok || res.status === 206) {
@@ -1719,6 +1779,67 @@
     }
 
     // ---------- Загрузка и проверка ----------
+    function parseKeamxText(text) {
+        const lines = [];
+        // Попытка 1: валидный JSON-массив объектов (KeamX JSON sources)
+        try {
+            const jsonData = JSON.parse(text);
+            if (Array.isArray(jsonData)) {
+                jsonData.forEach(o => {
+                    if (o && typeof o === 'object') {
+                        const uri = convertKeamxJsonToUri(o);
+                        if (uri) lines.push(uri);
+                    } else if (typeof o === 'string' && o.trim()) {
+                        lines.push(o.trim());
+                    }
+                });
+                if (lines.length > 0) return lines;
+            }
+        } catch(e) {}
+        // Попытка 2: извлечь JSON-объекты из бинарного/текстового мусора (PROFILE_FULL_CONFIG.txt)
+        let i = 0;
+        while (i < text.length) {
+            const idx = text.indexOf('{"addedTime"', i);
+            if (idx === -1) break;
+            let depth = 0;
+            let j = idx;
+            let inString = false;
+            let escape = false;
+            while (j < text.length) {
+                const ch = text[j];
+                if (escape) {
+                    escape = false;
+                } else if (ch === '\\') {
+                    escape = true;
+                } else if (ch === '"') {
+                    inString = !inString;
+                } else if (!inString) {
+                    if (ch === '{') depth++;
+                    else if (ch === '}') {
+                        depth--;
+                        if (depth === 0) {
+                            const objStr = text.slice(idx, j + 1);
+                            try {
+                                const obj = JSON.parse(objStr);
+                                const uri = convertKeamxJsonToUri(obj);
+                                if (uri) lines.push(uri);
+                            } catch(e) {}
+                            i = j + 1;
+                            break;
+                        }
+                    }
+                }
+                j++;
+            }
+            if (j >= text.length) break;
+        }
+        // Fallback 3: построчный сплит
+        if (lines.length === 0) {
+            return text.split(/\r?\n/).filter(l => l.trim());
+        }
+        return lines;
+    }
+
     async function startLoading() {
         const ids = getSelected();
         if (!ids.length) { alert('Выберите источники'); return; }
@@ -1740,7 +1861,7 @@
             document.getElementById('progressCount').textContent = (i+1)+'/'+sel.length;
 
             const meta = fileMeta[s.file];
-            if (meta && meta.size > 20*1024*1024) {
+            if (!s.source && meta && meta.size > 20*1024*1024) {
                 skipped.push(s.label+' ('+formatSize(meta.size)+')');
                 document.getElementById('count-'+s.id).textContent = 'Пропущен (большой)';
                 continue;
@@ -1751,12 +1872,20 @@
                 continue;
             }
             let lines = [];
-            if (s.isJson) {
+            if (s.source === 'keamx') {
+                lines = parseKeamxText(text);
+            } else if (s.isJson) {
                 try {
                     const jsonData = JSON.parse(text);
-                    if (Array.isArray(jsonData)) lines = jsonData.filter(l=>typeof l==='string' && l.trim());
-                    else if (jsonData.configs && Array.isArray(jsonData.configs)) lines = jsonData.configs.filter(l=>typeof l==='string' && l.trim());
-                    else if (typeof jsonData === 'object') lines = Object.values(jsonData).flat().filter(l=>typeof l==='string' && l.trim());
+                    if (Array.isArray(jsonData) && jsonData.length > 0 && typeof jsonData[0] === 'object') {
+                        lines = jsonData.map(o => convertKeamxJsonToUri(o)).filter(l => l);
+                    } else if (Array.isArray(jsonData)) {
+                        lines = jsonData.filter(l => typeof l === 'string' && l.trim());
+                    } else if (jsonData.configs && Array.isArray(jsonData.configs)) {
+                        lines = jsonData.configs.filter(l => typeof l === 'string' && l.trim());
+                    } else if (typeof jsonData === 'object') {
+                        lines = Object.values(jsonData).flat().filter(l => typeof l === 'string' && l.trim());
+                    }
                 } catch(e) { lines = text.split(/\r?\n/).filter(l=>l.trim()); }
             } else {
                 lines = text.split(/\r?\n/).filter(l=>l.trim());
