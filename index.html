@@ -1212,7 +1212,7 @@
 <div class="container">
     <div class="hero">
         <h1><span>V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks</span></h1>
-        <div class="hero-sub">V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks<span style="color:#888;"></span></div>
+        <div class="hero-sub">V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks</div>
         <div class="hero-line"></div>
         <div class="author-link">✦ Автор: <a href="https://t.me/Keamxxd" target="_blank">@Keamxxd</a> ✦</div>
         <div class="stats-bar" id="globalStats">
@@ -1360,8 +1360,7 @@
         { id: 29, file: "trojan_links.txt",         label: "KeamX — Trojan",            rec: false, sni: false, source: "keamx" },
         { id: 30, file: "unique_servers.txt",       label: "KeamX — Unique Servers",    rec: false, sni: false, source: "keamx" },
         { id: 31, file: "vless_links.txt",          label: "KeamX — VLESS",             rec: false, sni: false, source: "keamx" },
-        { id: 32, file: "vmess_links.txt",          label: "KeamX — VMess",             rec: false, sni: false, source: "keamx" },
-        { id: 33, file: "PROFILE_FULL_CONFIG.txt",  label: "KeamX — Profile Full",      rec: false, sni: false, source: "keamx" }
+        { id: 32, file: "vmess_links.txt",          label: "KeamX — VMess",             rec: false, sni: false, source: "keamx" }
     ];
 
     const endpoints = [
@@ -1796,7 +1795,7 @@
                 if (lines.length > 0) return lines;
             }
         } catch(e) {}
-        // Попытка 2: извлечь JSON-объекты из бинарного/текстового мусора (PROFILE_FULL_CONFIG.txt)
+        // Попытка 2: извлечь JSON-объекты из бинарного/текстового мусора (KeamX бинарные файлы)
         let i = 0;
         while (i < text.length) {
             const idx = text.indexOf('{"addedTime"', i);
