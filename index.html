@@ -1127,62 +1127,49 @@
         .service-item.fail .service-status { color: #ff4444; }
         .service-item.checking .service-status { color: #00d4ff; }
     
-        /* Region badges в карточках */
-        .card-region-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin-top: 8px;
-        }
-        .card-region-badge {
+        /* Network Compatibility Badges */
+        .compat-badge {
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            padding: 3px 9px;
-            border-radius: 8px;
+            padding: 2px 8px;
+            border-radius: 6px;
             font-size: 0.68rem;
-            font-weight: 700;
+            font-weight: 800;
             border: 1px solid transparent;
+            cursor: pointer;
             transition: all 0.2s;
+            user-select: none;
         }
-        .card-region-badge.ok {
-            background: rgba(0,255,136,0.08);
-            color: #00ff88;
-            border-color: rgba(0,255,136,0.15);
+        .compat-badge:hover { transform: scale(1.05); }
+        .compat-badge.unknown {
+            background: rgba(255,255,255,0.03);
+            color: #666;
+            border-color: rgba(255,255,255,0.08);
         }
-        .card-region-badge.fail {
-            background: rgba(255,68,68,0.08);
-            color: #ff4444;
-            border-color: rgba(255,68,68,0.15);
-        }
-        .card-region-badge.checking {
+        .compat-badge.mobile {
             background: rgba(0,212,255,0.08);
             color: #00d4ff;
-            border-color: rgba(0,212,255,0.15);
+            border-color: rgba(0,212,255,0.2);
         }
-        .card-region-badge.unknown {
-            background: rgba(255,255,255,0.03);
-            color: #555;
-            border-color: rgba(255,255,255,0.06);
+        .compat-badge.wifi {
+            background: rgba(123,44,191,0.08);
+            color: #c77dff;
+            border-color: rgba(123,44,191,0.2);
         }
-        .card-region-badge .r-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            display: inline-block;
+        .compat-badge.both {
+            background: rgba(0,255,136,0.08);
+            color: #00ff88;
+            border-color: rgba(0,255,136,0.2);
         }
-        .card-region-badge.ok .r-dot { background: #00ff88; box-shadow: 0 0 4px #00ff88; }
-        .card-region-badge.fail .r-dot { background: #ff4444; box-shadow: 0 0 4px #ff4444; }
-        .card-region-badge.checking .r-dot { background: #00d4ff; box-shadow: 0 0 4px #00d4ff; animation: pulse 1s infinite; }
-        .card-region-badge.unknown .r-dot { background: #333; }
+
     </style>
-<base target="_blank">
 </head>
 <body>
 <div class="container">
     <div class="hero">
         <h1><span>V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks</span></h1>
-        <div class="hero-sub">V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks</div>
+        <div class="hero-sub">V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks — <span style="color:#888;">нажмите на бейдж совместимости чтобы отметить работает ли сервер на мобильном интернете, WiFi или везде</span></div>
         <div class="hero-line"></div>
         <div class="author-link">✦ Автор: <a href="https://t.me/Keamxxd" target="_blank">@Keamxxd</a> ✦</div>
         <div class="stats-bar" id="globalStats">
@@ -1198,7 +1185,7 @@
         <button class="tab-btn active" data-tab="all"><span class="icon">📋</span> Все</button>
         <button class="tab-btn" data-tab="working"><span class="icon">✅</span> Рабочие</button>
         <button class="tab-btn" data-tab="favorites"><span class="icon">⭐</span> Избранное</button>
-        <button class="tab-btn" data-tab="devices"><span class="icon">📱</span> По устройствам</button>
+        
         <button class="tab-btn" data-tab="leaktest"><span class="icon">🔒</span> Проверка утечек</button>
     </div>
 
@@ -1296,6 +1283,28 @@
 <div class="toast" id="toast">Скопировано</div>
 
 <script>
+
+    // ---------- Inline Hysteria2 Configs ----------
+    const inlineConfigs = {
+        "hysteria2_inline.txt": `hysteria2://qQe1z5kU8kN6SlKnDt9Ru3Qp@vpn-us-008.fastervpn.world:443?sni=vpn-us-008.fastervpn.world&insecure=true#%F0%9F%87%BA%F0%9F%87%B8%20United%20States%2C%20Los%20Angeles%20%28Central-Alameda%29%20%7C%20%5BBL%5D
+hysteria2://0d892bc7-41c5-4dc5-90bb-40dfc0043dd5@51.195.241.243:50000?sni=bing.com&insecure=true#%F0%9F%87%AC%F0%9F%87%A7%20United%20Kingdom%2C%20London%20%28City%20of%20London%29%20%7C%20%5BBL%5D
+hysteria2://hysteria2_fastlane_ov6xi6f0e:pZNMlRhaFgZFCcAsNjxbOtwCO5Z5Hrsk@91.132.160.243:1935?sni=de6.h.fastlanehosting.ru&insecure=false#%F0%9F%87%AC%F0%9F%87%A7%20United%20Kingdom%2C%20Coventry%20%7C%20%F0%9F%8C%90%20%7C%20%5BIPv6%5D%20%7C%20%5BBL%5D
+hysteria2://123456789StrongPass@144.31.224.14:443?sni=www.cloudflare.com&insecure=true#%F0%9F%87%B3%F0%9F%87%B1%20The%20Netherlands%2C%20Amsterdam%20%7C%20%5BBL%5D
+hysteria2://123456789StrongPass@144.31.224.14:443?insecure=true#%F0%9F%87%B3%F0%9F%87%B1%20The%20Netherlands%2C%20Amsterdam%20%7C%20%5BBL%5D
+hysteria2://qQe1z5kU8kN6SlKnDt9Ru3Qp@vpn-jp-016.fastervpn.world:443?sni=vpn-jp-016.fastervpn.world&insecure=true#%F0%9F%87%AF%F0%9F%87%B5%20Japan%2C%20Chiyoda%20City%20%7C%20%5BBL%5D
+hysteria2://79d73809-f5ed-4099-8588-ba77578def1d@iij.mggl.wang:35789?sni=iij.mggl.wang&insecure=true#%F0%9F%87%AF%F0%9F%87%B5%20Japan%20%7C%20%F0%9F%8C%90%20%7C%20%5BIPv6%5D%20%7C%20%5BBL%5D
+hysteria2://1b9c460e-f026-11ef-b737-f23c91cfbbc9@9b13ea8f-t70f40-t7t5pe-1s0a7.hk1.hyhuawei.com:443?insecure=true#%F0%9F%87%AD%F0%9F%87%B0%20Hong%20Kong%2C%20Central%20%7C%20%5BBL%5D
+hysteria2://hysteria2_fastlane_330po3z5f:eCdziHDjXbnxzdt9eEziiuFxQlScnBxD@150.241.78.128:1935?sni=de9.h.fastlanehosting.ru&insecure=false#%F0%9F%87%A9%F0%9F%87%AA%20Germany%2C%20Frankfurt%20am%20Main%20%28Innenstadt%20I%29%20%7C%20%5BBL%5D
+hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.com&insecure=true#%F0%9F%87%A9%F0%9F%87%AA%20Germany%2C%20Frankfurt%20am%20Main%20%7C%20%5BBL%5D
+hysteria2://dongtaiwang.com@62.210.124.146:22000?sni=www.microsoft.com&insecure=true#%F0%9F%87%AB%F0%9F%87%B7%20France%2C%20Paris%20%7C%20%F0%9F%8C%90%20%7C%20%5BIPv6%5D%20%7C%20%5BBL%5D
+hysteria2://dongtaiwang.com@62.210.124.146:22000?sni=www.microsoft.com&insecure=false#%F0%9F%87%AB%F0%9F%87%B7%20France%2C%20Paris%20%7C%20%F0%9F%8C%90%20%7C%20%5BIPv6%5D%20%7C%20%5BBL%5D
+hysteria2://qQe1z5kU8kN6SlKnDt9Ru3Qp@vpn-us-006.fastervpn.world:443?sni=vpn-us-006.fastervpn.world&insecure=true#%F0%9F%87%BA%F0%9F%87%B8%20United%20States%2C%20Los%20Angeles%20%28Central-Alameda%29%20%7C%20%5BBL%5D
+hysteria2://qQe1z5kU8kN6SlKnDt9Ru3Qp@vpn-jp-007.fastervpn.world:443?sni=vpn-jp-007.fastervpn.world&insecure=true#%F0%9F%87%AF%F0%9F%87%B5%20Japan%2C%20Shibuya%20City%20%7C%20%5BBL%5D
+hysteria2://hysteria2_fastlane_jwiedq1o6:gJ4QaCJfdNQffhf2p4YkDqwSwj588q7D@5.181.21.132:1935?sni=at1.h.smartaisupport.ru&insecure=false#%F0%9F%87%A6%F0%9F%87%B9%20Austria%2C%20Vienna%20%7C%20%5BBL%5D
+hysteria2://123456789StrongPass@144.31.224.14:443?sni=eh.vk.com&insecure=true#%F0%9F%87%B3%F0%9F%87%B1%20The%20Netherlands%20%5BSNI-RU%5D%20eh.vk.com
+hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.com&insecure=true#%F0%9F%87%A9%F0%9F%87%AA%20Germany%20%5B%2ACIDR%5D`
+    };
+
     // ---------- Исходные данные ----------
     const sources = [
         { id: 1,  file: "1.txt",  label: "OpenRay Mix",               rec: true,  sni: false },
@@ -1370,7 +1379,8 @@
     let fileMeta = {};
     let openDropdownId = null;
     let favoriteIds = new Set();
-    let deviceMap = {};
+    
+    let networkCompatMap = {};
     let autoUpdateInterval = null;
     let autoUpdateEnabled = false;
     let sortMode = 'ping';
@@ -1383,8 +1393,8 @@
         if (savedFav) favoriteIds = new Set(JSON.parse(savedFav));
     } catch(e) {}
     try {
-        const savedDev = localStorage.getItem('vpn_devices');
-        if (savedDev) deviceMap = JSON.parse(savedDev);
+        const savedCompat = localStorage.getItem('vpn_network_compat');
+        if (savedCompat) networkCompatMap = JSON.parse(savedCompat);
     } catch(e) {}
     try {
         const saved = localStorage.getItem('vpn_country_cache_v2');
@@ -1392,8 +1402,29 @@
     } catch(e) {}
 
     function saveFavorites() { localStorage.setItem('vpn_favorites', JSON.stringify([...favoriteIds])); }
-    function saveDevices() { localStorage.setItem('vpn_devices', JSON.stringify(deviceMap)); }
     function saveCountryCache() { try { localStorage.setItem('vpn_country_cache_v2', JSON.stringify(countryCache)); } catch(e) {} }
+
+    function detectNetworkCompat(port, protocol) {
+        const p = parseInt(port);
+        if (protocol === 'reality') return 'both';
+        if (p === 443 || p === 80) return 'both';
+        return 'unknown';
+    }
+    function saveNetworkCompat() { try { localStorage.setItem('vpn_network_compat', JSON.stringify(networkCompatMap)); } catch(e) {} }
+    function toggleNetworkCompat(idx) {
+        const cycle = ['unknown','mobile','wifi','both'];
+        const cur = networkCompatMap[idx] || 'unknown';
+        const next = cycle[(cycle.indexOf(cur)+1) % cycle.length];
+        networkCompatMap[idx] = next;
+        saveNetworkCompat();
+        const c = allConfigs.find(x=>x.id===idx);
+        if (c) c.networkCompat = next;
+        refreshCard(c.id);
+    }
+    function getCompatLabel(code) {
+        const map = { unknown:'❓ Не проверено', mobile:'📱 Только мобильный', wifi:'🖥️ Только WiFi', both:'✅ Везде работает' };
+        return map[code] || map.unknown;
+    }
 
     // ---------- Вспомогательные функции ----------
     function getFlagEmoji(cc) {
@@ -1469,6 +1500,7 @@
     }
 
     async function fetchText(fileName) {
+        if (inlineConfigs[fileName]) return inlineConfigs[fileName];
         for (const ep of endpoints.slice(0,2)) {
             try {
                 const ctrl = new AbortController();
@@ -1531,6 +1563,16 @@
             await Promise.all(batch.map(async s => {
                 const metaEl = document.getElementById('meta-'+s.id);
                 const warnEl = document.getElementById('warn-'+s.id);
+                if (s.inline && inlineConfigs[s.file]) {
+                    const lines = inlineConfigs[s.file].split(/\r?\n/).filter(l=>l.trim());
+                    metaEl.textContent = lines.length.toLocaleString('ru')+' серверов  |  Встроено';
+                    document.getElementById('count-'+s.id).textContent = lines.length.toLocaleString('ru')+' серверов';
+                    const protos = new Set();
+                    lines.forEach(l => protos.add(detectProtocol(l)));
+                    document.getElementById('protos-'+s.id).textContent = Array.from(protos).join(' / ');
+                    fileMap[s.file] = { size: inlineConfigs[s.file].length };
+                    return;
+                }
                 let size = null;
                 // Пробуем HEAD запрос через endpoints
                 for (const ep of endpoints) {
@@ -1637,7 +1679,7 @@
             document.getElementById('progressCount').textContent = (i+1)+'/'+sel.length;
 
             const meta = fileMeta[s.file];
-            if (meta && meta.size > 20*1024*1024) {
+            if (!s.inline && meta && meta.size > 20*1024*1024) {
                 skipped.push(s.label+' ('+formatSize(meta.size)+')');
                 document.getElementById('count-'+s.id).textContent = 'Пропущен (большой)';
                 continue;
@@ -1666,13 +1708,14 @@
                     country: null,
                     favorite: favoriteIds.has(allConfigs.length),
                     speed: null,
-                    details: null
+                    details: null,
+                    networkCompat: networkCompatMap[allConfigs.length] || detectNetworkCompat(hi.port, proto)
                 });
             });
             document.getElementById('count-'+s.id).textContent = lines.length.toLocaleString('ru')+' серверов';
             document.getElementById('protos-'+s.id).textContent = Array.from(protos).join(' / ');
         }
-        allConfigs.forEach(c=>{ c.favorite = favoriteIds.has(c.id); });
+        allConfigs.forEach(c=>{ c.favorite = favoriteIds.has(c.id); if(!c.networkCompat) c.networkCompat = networkCompatMap[c.id] || detectNetworkCompat(c.port, c.protocol); });
 
         document.getElementById('progressBar').style.width = '100%';
         document.getElementById('progressText').textContent = 'Загружено '+allConfigs.length+' конфигов. Проверка...';
@@ -1723,10 +1766,6 @@
         if (pingOnlyResult.anyResponse) {
             c.status = 'online';
             c.ping = pingOnlyResult.bestPing;
-            // Если глобальная проверка сервисов уже завершена — копируем результаты
-            if (globalRegionStatus) {
-                c.regions = { ...globalRegionStatus };
-            }
         } else {
             c.status = 'offline';
             c.ping = null;
@@ -1885,7 +1924,7 @@
             let mt = true;
             if (tab==='working') mt = c.status==='online' && (c.ping!==null && c.ping<500);
             else if (tab==='favorites') mt = favoriteIds.has(c.id);
-            else if (tab==='devices') mt = deviceMap[c.id] && deviceMap[c.id].length>0;
+            // вкладка 'devices' удалена по запросу
             return mp && ms && mq && mc && mt;
         });
         updateStats();
@@ -1900,12 +1939,14 @@
         const checking = allConfigs.filter(c=>c.status==='checking').length;
         const unknown = allConfigs.filter(c=>c.status==='unknown').length;
 
+        const mobileCompat = allConfigs.filter(c=>(c.networkCompat||'unknown')==='mobile' || (c.networkCompat||'unknown')==='both').length;
         document.getElementById('statsRow').innerHTML = `
             <span class="stat-pill ${currentStatus==='all'?'active-filter':''}" onclick="setStatus('all')">Всего <b>${total}</b></span>
             <span class="stat-pill online ${currentStatus==='online'?'active-filter':''}" onclick="setStatus('online')">Онлайн <b>${online}</b></span>
             <span class="stat-pill offline ${currentStatus==='offline'?'active-filter':''}" onclick="setStatus('offline')">Оффлайн <b>${offline}</b></span>
             <span class="stat-pill checking ${currentStatus==='checking'?'active-filter':''}" onclick="setStatus('checking')">Проверка <b>${checking}</b></span>
             <span class="stat-pill ${currentStatus==='unknown'?'active-filter':''}" onclick="setStatus('unknown')">Не проверено <b>${unknown}</b></span>
+            <span class="stat-pill" style="border-color:rgba(0,255,136,0.15);color:#00ff88;" title="Сервера помеченные как универсальные или мобильные">📱 Мобильные <b>${mobileCompat}</b></span>
             <span class="stat-pill">Показано <b>${filteredConfigs.length}</b></span>
         `;
     }
@@ -1931,36 +1972,6 @@
         const c = allConfigs.find(x=>x.id===idx);
         if (c) c.favorite = favoriteIds.has(idx);
         applyFilters();
-    }
-
-    function addDevice(idx, deviceName) {
-        if (!deviceName.trim()) return;
-        if (!deviceMap[idx]) deviceMap[idx] = [];
-        if (!deviceMap[idx].includes(deviceName.trim())) {
-            deviceMap[idx].push(deviceName.trim());
-            saveDevices();
-            applyFilters();
-        }
-    }
-
-    function removeDevice(idx, deviceName) {
-        if (deviceMap[idx]) {
-            deviceMap[idx] = deviceMap[idx].filter(d=>d!==deviceName);
-            if (deviceMap[idx].length===0) delete deviceMap[idx];
-            saveDevices();
-            applyFilters();
-        }
-    }
-
-    function renderDevices(idx) {
-        const devices = deviceMap[idx] || [];
-        if (!devices.length) return '';
-        return devices.map(d => `
-            <span class="device-tag">
-                <span>${d}</span>
-                <span class="remove-device" onclick="removeDevice(${idx}, '${d}')">✕</span>
-            </span>
-        `).join(' ');
     }
 
     // ---------- Автообновление ----------
@@ -2013,13 +2024,14 @@
                 }
 
                 const isFav = favoriteIds.has(c.id);
-                const devicesHtml = renderDevices(c.id);
+                
 
                 return `
                 <div class="config-card ${c.protocol}" data-idx="${c.id}">
                     <div class="card-top">
                         <span class="proto-badge pb-${c.protocol}">${c.protocol}</span>
                         ${statusHtml}
+                        <span class="compat-badge ${c.networkCompat||'unknown'}" onclick="toggleNetworkCompat(${c.id})" title="Нажмите чтобы переключить">${getCompatLabel(c.networkCompat||'unknown')}</span>
                         <div style="display:flex;gap:4px;align-items:center;">
                             ${c.healthScore !== undefined ? '<span style="font-size:0.7rem;color:'+(c.healthScore>=80?'#00ff88':c.healthScore>=50?'#ffaa00':'#ff4444')+';font-weight:800;">🏆 '+c.healthScore+'</span>' : ''}
                             <button class="btn ${isFav ? 'btn-success' : 'btn-secondary'}" style="padding:2px 12px;font-size:0.75rem;" onclick="toggleFavorite(${c.id})">${isFav ? '★' : '☆'}</button>
@@ -2031,7 +2043,6 @@
                         ${c.sourceId !== undefined && c.sourceId !== -1 ? '<span style="font-size:0.7rem;color:#555;">['+sources.find(s=>s.id===c.sourceId)?.label+']</span>' : ''}
                     </div>
                     ${c.asn ? '<div class="asn-info">🏢 <b>'+c.asn.org+'</b> | ASN '+c.asn.asn+' | '+c.asn.type+'</div>' : ''}
-                    ${c.regions ? '<div class="card-region-badges">'+Object.entries(c.regions).map(([k,v])=>'<span class="card-region-badge '+(v==='ok'?'ok':v==='fail'?'fail':v==='checking'?'checking':'unknown')+'"><span class="r-dot"></span>'+k+'</span>').join('')+'</div>' : ''}
                     ${c.healthScore !== undefined ? '<div class="health-bar-wrap"><div class="health-bar-fill" style="width:'+c.healthScore+'%;background:'+(c.healthScore>=80?'linear-gradient(90deg,#00ff88,#00b894)':c.healthScore>=50?'linear-gradient(90deg,#ffaa00,#ff7700)':'linear-gradient(90deg,#ff4444,#ff0000)')+';"></div></div><div class="health-score-text">Health Score: '+c.healthScore+'/100</div>' : ''}
                     ${c.ports && c.ports.length ? '<div class="port-list">'+c.ports.map(p=>'<span class="port-tag '+(p.open?'open':'closed')+'">'+p.port+'</span>').join('')+'</div>' : ''}
                     
@@ -2043,12 +2054,9 @@
                         
                         <button class="btn-details" onclick="toggleDetails(${c.id})">📖 Детали</button>
                         <button class="btn-qr" id="qr-btn-${c.id}" onclick="toggleQR(${c.id})">📱 QR</button>
-                        <span style="display:inline-flex;align-items:center;gap:4px;margin-left:4px;">
-                            <input type="text" class="device-input" id="deviceInput-${c.id}" placeholder="Устройство" onkeydown="if(event.key==='Enter'){addDevice(${c.id}, this.value); this.value='';}">
-                            <button class="btn btn-ghost" style="padding:2px 6px;" onclick="const inp=document.getElementById('deviceInput-${c.id}'); addDevice(${c.id}, inp.value); inp.value='';">➕</button>
-                        </span>
+                        
                     </div>
-                    ${devicesHtml ? '<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px;">'+devicesHtml+'</div>' : ''}
+                    
                     <div class="details-panel" id="details-${c.id}">
                         ${c.details ? Object.entries(c.details).map(([k,v]) => `<div class="param"><span class="key">${k}</span><span class="value">${v}</span></div>`).join('') : 'Нет деталей'}
                     </div>
@@ -2098,6 +2106,7 @@
         card.querySelector('.card-top').innerHTML = `
             <span class="proto-badge pb-${c.protocol}">${c.protocol}</span>
             ${statusHtml}
+            <span class="compat-badge ${c.networkCompat||'unknown'}" onclick="toggleNetworkCompat(${c.id})" title="Нажмите чтобы переключить">${getCompatLabel(c.networkCompat||'unknown')}</span>
             <div style="display:flex;gap:4px;align-items:center;">
                 ${c.healthScore !== undefined ? '<span style="font-size:0.7rem;color:'+(c.healthScore>=80?'#00ff88':c.healthScore>=50?'#ffaa00':'#ff4444')+';font-weight:800;">🏆 '+c.healthScore+'</span>' : ''}
                 <button class="btn ${isFav ? 'btn-success' : 'btn-secondary'}" style="padding:2px 12px;font-size:0.75rem;" onclick="toggleFavorite(${c.id})">${isFav ? '★' : '☆'}</button>
@@ -2113,19 +2122,6 @@
         if (serverInfo) {
             serverInfo.innerHTML = countryHtml + (c.host ? '<b>'+c.host+'</b>'+(c.port?':'+c.port:'') : 'Адрес не распознан')
                 + (c.sourceId !== undefined && c.sourceId !== -1 ? '<span style="font-size:0.7rem;color:#555;">['+sources.find(s=>s.id===c.sourceId)?.label+']</span>' : '');
-        }
-        // Обновляем region badges
-        let existingBadges = card.querySelector('.card-region-badges');
-        if (c.regions) {
-            const badgesHtml = '<div class="card-region-badges">'+Object.entries(c.regions).map(([k,v])=>'<span class="card-region-badge '+(v==='ok'?'ok':v==='fail'?'fail':v==='checking'?'checking':'unknown')+'"><span class="r-dot"></span>'+k+'</span>').join('')+'</div>';
-            if (existingBadges) {
-                existingBadges.outerHTML = badgesHtml;
-            } else {
-                const configText = card.querySelector('.config-text');
-                if (configText) configText.insertAdjacentHTML('beforebegin', badgesHtml);
-            }
-        } else if (existingBadges) {
-            existingBadges.remove();
         }
         const detailsPanel = document.getElementById('details-'+id);
         if (detailsPanel && c.details) {
@@ -2316,67 +2312,14 @@
 
     // ---------- Region Lock Checker (глобальная проверка, один раз) ----------
     const regionServices = {
-        'Netflix': 'https://www.netflix.com/title/70143836',
-        'YouTube': 'https://www.youtube.com',
+        'Netflix': 'https://www.netflix.com/title/80113701',
+        'YouTube': 'https://www.youtube.com/premium',
         'ChatGPT': 'https://chat.openai.com',
         'TikTok': 'https://www.tiktok.com',
         'Instagram': 'https://www.instagram.com',
         'Telegram': 'https://web.telegram.org'
     };
     let globalRegionStatus = null;
-
-    async function checkOneService(name, url) {
-        // Method 1: allorigins (с проверкой реального HTTP-кода)
-        try {
-            const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
-            const ctrl = new AbortController();
-            const to = setTimeout(() => ctrl.abort(), 12000);
-            const res = await fetch(proxyUrl, { signal: ctrl.signal });
-            clearTimeout(to);
-            if (res.ok) {
-                const data = await res.json();
-                const code = data.status?.http_code;
-                if (code === 200) return 'ok';
-                if (code === 403 || code === 451) return 'fail';
-                // code === 0, 500, null — неизвестно, идем дальше
-            }
-        } catch(e) {}
-
-        // Method 2: corsproxy.io
-        try {
-            const proxyUrl = 'https://corsproxy.io/?url=' + encodeURIComponent(url);
-            const ctrl = new AbortController();
-            const to = setTimeout(() => ctrl.abort(), 10000);
-            const res = await fetch(proxyUrl, { signal: ctrl.signal });
-            clearTimeout(to);
-            if (res.ok) return 'ok';
-            if (res.status === 403 || res.status === 451) return 'fail';
-        } catch(e) {}
-
-        // Method 3: allorigins raw
-        try {
-            const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-            const ctrl = new AbortController();
-            const to = setTimeout(() => ctrl.abort(), 10000);
-            const res = await fetch(proxyUrl, { signal: ctrl.signal });
-            clearTimeout(to);
-            if (res.ok) return 'ok';
-            if (res.status === 403 || res.status === 451) return 'fail';
-        } catch(e) {}
-
-        // Method 4: no-cors — проверяем, отвечает ли сервер вообще
-        try {
-            const ctrl = new AbortController();
-            const to = setTimeout(() => ctrl.abort(), 6000);
-            await fetch(url, { mode: 'no-cors', signal: ctrl.signal });
-            clearTimeout(to);
-            // Если fetch не упал — TCP-соединение есть, считаем доступным
-            return 'ok';
-        } catch(e) {
-            // Нет соединения вообще
-            return 'fail';
-        }
-    }
 
     async function runGlobalRegionCheck() {
         const grid = document.getElementById('servicesGrid');
@@ -2389,20 +2332,46 @@
         }
         updateServicesGrid(results);
 
-        // Проверяем последовательно с небольшой задержкой, чтобы не DDOS-ить прокси
-        for (const [name, url] of Object.entries(regionServices)) {
-            results[name] = await checkOneService(name, url);
-            updateServicesGrid(results);
-            await new Promise(r => setTimeout(r, 300));
-        }
-
+        await Promise.all(Object.entries(regionServices).map(async ([name, url]) => {
+            // Primary: allorigins
+            try {
+                const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
+                const ctrl = new AbortController();
+                const to = setTimeout(() => ctrl.abort(), 8000);
+                const res = await fetch(proxyUrl, { signal: ctrl.signal });
+                clearTimeout(to);
+                if (res.ok) {
+                    const data = await res.json();
+                    const code = data.status?.http_code || 0;
+                    if (code === 200) { results[name] = 'ok'; updateServicesGrid(results); return; }
+                    else if (code === 403 || code === 451 || code === 404) { results[name] = 'fail'; updateServicesGrid(results); return; }
+                }
+            } catch(e) {}
+            // Fallback: corsproxy.io
+            try {
+                const proxyUrl2 = 'https://corsproxy.io/?url=' + encodeURIComponent(url);
+                const ctrl2 = new AbortController();
+                const to2 = setTimeout(() => ctrl2.abort(), 6000);
+                const res2 = await fetch(proxyUrl2, { signal: ctrl2.signal });
+                clearTimeout(to2);
+                if (res2.ok) { results[name] = 'ok'; updateServicesGrid(results); return; }
+                else if (res2.status === 403 || res2.status === 451) { results[name] = 'fail'; updateServicesGrid(results); return; }
+            } catch(e) {}
+            // Fallback 2: no-cors
+            try {
+                const ctrl3 = new AbortController();
+                const to3 = setTimeout(() => ctrl3.abort(), 4000);
+                await fetch(url, { mode: 'no-cors', signal: ctrl3.signal });
+                clearTimeout(to3);
+                results[name] = 'ok'; updateServicesGrid(results); return;
+            } catch(e) {
+                results[name] = 'fail'; updateServicesGrid(results); return;
+            }
+        }));
         globalRegionStatus = results;
         // Копируем результаты во все онлайн конфиги
         allConfigs.forEach(c => { if (c.status === 'online') c.regions = { ...results }; });
-        // Пересчитываем health score и обновляем UI
-        allConfigs.forEach(c => { if (c.regions) c.healthScore = calculateHealthScore(c); });
-        sortConfigs();
-        applyFilters();
+        updateServicesGrid(results);
     }
 
     function updateServicesGrid(results) {
@@ -2410,16 +2379,9 @@
         if (!grid) return;
         const icons = { 'Netflix': '🎬', 'YouTube': '📺', 'ChatGPT': '🤖', 'TikTok': '🎵', 'Instagram': '📸', 'Telegram': '✈️' };
         const labels = { 'ok': 'Доступен', 'fail': 'Заблокирован', 'checking': 'Проверка...' };
-        const okCount = Object.values(results).filter(v => v === 'ok').length;
-        const total = Object.keys(results).length;
         grid.innerHTML = Object.entries(results).map(([name, status]) => {
             return `<div class="service-item ${status}"><span class="service-dot"></span><span class="service-name">${icons[name] || ''} ${name}</span><span class="service-status">${labels[status] || status}</span></div>`;
         }).join('');
-        // Обновляем заголовок с счетчиком
-        const title = document.querySelector('.services-panel-title');
-        if (title && okCount > 0) {
-            title.innerHTML = `🌍 Проверка доступности сервисов с вашего IP <span style="color:#00ff88;font-weight:800;">(${okCount}/${total} доступны)</span>`;
-        }
     }
 
     // ---------- Auto Pick Best ----------
@@ -2567,111 +2529,5 @@
 
 
 <!-- Фон с частицами -->
-<canvas id="particleCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;"></canvas>
-<script>
-(function() {
-    const canvas = document.getElementById('particleCanvas');
-    const ctx = canvas.getContext('2d');
-    let W, H;
-    const particles = [];
-    const colors = ['#00d4ff', '#7b2cbf', '#ff0080', '#ffa500', '#00ff88', '#ffffff'];
-    const mouse = { x: null, y: null, radius: 150 };
-
-    function resize() {
-        W = canvas.width = window.innerWidth;
-        H = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-    window.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
-
-    class Particle {
-        constructor() {
-            this.x = Math.random() * W;
-            this.y = Math.random() * H;
-            this.vx = (Math.random() - 0.5) * 0.6;
-            this.vy = (Math.random() - 0.5) * 0.6;
-            this.size = Math.random() * 2.5 + 0.8;
-            this.color = colors[Math.floor(Math.random() * colors.length)];
-            this.alpha = Math.random() * 0.5 + 0.3;
-            this.baseAlpha = this.alpha;
-            this.pulseSpeed = Math.random() * 0.02 + 0.005;
-            this.pulseOffset = Math.random() * Math.PI * 2;
-        }
-        update() {
-            this.x += this.vx;
-            this.y += this.vy;
-            if (this.x < 0) this.x = W;
-            if (this.x > W) this.x = 0;
-            if (this.y < 0) this.y = H;
-            if (this.y > H) this.y = 0;
-
-            // Пульсация прозрачности
-            this.alpha = this.baseAlpha + Math.sin(Date.now() * this.pulseSpeed + this.pulseOffset) * 0.15;
-            if (this.alpha < 0.1) this.alpha = 0.1;
-
-            // Отталкивание от курсора
-            if (mouse.x !== null) {
-                const dx = this.x - mouse.x;
-                const dy = this.y - mouse.y;
-                const dist = Math.sqrt(dx*dx + dy*dy);
-                if (dist < mouse.radius) {
-                    const force = (mouse.radius - dist) / mouse.radius;
-                    const angle = Math.atan2(dy, dx);
-                    this.x += Math.cos(angle) * force * 2;
-                    this.y += Math.sin(angle) * force * 2;
-                }
-            }
-        }
-        draw() {
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = this.color;
-            ctx.globalAlpha = this.alpha;
-            ctx.fill();
-            ctx.globalAlpha = 1;
-        }
-    }
-
-    function initParticles() {
-        const count = Math.min(Math.floor((W * H) / 12000), 120);
-        for (let i = 0; i < count; i++) {
-            particles.push(new Particle());
-        }
-    }
-
-    function drawConnections() {
-        const maxDist = 120;
-        for (let i = 0; i < particles.length; i++) {
-            for (let j = i + 1; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const dist = Math.sqrt(dx*dx + dy*dy);
-                if (dist < maxDist) {
-                    const opacity = (1 - dist / maxDist) * 0.12;
-                    ctx.beginPath();
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.strokeStyle = `rgba(0, 212, 255, ${opacity})`;
-                    ctx.lineWidth = 0.6;
-                    ctx.stroke();
-                }
-            }
-        }
-    }
-
-    function animate() {
-        ctx.clearRect(0, 0, W, H);
-        particles.forEach(p => { p.update(); p.draw(); });
-        drawConnections();
-        requestAnimationFrame(animate);
-    }
-
-    initParticles();
-    animate();
-})();
-</script>
 </body>
 </html>
