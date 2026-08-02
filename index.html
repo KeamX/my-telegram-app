@@ -1163,13 +1163,56 @@
             border-color: rgba(0,255,136,0.2);
         }
 
+    
+        /* KeamX sources — красное оформление */
+        .source-chip.keamx {
+            background: linear-gradient(135deg, rgba(255,0,80,0.08), rgba(180,0,60,0.05));
+            border-color: rgba(255,0,80,0.25);
+            box-shadow: 0 0 15px rgba(255,0,80,0.06);
+        }
+        .source-chip.keamx:hover {
+            background: linear-gradient(135deg, rgba(255,0,80,0.15), rgba(180,0,60,0.1));
+            border-color: rgba(255,0,80,0.4);
+            box-shadow: 0 4px 20px rgba(255,0,80,0.15);
+            transform: translateY(-2px);
+        }
+        .source-chip.keamx.active {
+            background: linear-gradient(135deg, rgba(255,0,80,0.2), rgba(180,0,60,0.15));
+            border-color: rgba(255,0,80,0.6);
+            box-shadow: 0 4px 25px rgba(255,0,80,0.2);
+        }
+        .source-chip.keamx .chip-label {
+            color: #ff5588;
+        }
+        .source-chip.keamx.active .chip-label {
+            color: #fff;
+        }
+        .source-chip.keamx .chip-meta {
+            color: #884455;
+        }
+        .source-chip.keamx .chip-count {
+            color: #ff7799;
+        }
+        .keamx-badge {
+            display: inline-block;
+            background: linear-gradient(90deg, #ff0050, #ff3366);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 800;
+            padding: 1px 6px;
+            border-radius: 4px;
+            margin-left: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
     </style>
 </head>
 <body>
 <div class="container">
     <div class="hero">
         <h1><span>V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks</span></h1>
-        <div class="hero-sub">V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks — <span style="color:#888;"></span></div>
+        <div class="hero-sub">V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks — <span style="color:#888;">нажмите на бейдж совместимости чтобы отметить работает ли сервер на мобильном интернете, WiFi или везде</span></div>
         <div class="hero-line"></div>
         <div class="author-link">✦ Автор: <a href="https://t.me/Keamxxd" target="_blank">@Keamxxd</a> ✦</div>
         <div class="stats-bar" id="globalStats">
@@ -1284,35 +1327,14 @@
 
 <script>
 
-    // ---------- Inline Hysteria2 Configs ----------
-    const inlineConfigs = {
-        "hysteria2_inline.txt": `hysteria2://qQe1z5kU8kN6SlKnDt9Ru3Qp@vpn-us-008.fastervpn.world:443?sni=vpn-us-008.fastervpn.world&insecure=true#%F0%9F%87%BA%F0%9F%87%B8%20United%20States%2C%20Los%20Angeles%20%28Central-Alameda%29%20%7C%20%5BBL%5D
-hysteria2://0d892bc7-41c5-4dc5-90bb-40dfc0043dd5@51.195.241.243:50000?sni=bing.com&insecure=true#%F0%9F%87%AC%F0%9F%87%A7%20United%20Kingdom%2C%20London%20%28City%20of%20London%29%20%7C%20%5BBL%5D
-hysteria2://hysteria2_fastlane_ov6xi6f0e:pZNMlRhaFgZFCcAsNjxbOtwCO5Z5Hrsk@91.132.160.243:1935?sni=de6.h.fastlanehosting.ru&insecure=false#%F0%9F%87%AC%F0%9F%87%A7%20United%20Kingdom%2C%20Coventry%20%7C%20%F0%9F%8C%90%20%7C%20%5BIPv6%5D%20%7C%20%5BBL%5D
-hysteria2://123456789StrongPass@144.31.224.14:443?sni=www.cloudflare.com&insecure=true#%F0%9F%87%B3%F0%9F%87%B1%20The%20Netherlands%2C%20Amsterdam%20%7C%20%5BBL%5D
-hysteria2://123456789StrongPass@144.31.224.14:443?insecure=true#%F0%9F%87%B3%F0%9F%87%B1%20The%20Netherlands%2C%20Amsterdam%20%7C%20%5BBL%5D
-hysteria2://qQe1z5kU8kN6SlKnDt9Ru3Qp@vpn-jp-016.fastervpn.world:443?sni=vpn-jp-016.fastervpn.world&insecure=true#%F0%9F%87%AF%F0%9F%87%B5%20Japan%2C%20Chiyoda%20City%20%7C%20%5BBL%5D
-hysteria2://79d73809-f5ed-4099-8588-ba77578def1d@iij.mggl.wang:35789?sni=iij.mggl.wang&insecure=true#%F0%9F%87%AF%F0%9F%87%B5%20Japan%20%7C%20%F0%9F%8C%90%20%7C%20%5BIPv6%5D%20%7C%20%5BBL%5D
-hysteria2://1b9c460e-f026-11ef-b737-f23c91cfbbc9@9b13ea8f-t70f40-t7t5pe-1s0a7.hk1.hyhuawei.com:443?insecure=true#%F0%9F%87%AD%F0%9F%87%B0%20Hong%20Kong%2C%20Central%20%7C%20%5BBL%5D
-hysteria2://hysteria2_fastlane_330po3z5f:eCdziHDjXbnxzdt9eEziiuFxQlScnBxD@150.241.78.128:1935?sni=de9.h.fastlanehosting.ru&insecure=false#%F0%9F%87%A9%F0%9F%87%AA%20Germany%2C%20Frankfurt%20am%20Main%20%28Innenstadt%20I%29%20%7C%20%5BBL%5D
-hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.com&insecure=true#%F0%9F%87%A9%F0%9F%87%AA%20Germany%2C%20Frankfurt%20am%20Main%20%7C%20%5BBL%5D
-hysteria2://dongtaiwang.com@62.210.124.146:22000?sni=www.microsoft.com&insecure=true#%F0%9F%87%AB%F0%9F%87%B7%20France%2C%20Paris%20%7C%20%F0%9F%8C%90%20%7C%20%5BIPv6%5D%20%7C%20%5BBL%5D
-hysteria2://dongtaiwang.com@62.210.124.146:22000?sni=www.microsoft.com&insecure=false#%F0%9F%87%AB%F0%9F%87%B7%20France%2C%20Paris%20%7C%20%F0%9F%8C%90%20%7C%20%5BIPv6%5D%20%7C%20%5BBL%5D
-hysteria2://qQe1z5kU8kN6SlKnDt9Ru3Qp@vpn-us-006.fastervpn.world:443?sni=vpn-us-006.fastervpn.world&insecure=true#%F0%9F%87%BA%F0%9F%87%B8%20United%20States%2C%20Los%20Angeles%20%28Central-Alameda%29%20%7C%20%5BBL%5D
-hysteria2://qQe1z5kU8kN6SlKnDt9Ru3Qp@vpn-jp-007.fastervpn.world:443?sni=vpn-jp-007.fastervpn.world&insecure=true#%F0%9F%87%AF%F0%9F%87%B5%20Japan%2C%20Shibuya%20City%20%7C%20%5BBL%5D
-hysteria2://hysteria2_fastlane_jwiedq1o6:gJ4QaCJfdNQffhf2p4YkDqwSwj588q7D@5.181.21.132:1935?sni=at1.h.smartaisupport.ru&insecure=false#%F0%9F%87%A6%F0%9F%87%B9%20Austria%2C%20Vienna%20%7C%20%5BBL%5D
-hysteria2://123456789StrongPass@144.31.224.14:443?sni=eh.vk.com&insecure=true#%F0%9F%87%B3%F0%9F%87%B1%20The%20Netherlands%20%5BSNI-RU%5D%20eh.vk.com
-hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.com&insecure=true#%F0%9F%87%A9%F0%9F%87%AA%20Germany%20%5B%2ACIDR%5D`
-    };
-
     // ---------- Исходные данные ----------
     const sources = [
-        { id: 1,  file: "1.txt",  label: "OpenRay Mix",               rec: true,  sni: false },
+        { id: 1,  file: "1.txt",  label: "OpenRay Mix",               rec: false,  sni: false },
         { id: 2,  file: "2.txt",  label: "Subscription",              rec: false, sni: false },
         { id: 3,  file: "3.txt",  label: "Proxy Mining",              rec: false, sni: false },
         { id: 4,  file: "4.txt",  label: "AutoVPN",                   rec: false, sni: false },
         { id: 5,  file: "5.txt",  label: "V2Ray Dumper",              rec: false, sni: false },
-        { id: 6,  file: "6.txt",  label: "Open Proxy List",           rec: true,  sni: false },
+        { id: 6,  file: "6.txt",  label: "Open Proxy List",           rec: false,  sni: false },
         { id: 7,  file: "7.txt",  label: "V2Ray Configs",             rec: false, sni: false },
         { id: 8,  file: "8.txt",  label: "ConfigForge",               rec: false, sni: false },
         { id: 9,  file: "9.txt",  label: "Telegram Collector",        rec: false, sni: false },
@@ -1328,17 +1350,29 @@ hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.
         { id: 19, file: "19.txt", label: "V2Ray Collector 2",         rec: false, sni: false },
         { id: 20, file: "20.txt", label: "Proxy List 2",              rec: false, sni: false },
         { id: 21, file: "21.txt", label: "Kamaji",                    rec: false, sni: false },
-        { id: 22, file: "22.txt", label: "Xray Toolkit",              rec: true,  sni: false },
-        { id: 23, file: "23.txt", label: "Russia VPN",                rec: true,  sni: false },
-        { id: 24, file: "24.txt", label: "Vify",                      rec: true,  sni: false },
-        { id: 25, file: "25.txt", label: "V2Ray Config",              rec: true,  sni: false },
-        { id: 26, file: "26.txt", label: "SNI/CIDR Bypass",           rec: false, sni: true  }
+        { id: 22, file: "22.txt", label: "Xray Toolkit",              rec: false,  sni: false },
+        { id: 23, file: "23.txt", label: "Russia VPN",                rec: false,  sni: false },
+        { id: 24, file: "24.txt", label: "Vify",                      rec: false,  sni: false },
+        { id: 25, file: "25.txt", label: "V2Ray Config",              rec: false,  sni: false },
+        { id: 26, file: "26.txt", label: "SNI/CIDR Bypass",           rec: false, sni: false  },
+        { id: 27, file: "all_configs.json",         label: "KeamX — All Configs",       rec: false, sni: false, source: "keamx", isJson: true },
+        { id: 28, file: "hysteria2_links.txt",      label: "KeamX — Hysteria2",         rec: false, sni: false, source: "keamx" },
+        { id: 29, file: "shadowsocks_links.txt",    label: "KeamX — Shadowsocks",       rec: false, sni: false, source: "keamx" },
+        { id: 30, file: "trojan_links.txt",         label: "KeamX — Trojan",            rec: false, sni: false, source: "keamx" },
+        { id: 31, file: "unique_servers.txt",       label: "KeamX — Unique Servers",    rec: false, sni: false, source: "keamx" },
+        { id: 32, file: "vless_links.txt",          label: "KeamX — VLESS",             rec: false, sni: false, source: "keamx" },
+        { id: 33, file: "vmess_links.txt",          label: "KeamX — VMess",             rec: false, sni: false, source: "keamx" }
     ];
 
     const endpoints = [
         { base: "https://cdn.jsdelivr.net/gh/AvenCores/goida-vpn-configs@main/githubmirror/", name: "jsDelivr" },
         { base: "https://raw.githack.com/AvenCores/goida-vpn-configs/main/githubmirror/", name: "GitHack" },
         { base: "https://raw.githubusercontent.com/AvenCores/goida-vpn-configs/main/githubmirror/", name: "GitHub Raw" }
+    ];
+    const keamxEndpoints = [
+        { base: "https://raw.githubusercontent.com/KeamX/my-telegram-app/main/", name: "GitHub Raw" },
+        { base: "https://cdn.jsdelivr.net/gh/KeamX/my-telegram-app@main/", name: "jsDelivr" },
+        { base: "https://raw.githack.com/KeamX/my-telegram-app/main/", name: "GitHack" }
     ];
 
     const corsProxies = [
@@ -1472,6 +1506,8 @@ hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.
     function parseHost(cfg) {
         try {
             let url = cfg.trim();
+            // Нормализуем ss:// для корректного парсинга
+            if (url.startsWith('ss://')) url = normalizeShadowsocks(url);
             if (url.startsWith('vmess://')) {
                 const b64 = url.slice(8).split('#')[0].split('?')[0];
                 const pad = b64.length % 4 ? '='.repeat(4-b64.length%4) : '';
@@ -1488,6 +1524,45 @@ hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.
         return { host: '', port: '' };
     }
 
+    function normalizeShadowsocks(cfg) {
+        if (!cfg || !cfg.startsWith('ss://')) return cfg;
+        try {
+            let url = cfg.trim();
+            // Отделяем #tag
+            const hashIdx = url.lastIndexOf('#');
+            const tag = hashIdx !== -1 ? url.slice(hashIdx) : '';
+            const mainPart = hashIdx !== -1 ? url.slice(0, hashIdx) : url;
+            // Отделяем ?params
+            const qIdx = mainPart.indexOf('?');
+            const query = qIdx !== -1 ? mainPart.slice(qIdx) : '';
+            const beforeQuery = qIdx !== -1 ? mainPart.slice(0, qIdx) : mainPart;
+            // Убираем ss://
+            let body = beforeQuery.slice(5);
+            // Пробуем декодировать весь body как base64 (SIP002 формат)
+            try {
+                const pad = body.length % 4 ? '='.repeat(4 - body.length % 4) : '';
+                const decoded = atob(body + pad);
+                if (decoded.includes('@') && decoded.includes(':')) {
+                    return 'ss://' + decoded + query + tag;
+                }
+            } catch(e) {}
+            // Формат ss://base64(method:password)@host:port
+            const atIdx = body.indexOf('@');
+            if (atIdx !== -1) {
+                const b64 = body.slice(0, atIdx);
+                const rest = body.slice(atIdx);
+                const pad = b64.length % 4 ? '='.repeat(4 - b64.length % 4) : '';
+                const decoded = atob(b64 + pad);
+                if (decoded.includes(':')) {
+                    return 'ss://' + decoded + rest + query + tag;
+                }
+            }
+            return cfg;
+        } catch(e) {
+            return cfg;
+        }
+    }
+
     function detectProtocol(cfg) {
         const c = cfg.trim();
         if (c.startsWith('vless://')) return c.includes('reality') ? 'reality' : 'vless';
@@ -1499,9 +1574,9 @@ hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.
         return 'other';
     }
 
-    async function fetchText(fileName) {
-        if (inlineConfigs[fileName]) return inlineConfigs[fileName];
-        for (const ep of endpoints.slice(0,2)) {
+    async function fetchText(fileName, sourceType) {
+        const eps = sourceType === 'keamx' ? keamxEndpoints : endpoints;
+        for (const ep of eps.slice(0,2)) {
             try {
                 const ctrl = new AbortController();
                 const to = setTimeout(()=>ctrl.abort(), 10000);
@@ -1510,7 +1585,7 @@ hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.
                 if (r.ok) return await r.text();
             } catch(e) {}
         }
-        const rawUrl = endpoints[2].base+fileName;
+        const rawUrl = eps[eps.length-1].base+fileName;
         for (const p of corsProxies) {
             try {
                 const ctrl = new AbortController();
@@ -1527,9 +1602,9 @@ hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.
     function init() {
         const grid = document.getElementById('sourcesGrid');
         grid.innerHTML = sources.map(s => `
-            <label class="source-chip ${s.rec || s.sni ? 'active' : ''}" id="chip-${s.id}">
-                <input type="checkbox" value="${s.id}" ${s.rec || s.sni ? 'checked' : ''} onchange="toggleChip(${s.id})">
-                <span class="chip-label">${s.label}</span>
+            <label class="source-chip ${s.source==='keamx' ? 'keamx' : ''}" id="chip-${s.id}">
+                <input type="checkbox" value="${s.id}" onchange="toggleChip(${s.id})">
+                <span class="chip-label">${s.label}${s.source==='keamx' ? '<span class="keamx-badge">NEW</span>' : ''}</span>
                 <span class="chip-meta" id="meta-${s.id}">Загрузка...</span>
                 <span class="chip-count" id="count-${s.id}"></span>
                 <span class="chip-protos" id="protos-${s.id}"></span>
@@ -1563,19 +1638,10 @@ hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.
             await Promise.all(batch.map(async s => {
                 const metaEl = document.getElementById('meta-'+s.id);
                 const warnEl = document.getElementById('warn-'+s.id);
-                if (s.inline && inlineConfigs[s.file]) {
-                    const lines = inlineConfigs[s.file].split(/\r?\n/).filter(l=>l.trim());
-                    metaEl.textContent = lines.length.toLocaleString('ru')+' серверов  |  Встроено';
-                    document.getElementById('count-'+s.id).textContent = lines.length.toLocaleString('ru')+' серверов';
-                    const protos = new Set();
-                    lines.forEach(l => protos.add(detectProtocol(l)));
-                    document.getElementById('protos-'+s.id).textContent = Array.from(protos).join(' / ');
-                    fileMap[s.file] = { size: inlineConfigs[s.file].length };
-                    return;
-                }
                 let size = null;
                 // Пробуем HEAD запрос через endpoints
-                for (const ep of endpoints) {
+                const metaEps = s.source === 'keamx' ? keamxEndpoints : endpoints;
+                for (const ep of metaEps) {
                     try {
                         const ctrl = new AbortController();
                         const to = setTimeout(()=>ctrl.abort(), 5000);
@@ -1593,7 +1659,7 @@ hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.
                         try {
                             const ctrl = new AbortController();
                             const to = setTimeout(()=>ctrl.abort(), 6000);
-                            const res = await fetch(p(endpoints[0].base + s.file), { method: 'HEAD', cache: 'no-store', signal: ctrl.signal });
+                            const res = await fetch(p(metaEps[0].base + s.file), { method: 'HEAD', cache: 'no-store', signal: ctrl.signal });
                             clearTimeout(to);
                             if (res.ok) {
                                 const cl = res.headers.get('content-length');
@@ -1604,7 +1670,7 @@ hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.
                 }
                 // Fallback 2: GET с range=0-0 чтобы получить Content-Range
                 if (size === null) {
-                    for (const ep of endpoints) {
+                    for (const ep of metaEps) {
                         try {
                             const ctrl = new AbortController();
                             const to = setTimeout(()=>ctrl.abort(), 5000);
@@ -1648,13 +1714,8 @@ hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.
         });
     }
     function selectRec() {
-        document.querySelectorAll('.source-chip').forEach(chip => {
-            const id = parseInt(chip.querySelector('input').value);
-            const src = sources.find(s=>s.id===id);
-            const v = src.rec || src.sni;
-            chip.querySelector('input').checked = v;
-            chip.classList.toggle('active', v);
-        });
+        // Пользователь выбирает источники самостоятельно
+        showToast('Выберите источники вручную');
     }
 
     // ---------- Загрузка и проверка ----------
@@ -1679,25 +1740,37 @@ hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.
             document.getElementById('progressCount').textContent = (i+1)+'/'+sel.length;
 
             const meta = fileMeta[s.file];
-            if (!s.inline && meta && meta.size > 20*1024*1024) {
+            if (meta && meta.size > 20*1024*1024) {
                 skipped.push(s.label+' ('+formatSize(meta.size)+')');
                 document.getElementById('count-'+s.id).textContent = 'Пропущен (большой)';
                 continue;
             }
-            const text = await fetchText(s.file);
+            const text = await fetchText(s.file, s.source);
             if (!text) {
                 document.getElementById('count-'+s.id).textContent = 'Ошибка загрузки';
                 continue;
             }
-            const lines = text.split(/\r?\n/).filter(l=>l.trim());
+            let lines = [];
+            if (s.isJson) {
+                try {
+                    const jsonData = JSON.parse(text);
+                    if (Array.isArray(jsonData)) lines = jsonData.filter(l=>typeof l==='string' && l.trim());
+                    else if (jsonData.configs && Array.isArray(jsonData.configs)) lines = jsonData.configs.filter(l=>typeof l==='string' && l.trim());
+                    else if (typeof jsonData === 'object') lines = Object.values(jsonData).flat().filter(l=>typeof l==='string' && l.trim());
+                } catch(e) { lines = text.split(/\r?\n/).filter(l=>l.trim()); }
+            } else {
+                lines = text.split(/\r?\n/).filter(l=>l.trim());
+            }
             const protos = new Set();
             lines.forEach(line => {
                 const proto = detectProtocol(line);
                 protos.add(proto);
                 const hi = parseHost(line);
+                const normalized = proto === 'shadowsocks' ? normalizeShadowsocks(line.trim()) : line.trim();
                 allConfigs.push({
                     id: allConfigs.length,
                     config: line.trim(),
+                    normalizedConfig: normalized,
                     protocol: proto,
                     host: hi.host,
                     port: hi.port,
@@ -2046,7 +2119,7 @@ hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.
                     ${c.healthScore !== undefined ? '<div class="health-bar-wrap"><div class="health-bar-fill" style="width:'+c.healthScore+'%;background:'+(c.healthScore>=80?'linear-gradient(90deg,#00ff88,#00b894)':c.healthScore>=50?'linear-gradient(90deg,#ffaa00,#ff7700)':'linear-gradient(90deg,#ff4444,#ff0000)')+';"></div></div><div class="health-score-text">Health Score: '+c.healthScore+'/100</div>' : ''}
                     ${c.ports && c.ports.length ? '<div class="port-list">'+c.ports.map(p=>'<span class="port-tag '+(p.open?'open':'closed')+'">'+p.port+'</span>').join('')+'</div>' : ''}
                     
-                    <div class="config-text">${escapeHtml(short)}</div>
+                    <div class="config-text">${escapeHtml(c.protocol==='shadowsocks' && c.normalizedConfig ? c.normalizedConfig : short)}</div>
                     <div class="card-actions">
                         <button class="btn-copy" onclick="copyCfg(${c.id})">Копировать</button>
                         ${renderDropdown(c.id)}
@@ -2167,7 +2240,8 @@ hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.
     function openInApp(idx, appName) {
         const c = allConfigs.find(x=>x.id===idx);
         if (!c) return;
-        const link = appLinks[appName](c.config);
+        const cfgToUse = c.normalizedConfig || c.config;
+        const link = appLinks[appName](cfgToUse);
         window.open(link, '_blank');
         closeAllDropdowns();
     }
@@ -2175,7 +2249,7 @@ hysteria2://b688ce0f-9201-4e8e-a67a-f3be2c6aa201@de.mjhy2.com:1443?sni=de.mjhy2.
     function copyCfg(idx) {
         const c = allConfigs.find(x=>x.id===idx);
         if (!c) return;
-        const text = c.config;
+        const text = c.normalizedConfig || c.config;
         if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(text).then(()=>showToast()).catch(()=>fallbackCopy(text));
         } else {
