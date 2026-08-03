@@ -2,11 +2,6 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="theme-color" content="#0a0a0f">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjogIlZQTiBDb25maWdzIiwgInNob3J0X25hbWUiOiAiVlBOQ2ZnIiwgInN0YXJ0X3VybCI6ICIuIiwgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwYTBhMGYiLCAidGhlbWVfY29sb3IiOiAiIzBhMGEwZiIsICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdC1wcmltYXJ5IiwgImljb25zIjogW3sic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbCwlM0NzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiIlM0UlM0NyZWN0IGZpbGw9IiUyMzBhMGEwZiIgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIHJ4PSIzMiIvJTNFJTNDcGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiUyMzAwZDRmZiIgc3Ryb2tlLXdpZHRoPSIxMiIgZD0iTTk2IDMydjEyOE0zMiA5NmgxMjgiLyUzRSUzQ2NpcmNsZSBmaWxsPSIlMjM3YjJjYmYiIGN4PSI5NiIgY3k9Ijk2IiByPSIyNCIvJTNFJTNDL3N2ZyUzRSIsICJzaXplcyI6ICIxOTJ4MTkyIiwgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCJ9XX0=">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -182,6 +177,48 @@
         .source-chip .chip-protos { font-size: 0.65rem; color: #444; margin-top: 2px; }
         .source-chip .chip-warn { font-size: 0.65rem; color: #ffaa00; margin-top: 2px; }
         .source-chip input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; top:0; left:0; }
+
+        /* KeamX sources — красное оформление */
+        .source-chip.keamx {
+            background: linear-gradient(135deg, rgba(255,0,80,0.08), rgba(180,0,60,0.05));
+            border-color: rgba(255,0,80,0.25);
+            box-shadow: 0 0 15px rgba(255,0,80,0.06);
+        }
+        .source-chip.keamx:hover {
+            background: linear-gradient(135deg, rgba(255,0,80,0.15), rgba(180,0,60,0.1));
+            border-color: rgba(255,0,80,0.4);
+            box-shadow: 0 4px 20px rgba(255,0,80,0.15);
+            transform: translateY(-2px);
+        }
+        .source-chip.keamx.active {
+            background: linear-gradient(135deg, rgba(255,0,80,0.2), rgba(180,0,60,0.15));
+            border-color: rgba(255,0,80,0.6);
+            box-shadow: 0 4px 25px rgba(255,0,80,0.2);
+        }
+        .source-chip.keamx .chip-label {
+            color: #ff5588;
+        }
+        .source-chip.keamx.active .chip-label {
+            color: #fff;
+        }
+        .source-chip.keamx .chip-meta {
+            color: #884455;
+        }
+        .source-chip.keamx .chip-count {
+            color: #ff7799;
+        }
+        .keamx-badge {
+            display: inline-block;
+            background: linear-gradient(90deg, #ff0050, #ff3366);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 800;
+            padding: 1px 6px;
+            border-radius: 4px;
+            margin-left: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
         .actions-bar {
             display: flex;
@@ -746,467 +783,21 @@
         }
         .btn-qr:hover { background: rgba(255,255,255,0.08); color: white; }
         .btn-qr.active { background: rgba(0,212,255,0.1); color: #00d4ff; border-color: rgba(0,212,255,0.3); }
-    
-        /* Glow-эффект карточек */
-        .config-card {
-            transition: all 0.3s ease;
-        }
-        .config-card.vless:hover {
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.15), 0 0 40px rgba(0, 212, 255, 0.08);
-            border-color: rgba(0, 212, 255, 0.25);
-        }
-        .config-card.vmess:hover {
-            box-shadow: 0 0 20px rgba(199, 125, 255, 0.15), 0 0 40px rgba(199, 125, 255, 0.08);
-            border-color: rgba(199, 125, 255, 0.25);
-        }
-        .config-card.trojan:hover {
-            box-shadow: 0 0 20px rgba(255, 0, 128, 0.15), 0 0 40px rgba(255, 0, 128, 0.08);
-            border-color: rgba(255, 0, 128, 0.25);
-        }
-        .config-card.shadowsocks:hover {
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.15), 0 0 40px rgba(0, 255, 136, 0.08);
-            border-color: rgba(0, 255, 136, 0.25);
-        }
-        .config-card.hysteria:hover {
-            box-shadow: 0 0 20px rgba(255, 165, 0, 0.15), 0 0 40px rgba(255, 165, 0, 0.08);
-            border-color: rgba(255, 165, 0, 0.25);
-        }
-        .config-card.reality:hover {
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.12), 0 0 40px rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-        .config-card.tuic:hover {
-            box-shadow: 0 0 20px rgba(255, 68, 68, 0.15), 0 0 40px rgba(255, 68, 68, 0.08);
-            border-color: rgba(255, 68, 68, 0.25);
-        }
-        .config-card.other:hover {
-            box-shadow: 0 0 20px rgba(100, 100, 100, 0.1), 0 0 40px rgba(100, 100, 100, 0.05);
-            border-color: rgba(100, 100, 100, 0.2);
-        }
-    
-        .leak-panel {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 22px;
-            margin-bottom: 14px;
-        }
-        .leak-panel h3 {
-            font-size: 1rem;
-            color: #fff;
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .leak-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 14px;
-        }
-        .leak-card {
-            background: rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 12px;
-            padding: 16px;
-            transition: all 0.3s;
-        }
-        .leak-card:hover {
-            border-color: rgba(0,212,255,0.2);
-            background: rgba(0,212,255,0.03);
-        }
-        .leak-card .leak-title {
-            font-size: 0.8rem;
-            color: #888;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .leak-card .leak-value {
-            font-family: 'Nunito', monospace;
-            font-size: 0.9rem;
-            color: #ddd;
-            word-break: break-all;
-            line-height: 1.5;
-        }
-        .leak-card .leak-status {
-            margin-top: 10px;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .leak-status.safe {
-            background: rgba(0,255,136,0.08);
-            color: #00ff88;
-            border: 1px solid rgba(0,255,136,0.15);
-        }
-        .leak-status.warn {
-            background: rgba(255,170,0,0.08);
-            color: #ffaa00;
-            border: 1px solid rgba(255,170,0,0.15);
-        }
-        .leak-status.danger {
-            background: rgba(255,68,68,0.08);
-            color: #ff4444;
-            border: 1px solid rgba(255,68,68,0.15);
-        }
-        .leak-status.loading {
-            background: rgba(0,212,255,0.08);
-            color: #00d4ff;
-            border: 1px solid rgba(0,212,255,0.15);
-        }
-        .leak-btn {
-            margin-top: 14px;
-        }
-        .webrtc-ip {
-            display: block;
-            padding: 3px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.03);
-        }
-        .webrtc-ip:last-child { border: none; }
-        .ip-compare {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 8px;
-            flex-wrap: wrap;
-        }
-        .ip-compare input {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 8px;
-            padding: 6px 12px;
-            color: #ddd;
-            font-family: 'Nunito', monospace;
-            font-size: 0.8rem;
-            outline: none;
-            width: 140px;
-        }
-        .ip-compare input:focus { border-color: #00d4ff; }
-    
-        /* Region Lock Badges */
-        .region-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 5px;
-            margin-top: 8px;
-        }
-        .region-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-size: 0.68rem;
-            font-weight: 700;
-            border: 1px solid transparent;
-            transition: all 0.2s;
-        }
-        .region-badge.ok {
-            background: rgba(0,255,136,0.08);
-            color: #00ff88;
-            border-color: rgba(0,255,136,0.15);
-        }
-        .region-badge.fail {
-            background: rgba(255,68,68,0.08);
-            color: #ff4444;
-            border-color: rgba(255,68,68,0.15);
-        }
-        .region-badge.checking {
-            background: rgba(0,212,255,0.08);
-            color: #00d4ff;
-            border-color: rgba(0,212,255,0.15);
-        }
-        .region-badge.unknown {
-            background: rgba(255,255,255,0.03);
-            color: #555;
-            border-color: rgba(255,255,255,0.06);
-        }
 
-        /* Health Score */
-        .health-bar-wrap {
-            width: 100%;
-            height: 4px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 2px;
-            margin-top: 6px;
-            overflow: hidden;
-        }
-        .health-bar-fill {
-            height: 100%;
-            border-radius: 2px;
-            transition: width 0.5s ease;
-        }
-        .health-score-text {
-            font-size: 0.7rem;
-            color: #666;
-            margin-top: 3px;
-            text-align: right;
-        }
-
-        /* ASN / Provider info */
-        .asn-info {
-            font-size: 0.72rem;
-            color: #666;
-            margin-top: 4px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-        .asn-info b { color: #999; }
-
-        /* Port scan */
-        .port-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            margin-top: 6px;
-        }
-        .port-tag {
-            padding: 1px 7px;
-            border-radius: 4px;
-            font-size: 0.65rem;
-            font-weight: 700;
-            font-family: 'Nunito', monospace;
-        }
-        .port-tag.open {
-            background: rgba(0,255,136,0.08);
-            color: #00ff88;
-            border: 1px solid rgba(0,255,136,0.12);
-        }
-        .port-tag.closed {
-            background: rgba(255,68,68,0.06);
-            color: #ff6666;
-            border: 1px solid rgba(255,68,68,0.1);
-        }
-
-        /* Best config highlight */
-        .config-card.best-pick {
-            border-color: rgba(255,215,0,0.3) !important;
-            box-shadow: 0 0 25px rgba(255,215,0,0.1), 0 0 50px rgba(255,215,0,0.05) !important;
-        }
-        .config-card.best-pick::before {
-            background: linear-gradient(180deg, #ffd700, #ffaa00) !important;
-        }
-        .best-badge {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: linear-gradient(90deg, #ffd700, #ffaa00);
-            color: #0a0a0f;
-            font-size: 0.65rem;
-            font-weight: 900;
-            padding: 2px 8px;
-            border-radius: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            z-index: 2;
-        }
-
-        /* Auto-pick button */
-        .autopick-bar {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-bottom: 14px;
-            flex-wrap: wrap;
-        }
-        .autopick-result {
-            background: rgba(255,215,0,0.05);
-            border: 1px solid rgba(255,215,0,0.15);
-            border-radius: 12px;
-            padding: 14px 18px;
-            margin-bottom: 14px;
-            display: none;
-        }
-        .autopick-result.open { display: block; }
-        .autopick-result h4 {
-            color: #ffd700;
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-        }
-    
-    
-        /* Services status panel */
-        .services-panel {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
-            padding: 18px 22px;
-            margin-bottom: 16px;
-            position: relative;
-            overflow: hidden;
-        }
-        .services-panel::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #00d4ff, #7b2cbf, #ff0080, #ffa500, #00ff88);
-            background-size: 300% 300%;
-            animation: gradientShift 4s ease infinite;
-            opacity: 0.6;
-        }
-        .services-panel-title {
-            font-size: 0.85rem;
-            color: #888;
-            font-weight: 700;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 10px;
-        }
-        .service-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 14px;
-            border-radius: 12px;
-            background: rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.04);
-            transition: all 0.3s ease;
-        }
-        .service-item:hover {
-            transform: translateY(-2px);
-            border-color: rgba(255,255,255,0.1);
-        }
-        .service-item.ok {
-            border-color: rgba(0,255,136,0.15);
-            background: rgba(0,255,136,0.04);
-        }
-        .service-item.ok .service-dot {
-            background: #00ff88;
-            box-shadow: 0 0 10px rgba(0,255,136,0.5);
-        }
-        .service-item.fail {
-            border-color: rgba(255,68,68,0.15);
-            background: rgba(255,68,68,0.04);
-        }
-        .service-item.fail .service-dot {
-            background: #ff4444;
-            box-shadow: 0 0 10px rgba(255,68,68,0.5);
-        }
-        .service-item.checking {
-            border-color: rgba(0,212,255,0.15);
-            background: rgba(0,212,255,0.04);
-        }
-        .service-item.checking .service-dot {
-            background: #00d4ff;
-            box-shadow: 0 0 10px rgba(0,212,255,0.5);
-            animation: pulse 1.2s infinite;
-        }
-        .service-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            transition: all 0.3s;
-        }
-        .service-name {
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: #ccc;
-        }
-        .service-status {
-            font-size: 0.7rem;
-            color: #666;
-            margin-left: auto;
-            font-weight: 600;
-        }
-        .service-item.ok .service-status { color: #00ff88; }
-        .service-item.fail .service-status { color: #ff4444; }
-        .service-item.checking .service-status { color: #00d4ff; }
-    
-        /* Network Compatibility Badges */
-        .compat-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-size: 0.68rem;
-            font-weight: 800;
-            border: 1px solid transparent;
-            cursor: pointer;
-            transition: all 0.2s;
-            user-select: none;
-        }
-        .compat-badge:hover { transform: scale(1.05); }
-        .compat-badge.unknown {
-            background: rgba(255,255,255,0.03);
-            color: #666;
-            border-color: rgba(255,255,255,0.08);
-        }
-        .compat-badge.mobile {
-            background: rgba(0,212,255,0.08);
-            color: #00d4ff;
-            border-color: rgba(0,212,255,0.2);
-        }
-        .compat-badge.wifi {
-            background: rgba(123,44,191,0.08);
-            color: #c77dff;
-            border-color: rgba(123,44,191,0.2);
-        }
-        .compat-badge.both {
-            background: rgba(0,255,136,0.08);
-            color: #00ff88;
-            border-color: rgba(0,255,136,0.2);
-        }
-
-    
-        /* KeamX sources — красное оформление */
-        .source-chip.keamx {
-            background: linear-gradient(135deg, rgba(255,0,80,0.08), rgba(180,0,60,0.05));
-            border-color: rgba(255,0,80,0.25);
-            box-shadow: 0 0 15px rgba(255,0,80,0.06);
-        }
-        .source-chip.keamx:hover {
-            background: linear-gradient(135deg, rgba(255,0,80,0.15), rgba(180,0,60,0.1));
-            border-color: rgba(255,0,80,0.4);
-            box-shadow: 0 4px 20px rgba(255,0,80,0.15);
-            transform: translateY(-2px);
-        }
-        .source-chip.keamx.active {
-            background: linear-gradient(135deg, rgba(255,0,80,0.2), rgba(180,0,60,0.15));
-            border-color: rgba(255,0,80,0.6);
-            box-shadow: 0 4px 25px rgba(255,0,80,0.2);
-        }
-        .source-chip.keamx .chip-label {
-            color: #ff5588;
-        }
-        .source-chip.keamx.active .chip-label {
-            color: #fff;
-        }
-        .source-chip.keamx .chip-meta {
-            color: #884455;
-        }
-        .source-chip.keamx .chip-count {
-            color: #ff7799;
-        }
-        .keamx-badge {
+        /* Метка скопированного */
+        .copied-badge {
             display: inline-block;
-            background: linear-gradient(90deg, #ff0050, #ff3366);
-            color: white;
-            font-size: 0.6rem;
-            font-weight: 800;
-            padding: 1px 6px;
-            border-radius: 4px;
-            margin-left: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            background: rgba(0,255,136,0.12);
+            color: #00ff88;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 1px solid rgba(0,255,136,0.2);
+            margin-left: 6px;
         }
-
     </style>
+<base target="_blank">
 </head>
 <body>
 <div class="container">
@@ -1223,13 +814,9 @@
         </div>
     </div>
 
-    <!-- Tabs (убрана вкладка "По источнику") -->
+    <!-- Только вкладка "Все" -->
     <div class="tabs" id="tabContainer">
         <button class="tab-btn active" data-tab="all"><span class="icon">📋</span> Все</button>
-        <button class="tab-btn" data-tab="working"><span class="icon">✅</span> Рабочие</button>
-        <button class="tab-btn" data-tab="favorites"><span class="icon">⭐</span> Избранное</button>
-        
-        <button class="tab-btn" data-tab="leaktest"><span class="icon">🔒</span> Проверка утечек</button>
     </div>
 
     <div class="sources-panel">
@@ -1237,7 +824,6 @@
             <h3>📂 Источники</h3>
             <div style="display:flex;gap:6px;flex-wrap:wrap;">
                 <button class="btn btn-ghost" onclick="loadMetadata()">🔄 Обновить инфо</button>
-                <button class="btn btn-ghost" onclick="selectRec()">🎯 Рекомендуемые</button>
                 <button class="btn btn-ghost" onclick="selectAll(true)">✅ Все</button>
                 <button class="btn btn-ghost" onclick="selectAll(false)">❌ Снять</button>
             </div>
@@ -1258,58 +844,13 @@
         <div id="errorBox"></div>
     </div>
 
-    
-    <div id="leaktestArea" style="display:none;">
-        <div class="leak-panel">
-            <h3>🔒 Проверка утечек IP и DNS</h3>
-            <div class="leak-grid">
-                <div class="leak-card">
-                    <div class="leak-title">🌐 Ваш публичный IP</div>
-                    <div class="leak-value" id="leakPublicIp">Загрузка...</div>
-                    <div class="leak-status loading" id="leakPublicStatus"><span class="dot checking"></span> Определение...</div>
-                </div>
-                <div class="leak-card">
-                    <div class="leak-title">📍 Геолокация</div>
-                    <div class="leak-value" id="leakGeo">Загрузка...</div>
-                    <div class="leak-status loading" id="leakGeoStatus"><span class="dot checking"></span> Определение...</div>
-                </div>
-                <div class="leak-card">
-                    <div class="leak-title">🕳️ WebRTC локальные IP</div>
-                    <div class="leak-value" id="leakWebrtc">Нажмите проверку</div>
-                    <div class="leak-status loading" id="leakWebrtcStatus"><span class="dot checking"></span> Ожидание...</div>
-                </div>
-                <div class="leak-card">
-                    <div class="leak-title">🛡️ Сравнение с VPN IP</div>
-                    <div class="leak-value" style="font-size:0.8rem;color:#666;">Введите ожидаемый IP вашего VPN для сравнения</div>
-                    <div class="ip-compare">
-                        <input type="text" id="expectedVpnIp" placeholder="VPN IP">
-                        <button class="btn btn-primary" style="padding:6px 14px;font-size:0.78rem;" onclick="compareVpnIp()">Сравнить</button>
-                    </div>
-                    <div class="leak-status loading" id="leakCompareStatus" style="margin-top:10px;display:none;"></div>
-                </div>
-            </div>
-            <div class="leak-btn">
-                <button class="btn btn-primary" onclick="runLeakTest()">🔄 Запустить проверку</button>
-            </div>
-        </div>
-    </div>
-
     <div id="resultsArea" style="display:none;">
-        <div class="autopick-bar">
-            <button class="btn btn-primary" onclick="autoPickBest()">🏆 Автоподбор лучшего</button>
-            <span style="font-size:0.78rem;color:#555;">Автоматически выбирает сервер с лучшим рейтингом</span>
-        </div>
-        <div class="autopick-result" id="autopickResult">
-            <h4>🏆 Лучший сервер найден</h4>
-            <div id="autopickContent"></div>
-        </div>
         <div class="toolbar">
             <div class="toolbar-left" id="statsRow"></div>
             <div class="toolbar-right">
                 <input type="text" class="search-box" id="searchBox" placeholder="🔍 Поиск..." oninput="applyFilters()">
                 <select class="select-filter" id="sortSelect" onchange="applyFilters()">
                     <option value="ping">📶 По пингу</option>
-                    <option value="health">🏆 По рейтингу</option>
                     <option value="country">🌍 По стране</option>
                     <option value="protocol">📡 По протоколу</option>
                 </select>
@@ -1326,7 +867,6 @@
 <div class="toast" id="toast">Скопировано</div>
 
 <script>
-
     // ---------- Исходные данные ----------
     const sources = [
         { id: 1,  file: "1.txt",  label: "OpenRay Mix",               rec: false,  sni: false },
@@ -1355,12 +895,12 @@
         { id: 24, file: "24.txt", label: "Vify",                      rec: false,  sni: false },
         { id: 25, file: "25.txt", label: "V2Ray Config",              rec: false,  sni: false },
         { id: 26, file: "26.txt", label: "SNI/CIDR Bypass",           rec: false, sni: false  },
-        { id: 27, file: "hysteria2_links.txt",      label: "KeamX — Hysteria2",         rec: false, sni: false, source: "keamx" },
-        { id: 28, file: "shadowsocks_links.txt",    label: "KeamX — Shadowsocks",       rec: false, sni: false, source: "keamx" },
-        { id: 29, file: "trojan_links.txt",         label: "KeamX — Trojan",            rec: false, sni: false, source: "keamx" },
-        { id: 30, file: "unique_servers.txt",       label: "KeamX — Unique Servers",    rec: false, sni: false, source: "keamx" },
-        { id: 31, file: "vless_links.txt",          label: "KeamX — VLESS",             rec: false, sni: false, source: "keamx" },
-        { id: 32, file: "vmess_links.txt",          label: "KeamX — VMess",             rec: false, sni: false, source: "keamx" }
+        // KeamX источники (красное оформление)
+        { id: 27, file: "hysteria2_links.txt", label: "KeamX — Hysteria2", rec: false, sni: false, source: "keamx" },
+        { id: 28, file: "trojan_links.txt",   label: "KeamX — Trojan",      rec: false, sni: false, source: "keamx" },
+        { id: 29, file: "unique_servers.txt", label: "KeamX — Unique Servers", rec: false, sni: false, source: "keamx" },
+        { id: 30, file: "vless_links.txt",    label: "KeamX — VLESS",        rec: false, sni: false, source: "keamx" },
+        { id: 31, file: "vmess_links.txt",    label: "KeamX — VMess",        rec: false, sni: false, source: "keamx" }
     ];
 
     const endpoints = [
@@ -1368,6 +908,8 @@
         { base: "https://raw.githack.com/AvenCores/goida-vpn-configs/main/githubmirror/", name: "GitHack" },
         { base: "https://raw.githubusercontent.com/AvenCores/goida-vpn-configs/main/githubmirror/", name: "GitHub Raw" }
     ];
+
+    // KeamX эндпоинты
     const keamxEndpoints = [
         { base: "https://raw.githubusercontent.com/KeamX/my-telegram-app/main/", name: "GitHub Raw" },
         { base: "https://cdn.jsdelivr.net/gh/KeamX/my-telegram-app@main/", name: "jsDelivr" },
@@ -1412,13 +954,14 @@
     let fileMeta = {};
     let openDropdownId = null;
     let favoriteIds = new Set();
-    
-    let networkCompatMap = {};
+    let deviceMap = {};
     let autoUpdateInterval = null;
     let autoUpdateEnabled = false;
     let sortMode = 'ping';
     let currentCountryFilter = 'all';
-    let currentRegionFilter = 'all';
+
+    // Скопированные сервера (храним ID)
+    let copiedIds = new Set();
 
     // Загрузка из localStorage
     try {
@@ -1426,38 +969,22 @@
         if (savedFav) favoriteIds = new Set(JSON.parse(savedFav));
     } catch(e) {}
     try {
-        const savedCompat = localStorage.getItem('vpn_network_compat');
-        if (savedCompat) networkCompatMap = JSON.parse(savedCompat);
+        const savedDev = localStorage.getItem('vpn_devices');
+        if (savedDev) deviceMap = JSON.parse(savedDev);
     } catch(e) {}
     try {
         const saved = localStorage.getItem('vpn_country_cache_v2');
         if (saved) countryCache = JSON.parse(saved);
     } catch(e) {}
+    try {
+        const savedCopied = localStorage.getItem('vpn_copied');
+        if (savedCopied) copiedIds = new Set(JSON.parse(savedCopied));
+    } catch(e) {}
 
     function saveFavorites() { localStorage.setItem('vpn_favorites', JSON.stringify([...favoriteIds])); }
+    function saveDevices() { localStorage.setItem('vpn_devices', JSON.stringify(deviceMap)); }
     function saveCountryCache() { try { localStorage.setItem('vpn_country_cache_v2', JSON.stringify(countryCache)); } catch(e) {} }
-
-    function detectNetworkCompat(port, protocol) {
-        const p = parseInt(port);
-        if (protocol === 'reality') return 'both';
-        if (p === 443 || p === 80) return 'both';
-        return 'unknown';
-    }
-    function saveNetworkCompat() { try { localStorage.setItem('vpn_network_compat', JSON.stringify(networkCompatMap)); } catch(e) {} }
-    function toggleNetworkCompat(idx) {
-        const cycle = ['unknown','mobile','wifi','both'];
-        const cur = networkCompatMap[idx] || 'unknown';
-        const next = cycle[(cycle.indexOf(cur)+1) % cycle.length];
-        networkCompatMap[idx] = next;
-        saveNetworkCompat();
-        const c = allConfigs.find(x=>x.id===idx);
-        if (c) c.networkCompat = next;
-        refreshCard(c.id);
-    }
-    function getCompatLabel(code) {
-        const map = { unknown:'❓ Не проверено', mobile:'📱 Только мобильный', wifi:'🖥️ Только WiFi', both:'✅ Везде работает' };
-        return map[code] || map.unknown;
-    }
+    function saveCopied() { localStorage.setItem('vpn_copied', JSON.stringify([...copiedIds])); }
 
     // ---------- Вспомогательные функции ----------
     function getFlagEmoji(cc) {
@@ -1505,8 +1032,6 @@
     function parseHost(cfg) {
         try {
             let url = cfg.trim();
-            // Нормализуем ss:// для корректного парсинга
-            if (url.startsWith('ss://')) url = normalizeShadowsocks(url);
             if (url.startsWith('vmess://')) {
                 const b64 = url.slice(8).split('#')[0].split('?')[0];
                 const pad = b64.length % 4 ? '='.repeat(4-b64.length%4) : '';
@@ -1523,6 +1048,18 @@
         return { host: '', port: '' };
     }
 
+    function detectProtocol(cfg) {
+        const c = cfg.trim();
+        if (c.startsWith('vless://')) return c.includes('reality') ? 'reality' : 'vless';
+        if (c.startsWith('vmess://')) return 'vmess';
+        if (c.startsWith('trojan://')) return 'trojan';
+        if (c.startsWith('ss://')) return 'shadowsocks';
+        if (c.startsWith('hysteria://') || c.startsWith('hysteria2://') || c.startsWith('hy2://')) return 'hysteria';
+        if (c.startsWith('tuic://')) return 'tuic';
+        return 'other';
+    }
+
+    // Конвертер KeamX JSON → URI
     function convertKeamxJsonToUri(obj) {
         try {
             const type = (obj.configType || '').toUpperCase();
@@ -1581,56 +1118,69 @@
         } catch(e) { return null; }
     }
 
-    function normalizeShadowsocks(cfg) {
-        if (!cfg || !cfg.startsWith('ss://')) return cfg;
+    // Парсинг KeamX текста (бинарные JSON-фрагменты)
+    function parseKeamxText(text) {
+        const lines = [];
+        // Попытка 1: валидный JSON-массив
         try {
-            let url = cfg.trim();
-            // Отделяем #tag
-            const hashIdx = url.lastIndexOf('#');
-            const tag = hashIdx !== -1 ? url.slice(hashIdx) : '';
-            const mainPart = hashIdx !== -1 ? url.slice(0, hashIdx) : url;
-            // Отделяем ?params
-            const qIdx = mainPart.indexOf('?');
-            const query = qIdx !== -1 ? mainPart.slice(qIdx) : '';
-            const beforeQuery = qIdx !== -1 ? mainPart.slice(0, qIdx) : mainPart;
-            // Убираем ss://
-            let body = beforeQuery.slice(5);
-            // Пробуем декодировать весь body как base64 (SIP002 формат)
-            try {
-                const pad = body.length % 4 ? '='.repeat(4 - body.length % 4) : '';
-                const decoded = atob(body + pad);
-                if (decoded.includes('@') && decoded.includes(':')) {
-                    return 'ss://' + decoded + query + tag;
-                }
-            } catch(e) {}
-            // Формат ss://base64(method:password)@host:port
-            const atIdx = body.indexOf('@');
-            if (atIdx !== -1) {
-                const b64 = body.slice(0, atIdx);
-                const rest = body.slice(atIdx);
-                const pad = b64.length % 4 ? '='.repeat(4 - b64.length % 4) : '';
-                const decoded = atob(b64 + pad);
-                if (decoded.includes(':')) {
-                    return 'ss://' + decoded + rest + query + tag;
-                }
+            const jsonData = JSON.parse(text);
+            if (Array.isArray(jsonData)) {
+                jsonData.forEach(o => {
+                    if (o && typeof o === 'object') {
+                        const uri = convertKeamxJsonToUri(o);
+                        if (uri) lines.push(uri);
+                    } else if (typeof o === 'string' && o.trim()) {
+                        lines.push(o.trim());
+                    }
+                });
+                if (lines.length > 0) return lines;
             }
-            return cfg;
-        } catch(e) {
-            return cfg;
+        } catch(e) {}
+        // Попытка 2: извлечь JSON-объекты из бинарного мусора
+        let i = 0;
+        while (i < text.length) {
+            const idx = text.indexOf('{"addedTime"', i);
+            if (idx === -1) break;
+            let depth = 0;
+            let j = idx;
+            let inString = false;
+            let escape = false;
+            while (j < text.length) {
+                const ch = text[j];
+                if (escape) {
+                    escape = false;
+                } else if (ch === '\\') {
+                    escape = true;
+                } else if (ch === '"') {
+                    inString = !inString;
+                } else if (!inString) {
+                    if (ch === '{') depth++;
+                    else if (ch === '}') {
+                        depth--;
+                        if (depth === 0) {
+                            const objStr = text.slice(idx, j + 1);
+                            try {
+                                const obj = JSON.parse(objStr);
+                                const uri = convertKeamxJsonToUri(obj);
+                                if (uri) lines.push(uri);
+                            } catch(e) {}
+                            i = j + 1;
+                            break;
+                        }
+                    }
+                }
+                j++;
+            }
+            if (j >= text.length) break;
         }
+        // Fallback: построчный сплит
+        if (lines.length === 0) {
+            return text.split(/\r?\n/).filter(l => l.trim());
+        }
+        return lines;
     }
 
-    function detectProtocol(cfg) {
-        const c = cfg.trim();
-        if (c.startsWith('vless://')) return c.includes('reality') ? 'reality' : 'vless';
-        if (c.startsWith('vmess://')) return 'vmess';
-        if (c.startsWith('trojan://')) return 'trojan';
-        if (c.startsWith('ss://')) return 'shadowsocks';
-        if (c.startsWith('hysteria://') || c.startsWith('hysteria2://') || c.startsWith('hy2://')) return 'hysteria';
-        if (c.startsWith('tuic://')) return 'tuic';
-        return 'other';
-    }
-
+    // Загрузка текста с учётом источника (keamx или обычный)
     async function fetchText(fileName, sourceType) {
         const eps = sourceType === 'keamx' ? keamxEndpoints : endpoints;
         const timeoutMs = sourceType === 'keamx' ? 30000 : 10000;
@@ -1659,18 +1209,23 @@
     // ---------- Инициализация ----------
     function init() {
         const grid = document.getElementById('sourcesGrid');
-        grid.innerHTML = sources.map(s => `
-            <label class="source-chip ${s.source==='keamx' ? 'keamx' : ''}" id="chip-${s.id}">
+        grid.innerHTML = sources.map(s => {
+            let classes = 'source-chip';
+            // убираем автоматический выбор: rec и sni теперь false, поэтому checked не ставим
+            if (s.source === 'keamx') classes += ' keamx';
+            return `
+            <label class="${classes}" id="chip-${s.id}">
                 <input type="checkbox" value="${s.id}" onchange="toggleChip(${s.id})">
-                <span class="chip-label">${s.label}${s.source==='keamx' ? '<span class="keamx-badge">NEW</span>' : ''}</span>
+                <span class="chip-label">${s.label}${s.source === 'keamx' ? '<span class="keamx-badge">NEW</span>' : ''}</span>
                 <span class="chip-meta" id="meta-${s.id}">Загрузка...</span>
                 <span class="chip-count" id="count-${s.id}"></span>
                 <span class="chip-protos" id="protos-${s.id}"></span>
                 <span class="chip-warn" id="warn-${s.id}"></span>
             </label>
-        `).join('');
+        `}).join('');
         loadMetadata();
         document.addEventListener('click', closeAllDropdowns);
+        // Оставляем только одну вкладку, поэтому переключение не нужно, но обработчик оставим для совместимости
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -1697,7 +1252,6 @@
                 const metaEl = document.getElementById('meta-'+s.id);
                 const warnEl = document.getElementById('warn-'+s.id);
                 let size = null;
-                // Пробуем HEAD запрос через endpoints
                 const metaEps = s.source === 'keamx' ? keamxEndpoints : endpoints;
                 const metaTimeout = s.source === 'keamx' ? 15000 : 5000;
                 for (const ep of metaEps) {
@@ -1712,7 +1266,6 @@
                         }
                     } catch(e) {}
                 }
-                // Fallback: попробуем через CORS прокси HEAD
                 if (size === null) {
                     for (const p of corsProxies) {
                         try {
@@ -1727,7 +1280,6 @@
                         } catch(e) {}
                     }
                 }
-                // Fallback 2: GET с range=0-0 чтобы получить Content-Range
                 if (size === null) {
                     for (const ep of metaEps) {
                         try {
@@ -1772,73 +1324,8 @@
             chip.classList.toggle('active', v);
         });
     }
-    function selectRec() {
-        // Пользователь выбирает источники самостоятельно
-        showToast('Выберите источники вручную');
-    }
 
     // ---------- Загрузка и проверка ----------
-    function parseKeamxText(text) {
-        const lines = [];
-        // Попытка 1: валидный JSON-массив объектов (KeamX JSON sources)
-        try {
-            const jsonData = JSON.parse(text);
-            if (Array.isArray(jsonData)) {
-                jsonData.forEach(o => {
-                    if (o && typeof o === 'object') {
-                        const uri = convertKeamxJsonToUri(o);
-                        if (uri) lines.push(uri);
-                    } else if (typeof o === 'string' && o.trim()) {
-                        lines.push(o.trim());
-                    }
-                });
-                if (lines.length > 0) return lines;
-            }
-        } catch(e) {}
-        // Попытка 2: извлечь JSON-объекты из бинарного/текстового мусора (KeamX бинарные файлы)
-        let i = 0;
-        while (i < text.length) {
-            const idx = text.indexOf('{"addedTime"', i);
-            if (idx === -1) break;
-            let depth = 0;
-            let j = idx;
-            let inString = false;
-            let escape = false;
-            while (j < text.length) {
-                const ch = text[j];
-                if (escape) {
-                    escape = false;
-                } else if (ch === '\\') {
-                    escape = true;
-                } else if (ch === '"') {
-                    inString = !inString;
-                } else if (!inString) {
-                    if (ch === '{') depth++;
-                    else if (ch === '}') {
-                        depth--;
-                        if (depth === 0) {
-                            const objStr = text.slice(idx, j + 1);
-                            try {
-                                const obj = JSON.parse(objStr);
-                                const uri = convertKeamxJsonToUri(obj);
-                                if (uri) lines.push(uri);
-                            } catch(e) {}
-                            i = j + 1;
-                            break;
-                        }
-                    }
-                }
-                j++;
-            }
-            if (j >= text.length) break;
-        }
-        // Fallback 3: построчный сплит
-        if (lines.length === 0) {
-            return text.split(/\r?\n/).filter(l => l.trim());
-        }
-        return lines;
-    }
-
     async function startLoading() {
         const ids = getSelected();
         if (!ids.length) { alert('Выберите источники'); return; }
@@ -1873,19 +1360,6 @@
             let lines = [];
             if (s.source === 'keamx') {
                 lines = parseKeamxText(text);
-            } else if (s.isJson) {
-                try {
-                    const jsonData = JSON.parse(text);
-                    if (Array.isArray(jsonData) && jsonData.length > 0 && typeof jsonData[0] === 'object') {
-                        lines = jsonData.map(o => convertKeamxJsonToUri(o)).filter(l => l);
-                    } else if (Array.isArray(jsonData)) {
-                        lines = jsonData.filter(l => typeof l === 'string' && l.trim());
-                    } else if (jsonData.configs && Array.isArray(jsonData.configs)) {
-                        lines = jsonData.configs.filter(l => typeof l === 'string' && l.trim());
-                    } else if (typeof jsonData === 'object') {
-                        lines = Object.values(jsonData).flat().filter(l => typeof l === 'string' && l.trim());
-                    }
-                } catch(e) { lines = text.split(/\r?\n/).filter(l=>l.trim()); }
             } else {
                 lines = text.split(/\r?\n/).filter(l=>l.trim());
             }
@@ -1894,11 +1368,9 @@
                 const proto = detectProtocol(line);
                 protos.add(proto);
                 const hi = parseHost(line);
-                const normalized = proto === 'shadowsocks' ? normalizeShadowsocks(line.trim()) : line.trim();
                 allConfigs.push({
                     id: allConfigs.length,
                     config: line.trim(),
-                    normalizedConfig: normalized,
                     protocol: proto,
                     host: hi.host,
                     port: hi.port,
@@ -1909,14 +1381,13 @@
                     country: null,
                     favorite: favoriteIds.has(allConfigs.length),
                     speed: null,
-                    details: null,
-                    networkCompat: networkCompatMap[allConfigs.length] || detectNetworkCompat(hi.port, proto)
+                    details: null
                 });
             });
             document.getElementById('count-'+s.id).textContent = lines.length.toLocaleString('ru')+' серверов';
             document.getElementById('protos-'+s.id).textContent = Array.from(protos).join(' / ');
         }
-        allConfigs.forEach(c=>{ c.favorite = favoriteIds.has(c.id); if(!c.networkCompat) c.networkCompat = networkCompatMap[c.id] || detectNetworkCompat(c.port, c.protocol); });
+        allConfigs.forEach(c=>{ c.favorite = favoriteIds.has(c.id); });
 
         document.getElementById('progressBar').style.width = '100%';
         document.getElementById('progressText').textContent = 'Загружено '+allConfigs.length+' конфигов. Проверка...';
@@ -1940,44 +1411,64 @@
         if (autoUpdateEnabled) startAutoUpdate();
     }
 
-    // ---- Проверка с тестом скорости ----
-    // ---------- Легкая проверка (быстрая) ----------
+    // ---- Улучшенная проверка ----
     async function checkSingle(c) {
         if (!c.host) { c.status='offline'; c.ping=null; c.speed=null; return; }
         c.checking = true; c.status='checking';
         refreshCard(c.id);
 
-        const countryPromise = resolveCountry(c.host);
-        const pingOnly = (async () => {
-            const urls = ['https://'+c.host+(c.port?':'+c.port:'')+'/', 'https://'+c.host+'/'];
-            let bestPing = Infinity, anyResponse = false;
-            for (const testUrl of urls) {
-                const ctrl = new AbortController();
-                const to = setTimeout(()=>ctrl.abort(), 1500);
-                const t0 = performance.now();
-                try { await fetch(testUrl, {mode:'no-cors', signal:ctrl.signal}); bestPing=Math.min(bestPing, Math.round(performance.now()-t0)); anyResponse=true; } catch(e){}
-                clearTimeout(to);
-            }
-            return { anyResponse, bestPing };
-        })();
+        // Сначала пробуем cors-запрос к / (или /generate_204) для более точной проверки
+        let online = false;
+        let ping = null;
 
-        const [countryResult, pingOnlyResult] = await Promise.all([countryPromise, pingOnly]);
+        // Попытка 1: cors с проверкой статуса
+        try {
+            const testUrl = 'https://' + c.host + (c.port?':'+c.port:'') + '/generate_204';
+            const start = performance.now();
+            const ctrl = new AbortController();
+            const to = setTimeout(()=>ctrl.abort(), 3000);
+            const res = await fetch(testUrl, { signal: ctrl.signal });
+            clearTimeout(to);
+            if (res.ok) {
+                online = true;
+                ping = Math.round(performance.now() - start);
+            }
+        } catch(e) {
+            // если CORS или другая ошибка, пробуем no-cors
+        }
+
+        if (!online) {
+            // Попытка 2: no-cors (просто проверяем, установлено ли соединение)
+            try {
+                const testUrl = 'https://' + c.host + (c.port?':'+c.port:'') + '/';
+                const start = performance.now();
+                const ctrl = new AbortController();
+                const to = setTimeout(()=>ctrl.abort(), 3000);
+                await fetch(testUrl, { mode: 'no-cors', signal: ctrl.signal });
+                clearTimeout(to);
+                online = true;
+                ping = Math.round(performance.now() - start);
+            } catch(e) {
+                online = false;
+            }
+        }
+
+        // Получаем страну
+        const country = await resolveCountry(c.host);
 
         c.checking = false;
-        if (pingOnlyResult.anyResponse) {
+        c.country = country;
+        c.details = parseDetails(c.config);
+        if (online) {
             c.status = 'online';
-            c.ping = pingOnlyResult.bestPing;
+            c.ping = ping;
+            c.speed = null; // скорость не измеряем
         } else {
             c.status = 'offline';
             c.ping = null;
         }
-        if (countryResult) c.country = countryResult;
-        c.details = parseDetails(c.config);
-        c.healthScore = calculateHealthScore(c);
         refreshCard(c.id);
     }
-
-
 
     function parseDetails(cfg) {
         try {
@@ -2003,21 +1494,16 @@
         checkAbort = false;
         const toCheck = allConfigs.filter(c=>c.host);
         const total = toCheck.length;
-        const batchSize = 50;
-
-        // Запускаем проверку сервисов параллельно (один раз глобально)
-        runGlobalRegionCheck();
-
-        for (let i=0; i<total; i+=batchSize) {
+        for (let i=0; i<total; i+=20) {
             if (checkAbort) break;
-            const batch = toCheck.slice(i, i+batchSize);
+            const batch = toCheck.slice(i, i+20);
             await Promise.all(batch.map(c=>checkSingle(c)));
             document.getElementById('progressText').textContent = 'Проверка серверов...';
-            document.getElementById('progressCount').textContent = Math.min(i+batchSize, total)+'/'+total;
-            document.getElementById('progressBar').style.width = Math.round((Math.min(i+batchSize, total)/total)*100)+'%';
+            document.getElementById('progressCount').textContent = Math.min(i+20, total)+'/'+total;
+            document.getElementById('progressBar').style.width = Math.round((Math.min(i+20, total)/total)*100)+'%';
             sortConfigs();
             applyFilters();
-            await new Promise(r=>setTimeout(r, 5));
+            await new Promise(r=>setTimeout(r,50));
         }
         document.getElementById('progressText').textContent = 'Проверка завершена';
         document.getElementById('progressCount').textContent = '';
@@ -2033,13 +1519,6 @@
                 if (oa!==ob) return oa-ob;
                 if (a.status==='online' && b.status==='online') return (a.ping??99999) - (b.ping??99999);
                 return 0;
-            });
-        } else if (sortMode === 'health') {
-            allConfigs.sort((a,b) => {
-                const order = { online:0, checking:1, unknown:2, offline:3 };
-                const oa = order[a.status]??2, ob = order[b.status]??2;
-                if (oa!==ob) return oa-ob;
-                return (b.healthScore??0) - (a.healthScore??0);
             });
         } else if (sortMode === 'country') {
             allConfigs.sort((a,b) => {
@@ -2090,43 +1569,19 @@
     function setProto(p) { currentProtocol=p; currentPage=1; buildFilters(); applyFilters(); }
     function setStatus(s) { currentStatus=s; currentPage=1; applyFilters(); }
 
-    function getActiveTab() {
-        const active = document.querySelector('.tab-btn.active');
-        return active ? active.dataset.tab : 'all';
-    }
+    // Вкладка теперь всегда "all"
+    function getActiveTab() { return 'all'; }
 
     function applyFilters() {
         const q = document.getElementById('searchBox').value.toLowerCase().trim();
-        const tab = getActiveTab();
-        const country = currentCountryFilter;
-
-        // Показ/скрытие областей по вкладкам
-        const resultsArea = document.getElementById('resultsArea');
-        const leaktestArea = document.getElementById('leaktestArea');
-        const servicesPanel = document.getElementById('servicesPanel');
-        if (tab === 'leaktest') {
-            if (resultsArea) resultsArea.style.display = 'none';
-            if (leaktestArea) { leaktestArea.style.display = 'block'; runLeakTest(); }
-            return;
-        } else {
-            if (leaktestArea) leaktestArea.style.display = 'none';
-            if (resultsArea && allConfigs.length) {
-                resultsArea.style.display = 'block';
-                if (servicesPanel) servicesPanel.style.display = 'block';
-            }
-        }
-
+        // фильтруем только по протоколу, стране, статусу и поиску
         filteredConfigs = allConfigs.filter(c => {
             const mp = currentProtocol==='all' || c.protocol===currentProtocol;
             const ms = currentStatus==='all' || c.status===currentStatus;
             const mq = !q || c.config.toLowerCase().includes(q) || c.host.toLowerCase().includes(q) ||
                 (c.country && (c.country.name.toLowerCase().includes(q) || c.country.code.toLowerCase().includes(q)));
-            const mc = country==='all' || (c.country && c.country.code===country);
-            let mt = true;
-            if (tab==='working') mt = c.status==='online' && (c.ping!==null && c.ping<500);
-            else if (tab==='favorites') mt = favoriteIds.has(c.id);
-            // вкладка 'devices' удалена по запросу
-            return mp && ms && mq && mc && mt;
+            const mc = currentCountryFilter==='all' || (c.country && c.country.code===currentCountryFilter);
+            return mp && ms && mq && mc;
         });
         updateStats();
         renderPage();
@@ -2140,14 +1595,12 @@
         const checking = allConfigs.filter(c=>c.status==='checking').length;
         const unknown = allConfigs.filter(c=>c.status==='unknown').length;
 
-        const mobileCompat = allConfigs.filter(c=>(c.networkCompat||'unknown')==='mobile' || (c.networkCompat||'unknown')==='both').length;
         document.getElementById('statsRow').innerHTML = `
             <span class="stat-pill ${currentStatus==='all'?'active-filter':''}" onclick="setStatus('all')">Всего <b>${total}</b></span>
             <span class="stat-pill online ${currentStatus==='online'?'active-filter':''}" onclick="setStatus('online')">Онлайн <b>${online}</b></span>
             <span class="stat-pill offline ${currentStatus==='offline'?'active-filter':''}" onclick="setStatus('offline')">Оффлайн <b>${offline}</b></span>
             <span class="stat-pill checking ${currentStatus==='checking'?'active-filter':''}" onclick="setStatus('checking')">Проверка <b>${checking}</b></span>
             <span class="stat-pill ${currentStatus==='unknown'?'active-filter':''}" onclick="setStatus('unknown')">Не проверено <b>${unknown}</b></span>
-            <span class="stat-pill" style="border-color:rgba(0,255,136,0.15);color:#00ff88;" title="Сервера помеченные как универсальные или мобильные">📱 Мобильные <b>${mobileCompat}</b></span>
             <span class="stat-pill">Показано <b>${filteredConfigs.length}</b></span>
         `;
     }
@@ -2165,7 +1618,7 @@
         document.getElementById('statCountries').textContent = countries.size;
     }
 
-    // ---------- Управление устройствами и избранным ----------
+    // ---------- Управление избранным ----------
     function toggleFavorite(idx) {
         if (favoriteIds.has(idx)) favoriteIds.delete(idx);
         else favoriteIds.add(idx);
@@ -2211,8 +1664,7 @@
                 if (c.status==='checking') statusHtml = '<span class="status-pill checking"><span class="dot checking"></span>Проверка...</span>';
                 else if (c.status==='online') {
                     let extra = '';
-                    if (c.speed) extra = ` ⚡${c.speed.toFixed(2)} MB/s`;
-                    else if (c.ping) extra = ` 📶${c.ping} ms`;
+                    if (c.ping) extra = ` 📶${c.ping} ms`;
                     statusHtml = `<span class="status-pill online"><span class="dot online"></span>${extra}</span>`;
                 } else if (c.status==='offline') statusHtml = '<span class="status-pill offline"><span class="dot offline"></span>Недоступен</span>';
                 else statusHtml = '<span class="status-pill unknown"><span class="dot unknown"></span>Не проверен</span>';
@@ -2225,16 +1677,15 @@
                 }
 
                 const isFav = favoriteIds.has(c.id);
-                
+                const isCopied = copiedIds.has(c.id);
 
                 return `
                 <div class="config-card ${c.protocol}" data-idx="${c.id}">
                     <div class="card-top">
                         <span class="proto-badge pb-${c.protocol}">${c.protocol}</span>
                         ${statusHtml}
-                        <span class="compat-badge ${c.networkCompat||'unknown'}" onclick="toggleNetworkCompat(${c.id})" title="Нажмите чтобы переключить">${getCompatLabel(c.networkCompat||'unknown')}</span>
-                        <div style="display:flex;gap:4px;align-items:center;">
-                            ${c.healthScore !== undefined ? '<span style="font-size:0.7rem;color:'+(c.healthScore>=80?'#00ff88':c.healthScore>=50?'#ffaa00':'#ff4444')+';font-weight:800;">🏆 '+c.healthScore+'</span>' : ''}
+                        <div style="display:flex;gap:4px;">
+                            ${isCopied ? '<span class="copied-badge">📋 Скопирован</span>' : ''}
                             <button class="btn ${isFav ? 'btn-success' : 'btn-secondary'}" style="padding:2px 12px;font-size:0.75rem;" onclick="toggleFavorite(${c.id})">${isFav ? '★' : '☆'}</button>
                         </div>
                     </div>
@@ -2243,21 +1694,14 @@
                         ${c.host ? '<b>'+c.host+'</b>'+(c.port?':'+c.port:'') : 'Адрес не распознан'}
                         ${c.sourceId !== undefined && c.sourceId !== -1 ? '<span style="font-size:0.7rem;color:#555;">['+sources.find(s=>s.id===c.sourceId)?.label+']</span>' : ''}
                     </div>
-                    ${c.asn ? '<div class="asn-info">🏢 <b>'+c.asn.org+'</b> | ASN '+c.asn.asn+' | '+c.asn.type+'</div>' : ''}
-                    ${c.healthScore !== undefined ? '<div class="health-bar-wrap"><div class="health-bar-fill" style="width:'+c.healthScore+'%;background:'+(c.healthScore>=80?'linear-gradient(90deg,#00ff88,#00b894)':c.healthScore>=50?'linear-gradient(90deg,#ffaa00,#ff7700)':'linear-gradient(90deg,#ff4444,#ff0000)')+';"></div></div><div class="health-score-text">Health Score: '+c.healthScore+'/100</div>' : ''}
-                    ${c.ports && c.ports.length ? '<div class="port-list">'+c.ports.map(p=>'<span class="port-tag '+(p.open?'open':'closed')+'">'+p.port+'</span>').join('')+'</div>' : ''}
-                    
-                    <div class="config-text">${escapeHtml(c.protocol==='shadowsocks' && c.normalizedConfig ? c.normalizedConfig : short)}</div>
+                    <div class="config-text">${escapeHtml(short)}</div>
                     <div class="card-actions">
                         <button class="btn-copy" onclick="copyCfg(${c.id})">Копировать</button>
                         ${renderDropdown(c.id)}
                         <button class="btn-check" onclick="checkOne(${c.id})">Перепроверить</button>
-                        
                         <button class="btn-details" onclick="toggleDetails(${c.id})">📖 Детали</button>
                         <button class="btn-qr" id="qr-btn-${c.id}" onclick="toggleQR(${c.id})">📱 QR</button>
-                        
                     </div>
-                    
                     <div class="details-panel" id="details-${c.id}">
                         ${c.details ? Object.entries(c.details).map(([k,v]) => `<div class="param"><span class="key">${k}</span><span class="value">${v}</span></div>`).join('') : 'Нет деталей'}
                     </div>
@@ -2298,18 +1742,17 @@
         if (c.status==='checking') statusHtml = '<span class="status-pill checking"><span class="dot checking"></span>Проверка...</span>';
         else if (c.status==='online') {
             let extra = '';
-            if (c.speed) extra = ` ⚡${c.speed.toFixed(2)} MB/s`;
-            else if (c.ping) extra = ` 📶${c.ping} ms`;
+            if (c.ping) extra = ` 📶${c.ping} ms`;
             statusHtml = `<span class="status-pill online"><span class="dot online"></span>${extra}</span>`;
         } else if (c.status==='offline') statusHtml = '<span class="status-pill offline"><span class="dot offline"></span>Недоступен</span>';
         else statusHtml = '<span class="status-pill unknown"><span class="dot unknown"></span>Не проверен</span>';
         const isFav = favoriteIds.has(c.id);
+        const isCopied = copiedIds.has(c.id);
         card.querySelector('.card-top').innerHTML = `
             <span class="proto-badge pb-${c.protocol}">${c.protocol}</span>
             ${statusHtml}
-            <span class="compat-badge ${c.networkCompat||'unknown'}" onclick="toggleNetworkCompat(${c.id})" title="Нажмите чтобы переключить">${getCompatLabel(c.networkCompat||'unknown')}</span>
-            <div style="display:flex;gap:4px;align-items:center;">
-                ${c.healthScore !== undefined ? '<span style="font-size:0.7rem;color:'+(c.healthScore>=80?'#00ff88':c.healthScore>=50?'#ffaa00':'#ff4444')+';font-weight:800;">🏆 '+c.healthScore+'</span>' : ''}
+            <div style="display:flex;gap:4px;">
+                ${isCopied ? '<span class="copied-badge">📋 Скопирован</span>' : ''}
                 <button class="btn ${isFav ? 'btn-success' : 'btn-secondary'}" style="padding:2px 12px;font-size:0.75rem;" onclick="toggleFavorite(${c.id})">${isFav ? '★' : '☆'}</button>
             </div>
         `;
@@ -2333,7 +1776,7 @@
     async function checkOne(idx) {
         const c = allConfigs.find(x=>x.id===idx);
         if (!c || !c.host) return;
-        await checkFull(c);
+        await checkSingle(c);
         updateStats();
         sortConfigs(); applyFilters();
         updateGlobalStats();
@@ -2368,8 +1811,7 @@
     function openInApp(idx, appName) {
         const c = allConfigs.find(x=>x.id===idx);
         if (!c) return;
-        const cfgToUse = c.normalizedConfig || c.config;
-        const link = appLinks[appName](cfgToUse);
+        const link = appLinks[appName](c.config);
         window.open(link, '_blank');
         closeAllDropdowns();
     }
@@ -2377,7 +1819,12 @@
     function copyCfg(idx) {
         const c = allConfigs.find(x=>x.id===idx);
         if (!c) return;
-        const text = c.normalizedConfig || c.config;
+        const text = c.config;
+        // Запоминаем, что скопировали
+        copiedIds.add(idx);
+        saveCopied();
+        // Обновляем карточку (чтобы появилась метка)
+        refreshCard(idx);
         if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(text).then(()=>showToast()).catch(()=>fallbackCopy(text));
         } else {
@@ -2437,299 +1884,8 @@
         return d.innerHTML;
     }
 
-
-
-
-
-
-    // ---------- Health Score ----------
-    function calculateHealthScore(c) {
-        if (c.status !== 'online') return 0;
-        let score = 50;
-        // Ping: <30ms = +30, <100ms = +20, <200ms = +10, >500ms = -10
-        const ping = c.ping ?? 9999;
-        if (ping < 30) score += 30;
-        else if (ping < 100) score += 20;
-        else if (ping < 200) score += 10;
-        else if (ping > 500) score -= 10;
-        // Speed: >5MB/s = +15, >1MB/s = +10, >0.5MB/s = +5
-        const speed = c.speed ?? 0;
-        if (speed > 5) score += 15;
-        else if (speed > 1) score += 10;
-        else if (speed > 0.5) score += 5;
-        // Protocol bonus: reality/vless more reliable
-        if (c.protocol === 'reality') score += 5;
-        else if (c.protocol === 'vless') score += 3;
-        // Region lock bonus (6 сервисов: Netflix, YouTube, ChatGPT, TikTok, Instagram, Telegram)
-        if (c.regions) {
-            const okCount = Object.values(c.regions).filter(v => v === 'ok').length;
-            score += okCount * 2;
-        }
-        return Math.min(100, Math.max(0, Math.round(score)));
-    }
-
-    // ---------- ASN / Provider Info ----------
-    async function resolveASN(host) {
-        if (!host) return null;
-        try {
-            const res = await fetch('https://ipwho.is/' + host, { cache: 'no-store' });
-            const data = await res.json();
-            if (data.success) {
-                return {
-                    asn: data.connection?.asn || '—',
-                    org: data.connection?.org || data.isp || '—',
-                    type: data.connection?.route || data.type || '—'
-                };
-            }
-        } catch(e) {}
-        return null;
-    }
-
-    // ---------- Port Scan (реальная проверка) ----------
-    const commonPorts = [80, 443, 2052, 2053, 2082, 2083, 2086, 2087, 2095, 2096, 8443, 8080, 8880];
-    async function checkPorts(host) {
-        if (!host) return [];
-        const results = [];
-        // Проверяем порты последовательно с небольшой задержкой, чтобы не DDOS-ить
-        for (const port of commonPorts) {
-            const url = 'https://' + host + ':' + port + '/';
-            const ctrl = new AbortController();
-            const to = setTimeout(() => ctrl.abort(), 3000);
-            let open = false;
-            try {
-                await fetch(url, { mode: 'no-cors', signal: ctrl.signal });
-                // Если fetch не выбросил исключение — TCP-соединение установлено
-                open = true;
-            } catch(e) {
-                // TypeError = connection refused / timeout / SSL error
-                open = false;
-            }
-            clearTimeout(to);
-            results.push({ port, open });
-            // Небольшая задержка между проверками
-            await new Promise(r => setTimeout(r, 150));
-        }
-        return results;
-    }
-
-    // ---------- Region Lock Checker (глобальная проверка, один раз) ----------
-    const regionServices = {
-        'Netflix': 'https://www.netflix.com/title/80113701',
-        'YouTube': 'https://www.youtube.com/premium',
-        'ChatGPT': 'https://chat.openai.com',
-        'TikTok': 'https://www.tiktok.com',
-        'Instagram': 'https://www.instagram.com',
-        'Telegram': 'https://web.telegram.org'
-    };
-    let globalRegionStatus = null;
-
-    async function runGlobalRegionCheck() {
-        const grid = document.getElementById('servicesGrid');
-        const panel = document.getElementById('servicesPanel');
-        if (panel) panel.style.display = 'block';
-
-        const results = {};
-        for (const name of Object.keys(regionServices)) {
-            results[name] = 'checking';
-        }
-        updateServicesGrid(results);
-
-        await Promise.all(Object.entries(regionServices).map(async ([name, url]) => {
-            // Primary: allorigins
-            try {
-                const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(url);
-                const ctrl = new AbortController();
-                const to = setTimeout(() => ctrl.abort(), 8000);
-                const res = await fetch(proxyUrl, { signal: ctrl.signal });
-                clearTimeout(to);
-                if (res.ok) {
-                    const data = await res.json();
-                    const code = data.status?.http_code || 0;
-                    if (code === 200) { results[name] = 'ok'; updateServicesGrid(results); return; }
-                    else if (code === 403 || code === 451 || code === 404) { results[name] = 'fail'; updateServicesGrid(results); return; }
-                }
-            } catch(e) {}
-            // Fallback: corsproxy.io
-            try {
-                const proxyUrl2 = 'https://corsproxy.io/?url=' + encodeURIComponent(url);
-                const ctrl2 = new AbortController();
-                const to2 = setTimeout(() => ctrl2.abort(), 6000);
-                const res2 = await fetch(proxyUrl2, { signal: ctrl2.signal });
-                clearTimeout(to2);
-                if (res2.ok) { results[name] = 'ok'; updateServicesGrid(results); return; }
-                else if (res2.status === 403 || res2.status === 451) { results[name] = 'fail'; updateServicesGrid(results); return; }
-            } catch(e) {}
-            // Fallback 2: no-cors
-            try {
-                const ctrl3 = new AbortController();
-                const to3 = setTimeout(() => ctrl3.abort(), 4000);
-                await fetch(url, { mode: 'no-cors', signal: ctrl3.signal });
-                clearTimeout(to3);
-                results[name] = 'ok'; updateServicesGrid(results); return;
-            } catch(e) {
-                results[name] = 'fail'; updateServicesGrid(results); return;
-            }
-        }));
-        globalRegionStatus = results;
-        // Копируем результаты во все онлайн конфиги
-        allConfigs.forEach(c => { if (c.status === 'online') c.regions = { ...results }; });
-        updateServicesGrid(results);
-    }
-
-    function updateServicesGrid(results) {
-        const grid = document.getElementById('servicesGrid');
-        if (!grid) return;
-        const icons = { 'Netflix': '🎬', 'YouTube': '📺', 'ChatGPT': '🤖', 'TikTok': '🎵', 'Instagram': '📸', 'Telegram': '✈️' };
-        const labels = { 'ok': 'Доступен', 'fail': 'Заблокирован', 'checking': 'Проверка...' };
-        grid.innerHTML = Object.entries(results).map(([name, status]) => {
-            return `<div class="service-item ${status}"><span class="service-dot"></span><span class="service-name">${icons[name] || ''} ${name}</span><span class="service-status">${labels[status] || status}</span></div>`;
-        }).join('');
-    }
-
-    // ---------- Auto Pick Best ----------
-    function autoPickBest() {
-        const online = allConfigs.filter(c => c.status === 'online' && c.healthScore > 0);
-        if (!online.length) {
-            showToast('❌ Нет рабочих серверов');
-            return;
-        }
-        online.sort((a,b) => (b.healthScore??0) - (a.healthScore??0));
-        const best = online[0];
-        const resultDiv = document.getElementById('autopickResult');
-        const contentDiv = document.getElementById('autopickContent');
-        const flag = best.country ? getFlagEmoji(best.country.code) : '';
-        contentDiv.innerHTML = `
-            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px;">
-                <span class="proto-badge pb-${best.protocol}">${best.protocol}</span>
-                <span style="font-size:0.85rem;color:#fff;font-weight:700;">${flag} ${best.host}${best.port?':'+best.port:''}</span>
-                <span style="font-size:0.8rem;color:#00ff88;">🏆 ${best.healthScore}/100</span>
-                ${best.ping ? '<span style="font-size:0.8rem;color:#00d4ff;">📶 '+best.ping+'ms</span>' : ''}
-                ${best.speed ? '<span style="font-size:0.8rem;color:#ffa500;">⚡ '+best.speed.toFixed(2)+' MB/s</span>' : ''}
-            </div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                <button class="btn btn-primary" onclick="copyCfg(${best.id}); showToast('✅ Лучший сервер скопирован')">📋 Копировать</button>
-                <button class="btn btn-success" onclick="toggleFavorite(${best.id}); showToast('⭐ Добавлено в избранное')">⭐ В избранное</button>
-                <button class="btn btn-secondary" onclick="checkOne(${best.id})">🔄 Перепроверить</button>
-            </div>
-        `;
-        resultDiv.classList.add('open');
-        resultDiv.scrollIntoView({behavior:'smooth', block:'center'});
-        showToast('🏆 Лучший сервер найден!');
-    }
-
-    // ---------- Leak Test ----------
-    let leakData = { publicIp: null, geo: null, webrtcIps: [] };
-
-    async function runLeakTest() {
-        document.getElementById('leakPublicIp').textContent = 'Загрузка...';
-        document.getElementById('leakPublicStatus').className = 'leak-status loading';
-        document.getElementById('leakPublicStatus').innerHTML = '<span class="dot checking"></span> Определение...';
-        document.getElementById('leakGeo').textContent = 'Загрузка...';
-        document.getElementById('leakGeoStatus').className = 'leak-status loading';
-        document.getElementById('leakGeoStatus').innerHTML = '<span class="dot checking"></span> Определение...';
-        document.getElementById('leakWebrtc').textContent = 'Проверка...';
-        document.getElementById('leakWebrtcStatus').className = 'leak-status loading';
-        document.getElementById('leakWebrtcStatus').innerHTML = '<span class="dot checking"></span> Сканирование...';
-
-        // Публичный IP
-        try {
-            const res = await fetch('https://ipwho.is/', { cache: 'no-store' });
-            const data = await res.json();
-            if (data.success) {
-                leakData.publicIp = data.ip;
-                leakData.geo = data;
-                document.getElementById('leakPublicIp').textContent = data.ip;
-                document.getElementById('leakPublicStatus').className = 'leak-status safe';
-                document.getElementById('leakPublicStatus').innerHTML = '✅ Определён';
-                document.getElementById('leakGeo').textContent = (data.country || '') + ', ' + (data.city || '') + ' | ' + (data.isp || '—');
-                document.getElementById('leakGeoStatus').className = 'leak-status safe';
-                document.getElementById('leakGeoStatus').innerHTML = '✅ Определена';
-            } else throw new Error('fail');
-        } catch(e) {
-            document.getElementById('leakPublicIp').textContent = 'Ошибка';
-            document.getElementById('leakPublicStatus').className = 'leak-status danger';
-            document.getElementById('leakPublicStatus').innerHTML = '❌ Не удалось';
-            document.getElementById('leakGeo').textContent = 'Ошибка';
-            document.getElementById('leakGeoStatus').className = 'leak-status danger';
-            document.getElementById('leakGeoStatus').innerHTML = '❌ Не удалось';
-        }
-
-        // WebRTC leak test
-        try {
-            const ips = await getWebRTCIPs();
-            leakData.webrtcIps = ips;
-            const container = document.getElementById('leakWebrtc');
-            if (ips.length === 0) {
-                container.textContent = 'Локальные IP не обнаружены';
-                document.getElementById('leakWebrtcStatus').className = 'leak-status safe';
-                document.getElementById('leakWebrtcStatus').innerHTML = '✅ Утечек нет';
-            } else {
-                container.innerHTML = ips.map(ip => `<span class="webrtc-ip">${ip}</span>`).join('');
-                const hasLocal = ips.some(ip => /^(10\.|172\.(1[6-9]|2[0-9]|3[01])\.|192\.168\.|127\.|0\.0\.0\.|fc00:|fe80:)/i.test(ip));
-                if (hasLocal) {
-                    document.getElementById('leakWebrtcStatus').className = 'leak-status warn';
-                    document.getElementById('leakWebrtcStatus').innerHTML = '⚠️ Обнаружены локальные IP';
-                } else {
-                    document.getElementById('leakWebrtcStatus').className = 'leak-status safe';
-                    document.getElementById('leakWebrtcStatus').innerHTML = '✅ Только публичные';
-                }
-            }
-        } catch(e) {
-            document.getElementById('leakWebrtc').textContent = 'Ошибка проверки';
-            document.getElementById('leakWebrtcStatus').className = 'leak-status danger';
-            document.getElementById('leakWebrtcStatus').innerHTML = '❌ Не удалось';
-        }
-    }
-
-    function getWebRTCIPs() {
-        return new Promise((resolve) => {
-            const ips = new Set();
-            const pc = new RTCPeerConnection({ iceServers: [] });
-            pc.createDataChannel('');
-            pc.createOffer().then(o => pc.setLocalDescription(o));
-            pc.onicecandidate = ice => {
-                if (!ice || !ice.candidate || !ice.candidate.candidate) {
-                    pc.close();
-                    resolve([...ips]);
-                    return;
-                }
-                const parts = ice.candidate.candidate.split(' ');
-                const ip = parts[4];
-                if (ip && !ips.has(ip)) ips.add(ip);
-            };
-            setTimeout(() => { pc.close(); resolve([...ips]); }, 3000);
-        });
-    }
-
-    function compareVpnIp() {
-        const expected = document.getElementById('expectedVpnIp').value.trim();
-        const statusEl = document.getElementById('leakCompareStatus');
-        statusEl.style.display = 'inline-flex';
-        if (!expected) {
-            statusEl.className = 'leak-status warn';
-            statusEl.innerHTML = '⚠️ Введите IP';
-            return;
-        }
-        if (!leakData.publicIp) {
-            statusEl.className = 'leak-status loading';
-            statusEl.innerHTML = '<span class="dot checking"></span> Сначала запустите проверку';
-            return;
-        }
-        if (leakData.publicIp === expected) {
-            statusEl.className = 'leak-status safe';
-            statusEl.innerHTML = '✅ IP совпадает — VPN работает';
-        } else {
-            statusEl.className = 'leak-status danger';
-            statusEl.innerHTML = '❌ IP не совпадает — возможна утечка!';
-        }
-    }
-
     // ---------- Старт ----------
     init();
 </script>
-
-
-
-<!-- Фон с частицами -->
 </body>
 </html>
