@@ -6,7 +6,6 @@
     <title>V2Ray / VLESS / Hysteria / Trojan / VMess / Reality / Shadowsocks</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* Полностью исходный тёмный дизайн (скруглённый) */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Nunito', sans-serif;
@@ -16,7 +15,6 @@
             padding: 20px;
         }
         .container { max-width: 1100px; margin: 0 auto; }
-
         .hero {
             text-align: center;
             padding: 30px 0 20px;
@@ -41,11 +39,7 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-        .hero-sub {
-            color: #666;
-            font-size: 0.9rem;
-            margin-top: 8px;
-        }
+        .hero-sub { color: #666; font-size: 0.9rem; margin-top: 8px; }
         .hero-line {
             width: 120px;
             height: 2px;
@@ -64,10 +58,7 @@
             font-weight: 700;
             transition: color 0.2s;
         }
-        .author-link a:hover {
-            color: #7b2cbf;
-            text-decoration: underline;
-        }
+        .author-link a:hover { color: #7b2cbf; text-decoration: underline; }
         .stats-bar {
             display: flex;
             flex-wrap: wrap;
@@ -84,7 +75,6 @@
             border: 1px solid rgba(255,255,255,0.04);
         }
         .stats-bar b { color: #fff; }
-
         .tabs {
             display: flex;
             gap: 4px;
@@ -116,7 +106,6 @@
             background: rgba(0,212,255,0.05);
         }
         .tab-btn .icon { font-size: 1.1rem; }
-
         .sources-panel {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.05);
@@ -177,8 +166,6 @@
         .source-chip .chip-protos { font-size: 0.65rem; color: #444; margin-top: 2px; }
         .source-chip .chip-warn { font-size: 0.65rem; color: #ffaa00; margin-top: 2px; }
         .source-chip input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; top:0; left:0; }
-
-        /* KeamX sources — красное оформление */
         .source-chip.keamx {
             background: linear-gradient(135deg, rgba(255,0,80,0.08), rgba(180,0,60,0.05));
             border-color: rgba(255,0,80,0.25);
@@ -195,18 +182,10 @@
             border-color: rgba(255,0,80,0.6);
             box-shadow: 0 4px 25px rgba(255,0,80,0.2);
         }
-        .source-chip.keamx .chip-label {
-            color: #ff5588;
-        }
-        .source-chip.keamx.active .chip-label {
-            color: #fff;
-        }
-        .source-chip.keamx .chip-meta {
-            color: #884455;
-        }
-        .source-chip.keamx .chip-count {
-            color: #ff7799;
-        }
+        .source-chip.keamx .chip-label { color: #ff5588; }
+        .source-chip.keamx.active .chip-label { color: #fff; }
+        .source-chip.keamx .chip-meta { color: #884455; }
+        .source-chip.keamx .chip-count { color: #ff7799; }
         .keamx-badge {
             display: inline-block;
             background: linear-gradient(90deg, #ff0050, #ff3366);
@@ -219,7 +198,6 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-
         .actions-bar {
             display: flex;
             gap: 10px;
@@ -271,7 +249,17 @@
             border: 1px solid rgba(255,68,68,0.2);
         }
         .btn-danger:hover { background: rgba(255,68,68,0.25); }
-
+        .btn-speed {
+            background: linear-gradient(90deg, #ffa500, #ff6b00);
+            color: white;
+        }
+        .btn-speed:hover { transform: scale(1.03); box-shadow: 0 5px 25px rgba(255,165,0,0.3); }
+        .btn-speed:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-export {
+            background: linear-gradient(90deg, #7b2cbf, #4a0080);
+            color: white;
+        }
+        .btn-export:hover { transform: scale(1.03); box-shadow: 0 5px 25px rgba(123,44,191,0.3); }
         .progress-wrap {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.05);
@@ -299,7 +287,6 @@
             display: flex;
             justify-content: space-between;
         }
-
         .toolbar {
             display: flex;
             flex-wrap: wrap;
@@ -310,7 +297,6 @@
         }
         .toolbar-left { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
         .toolbar-right { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-
         .stat-pill {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.06);
@@ -335,7 +321,8 @@
         .stat-pill.offline.active-filter { background: rgba(255,68,68,0.1); }
         .stat-pill.checking { border-color: rgba(0,212,255,0.15); color: #00d4ff; }
         .stat-pill.checking.active-filter { background: rgba(0,212,255,0.1); }
-
+        .stat-pill.speed { border-color: rgba(255,165,0,0.15); color: #ffa500; }
+        .stat-pill.speed.active-filter { background: rgba(255,165,0,0.1); }
         .search-box, .select-filter {
             padding: 8px 16px;
             border-radius: 10px;
@@ -350,7 +337,6 @@
         .search-box::placeholder { color: #444; }
         .search-box:focus, .select-filter:focus { border-color: #00d4ff; }
         .select-filter option { background: #0a0a0f; color: #ddd; }
-
         .filters {
             display: flex;
             flex-wrap: wrap;
@@ -374,7 +360,6 @@
             color: white;
             border-color: transparent;
         }
-
         .country-chips {
             display: flex;
             flex-wrap: wrap;
@@ -399,14 +384,12 @@
             color: #fff;
         }
         .country-chip .flag { margin-right: 4px; }
-
         .sort-hint {
             font-size: 0.75rem;
             color: #444;
             margin-bottom: 10px;
             text-align: right;
         }
-
         .config-card {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.05);
@@ -435,7 +418,6 @@
             background: rgba(255,255,255,0.04);
             border-color: rgba(255,255,255,0.1);
         }
-
         .card-top {
             display: flex;
             justify-content: space-between;
@@ -460,7 +442,6 @@
         .pb-reality { background: rgba(255,255,255,0.06); color: #ddd; border: 1px solid rgba(255,255,255,0.1); }
         .pb-tuic { background: rgba(255,68,68,0.1); color: #ff4444; border: 1px solid rgba(255,68,68,0.15); }
         .pb-other { background: rgba(68,68,68,0.1); color: #888; border: 1px solid rgba(68,68,68,0.15); }
-
         .status-pill {
             display: inline-flex;
             align-items: center;
@@ -474,13 +455,14 @@
         .status-pill.offline { background: rgba(255,68,68,0.08); color: #ff4444; border: 1px solid rgba(255,68,68,0.15); }
         .status-pill.unknown { background: rgba(255,255,255,0.03); color: #555; border: 1px solid rgba(255,255,255,0.06); }
         .status-pill.checking { background: rgba(0,212,255,0.08); color: #00d4ff; border: 1px solid rgba(0,212,255,0.15); }
+        .status-pill.speed { background: rgba(255,165,0,0.08); color: #ffa500; border: 1px solid rgba(255,165,0,0.15); }
         .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
         .dot.online { background: #00ff88; box-shadow: 0 0 6px #00ff88; }
         .dot.offline { background: #ff4444; box-shadow: 0 0 6px #ff4444; }
         .dot.unknown { background: #333; }
         .dot.checking { background: #00d4ff; box-shadow: 0 0 6px #00d4ff; animation: pulse 1s infinite; }
+        .dot.speed { background: #ffa500; box-shadow: 0 0 6px #ffa500; animation: pulse 0.5s infinite; }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
         .server-info {
             font-size: 0.82rem;
             color: #888;
@@ -494,7 +476,6 @@
         .flag { font-size: 1.3rem; line-height: 1; margin-right: 2px; }
         .country-name { font-size: 0.75rem; color: #777; margin-right: 6px; }
         .country-loading { font-size: 0.75rem; color: #444; font-style: italic; }
-
         .config-text {
             background: rgba(0,0,0,0.25);
             border-radius: 10px;
@@ -511,8 +492,6 @@
         }
         .config-text::-webkit-scrollbar { width: 5px; }
         .config-text::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
-
-        /* Блок портов и сервисов */
         .ports-services {
             display: flex;
             flex-direction: column;
@@ -542,44 +521,26 @@
             color: #ff6666;
             border-color: rgba(255,68,68,0.1);
         }
-
-        /* Стили для текстовых меток сервисов */
-        .service-labels {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4px;
-            width: 100%;
-        }
-        .service-label {
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 4px;
-            border: 1px solid transparent;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .service-label.available {
+        .port-tag.ssl-valid {
             background: rgba(0,255,136,0.08);
             color: #00ff88;
             border-color: rgba(0,255,136,0.15);
         }
-        .service-label.unavailable {
-            background: rgba(255,68,68,0.06);
-            color: #ff6666;
-            border-color: rgba(255,68,68,0.1);
+        .port-tag.ssl-invalid {
+            background: rgba(255,170,0,0.08);
+            color: #ffaa00;
+            border-color: rgba(255,170,0,0.15);
         }
-        .service-label .status-icon {
-            margin-right: 2px;
+        .port-tag.ssl-expired {
+            background: rgba(255,68,68,0.08);
+            color: #ff4444;
+            border-color: rgba(255,68,68,0.15);
         }
-        @media (max-width: 600px) {
-            .service-labels {
-                grid-template-columns: 1fr;
-            }
+        .port-tag.http3 {
+            background: rgba(0,212,255,0.08);
+            color: #00d4ff;
+            border-color: rgba(0,212,255,0.15);
         }
-
         .card-actions {
             display: flex;
             gap: 8px;
@@ -625,7 +586,26 @@
             transition: 0.2s;
         }
         .btn-details:hover { background: rgba(255,255,255,0.06); color: #aaa; }
-
+        .btn-speed-test {
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,165,0,0.2);
+            background: rgba(255,165,0,0.06);
+            color: #ffa500;
+            font-size: 0.78rem;
+            font-weight: 600;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-speed-test:hover { background: rgba(255,165,0,0.12); }
+        .btn-speed-test:disabled { opacity: 0.3; cursor: not-allowed; }
+        .btn-speed-test.testing {
+            background: rgba(255,165,0,0.15);
+            color: #ffa500;
+            border-color: rgba(255,165,0,0.4);
+            animation: pulse 0.8s infinite;
+        }
         .dropdown-wrap {
             position: relative;
             display: inline-block;
@@ -690,40 +670,6 @@
             fill: none;
             stroke-width: 2;
         }
-
-        .device-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            background: rgba(0,212,255,0.08);
-            border: 1px solid rgba(0,212,255,0.15);
-            border-radius: 12px;
-            padding: 2px 10px 2px 6px;
-            font-size: 0.7rem;
-            color: #00d4ff;
-            margin-right: 4px;
-        }
-        .device-tag .remove-device {
-            cursor: pointer;
-            opacity: 0.5;
-            font-weight: 700;
-            margin-left: 3px;
-        }
-        .device-tag .remove-device:hover { opacity: 1; color: #ff4444; }
-
-        .device-input {
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            color: #aaa;
-            font-size: 0.75rem;
-            padding: 2px 4px;
-            width: 90px;
-            outline: none;
-            font-family: 'Nunito', sans-serif;
-        }
-        .device-input:focus { border-bottom-color: #00d4ff; }
-
         .details-panel {
             background: rgba(0,0,0,0.2);
             border-radius: 8px;
@@ -744,7 +690,6 @@
         .details-panel .param:last-child { border: none; }
         .details-panel .param .key { color: #666; }
         .details-panel .param .value { color: #aaa; font-family: 'Nunito', monospace; }
-
         .pagination {
             display: flex;
             justify-content: center;
@@ -767,7 +712,6 @@
         .page-btn:hover:not(:disabled) { background: rgba(255,255,255,0.08); color: white; }
         .page-btn:disabled { opacity: 0.25; cursor: not-allowed; }
         .page-info { color: #444; font-size: 0.85rem; }
-
         .toast {
             position: fixed;
             bottom: 30px;
@@ -785,7 +729,6 @@
             font-size: 0.9rem;
         }
         .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-
         .error-box {
             background: rgba(255,0,0,0.06);
             border: 1px solid rgba(255,0,0,0.15);
@@ -807,17 +750,44 @@
             line-height: 1.5;
         }
         .empty-state { text-align: center; padding: 50px; color: #333; font-size: 0.9rem; }
-
-        @media (max-width: 600px) {
-            .toolbar { flex-direction: column; align-items: stretch; }
-            .toolbar-left, .toolbar-right { width: 100%; justify-content: center; }
-            .search-box, .select-filter { width: 100%; }
-            .config-card { padding: 12px 14px; }
-            .sources-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-            .dropdown-menu { left: auto; right: 0; }
-            .ports-services { flex-direction: column; align-items: flex-start; }
+        .speed-result {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 10px;
         }
-
+        .speed-result.fast {
+            color: #00ff88;
+            background: rgba(0,255,136,0.08);
+            border: 1px solid rgba(0,255,136,0.15);
+        }
+        .speed-result.medium {
+            color: #ffa500;
+            background: rgba(255,165,0,0.08);
+            border: 1px solid rgba(255,165,0,0.15);
+        }
+        .speed-result.slow {
+            color: #ff4444;
+            background: rgba(255,68,68,0.08);
+            border: 1px solid rgba(255,68,68,0.15);
+        }
+        .notification-badge {
+            position: relative;
+            display: inline-block;
+        }
+        .notification-badge .badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff4444;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            min-width: 18px;
+            text-align: center;
+        }
         .qr-panel {
             background: rgba(0,0,0,0.25);
             border-radius: 10px;
@@ -852,8 +822,6 @@
         }
         .btn-qr:hover { background: rgba(255,255,255,0.08); color: white; }
         .btn-qr.active { background: rgba(0,212,255,0.1); color: #00d4ff; border-color: rgba(0,212,255,0.3); }
-
-        /* Метка скопированного */
         .copied-badge {
             display: inline-block;
             background: rgba(0,255,136,0.12);
@@ -949,8 +917,30 @@
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
+        .ws-status {
+            font-size: 0.7rem;
+            color: #00d4ff;
+        }
+        .ssl-status {
+            font-size: 0.7rem;
+        }
+        .ssl-status.valid { color: #00ff88; }
+        .ssl-status.invalid { color: #ffaa00; }
+        .ssl-status.expired { color: #ff4444; }
+        .http3-status {
+            font-size: 0.7rem;
+            color: #00d4ff;
+        }
+        @media (max-width: 600px) {
+            .toolbar { flex-direction: column; align-items: stretch; }
+            .toolbar-left, .toolbar-right { width: 100%; justify-content: center; }
+            .search-box, .select-filter { width: 100%; }
+            .config-card { padding: 12px 14px; }
+            .sources-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+            .dropdown-menu { left: auto; right: 0; }
+            .ports-services { flex-direction: column; align-items: flex-start; }
+        }
     </style>
-<base target="_blank">
 <base target="_blank">
 </head>
 <body>
@@ -965,10 +955,10 @@
             <span>✅ Онлайн: <b id="statOnline">0</b></span>
             <span>📊 Средний пинг: <b id="statAvgPing">—</b> ms</span>
             <span>🌍 Стран: <b id="statCountries">0</b></span>
+            <span>🚀 Новых: <b id="statNew">0</b></span>
         </div>
     </div>
 
-    <!-- Только вкладка "Все" -->
     <div class="tabs" id="tabContainer">
         <button class="tab-btn active" data-tab="all"><span class="icon">📋</span> Все</button>
     </div>
@@ -985,6 +975,8 @@
         <div class="sources-grid" id="sourcesGrid"></div>
         <div class="actions-bar">
             <button class="btn btn-primary" id="btnLoad" onclick="startLoading()">⚡ Загрузить и проверить</button>
+            <button class="btn btn-speed" id="btnSpeedAll" onclick="testAllSpeed()">🚀 Тест скорости</button>
+            <button class="btn btn-export" onclick="exportOnline()">📤 Экспорт онлайн</button>
             <button class="btn btn-secondary" onclick="clearResults()">🗑️ Очистить</button>
             <button class="btn btn-secondary" id="btnAutoUpdate" onclick="toggleAutoUpdate()">⏱️ Автообновление: ВЫКЛ</button>
         </div>
@@ -1007,6 +999,7 @@
                     <option value="ping">📶 По пингу</option>
                     <option value="country">🌍 По стране</option>
                     <option value="protocol">📡 По протоколу</option>
+                    <option value="speed">🚀 По скорости</option>
                 </select>
                 <button class="btn btn-ghost" onclick="clearAllCopied()" title="Убрать все отметки Скопировано">🗑️ Отметки копирования</button>
             </div>
@@ -1024,7 +1017,6 @@
 <script>
     // ---------- Исходные данные ----------
     const sources = [
-        // --- Оригинальные источники ---
         { id: 1,  file: "1.txt",  label: "OpenRay Mix",               rec: false,  sni: false },
         { id: 2,  file: "2.txt",  label: "Subscription",              rec: false, sni: false },
         { id: 3,  file: "3.txt",  label: "Proxy Mining",              rec: false, sni: false },
@@ -1051,7 +1043,6 @@
         { id: 24, file: "24.txt", label: "Vify",                      rec: false,  sni: false },
         { id: 25, file: "25.txt", label: "V2Ray Config",              rec: false,  sni: false },
         { id: 26, file: "26.txt", label: "SNI/CIDR Bypass",           rec: false, sni: false  },
-        // --- KeamX источники (красное оформление) ---
         { id: 27, file: "hysteria2_links.txt", label: "KeamX — Hysteria2", rec: false, sni: false, source: "keamx" },
         { id: 28, file: "trojan_links.txt",   label: "KeamX — Trojan",      rec: false, sni: false, source: "keamx" },
         { id: 29, file: "unique_servers.txt", label: "KeamX — Unique Servers", rec: false, sni: false, source: "keamx" },
@@ -1065,7 +1056,6 @@
         { base: "https://raw.githubusercontent.com/AvenCores/goida-vpn-configs/main/githubmirror/", name: "GitHub Raw" }
     ];
 
-    // KeamX эндпоинты
     const keamxEndpoints = [
         { base: "https://raw.githubusercontent.com/KeamX/my-telegram-app/main/", name: "GitHub Raw" },
         { base: "https://cdn.jsdelivr.net/gh/KeamX/my-telegram-app@main/", name: "jsDelivr" },
@@ -1117,23 +1107,22 @@
     let fileMeta = {};
     let openDropdownId = null;
     let favoriteIds = new Set();
-    let deviceMap = {};
     let autoUpdateInterval = null;
     let autoUpdateEnabled = false;
     let sortMode = 'ping';
     let currentCountryFilter = 'all';
-
-    // Скопированные сервера (храним ID)
     let copiedIds = new Set();
+    let prevOnlineIds = new Set();
+    let newServersCount = 0;
+    let speedTesting = false;
+    let certCache = {};
+    let wsCache = {};
+    let http3Cache = {};
 
     // Загрузка из localStorage
     try {
         const savedFav = localStorage.getItem('vpn_favorites');
         if (savedFav) favoriteIds = new Set(JSON.parse(savedFav));
-    } catch(e) {}
-    try {
-        const savedDev = localStorage.getItem('vpn_devices');
-        if (savedDev) deviceMap = JSON.parse(savedDev);
     } catch(e) {}
     try {
         const saved = localStorage.getItem('vpn_country_cache_v2');
@@ -1143,11 +1132,15 @@
         const savedCopied = localStorage.getItem('vpn_copied');
         if (savedCopied) copiedIds = new Set(JSON.parse(savedCopied));
     } catch(e) {}
+    try {
+        const savedPrev = localStorage.getItem('vpn_prev_online');
+        if (savedPrev) prevOnlineIds = new Set(JSON.parse(savedPrev));
+    } catch(e) {}
 
     function saveFavorites() { localStorage.setItem('vpn_favorites', JSON.stringify([...favoriteIds])); }
-    function saveDevices() { localStorage.setItem('vpn_devices', JSON.stringify(deviceMap)); }
     function saveCountryCache() { try { localStorage.setItem('vpn_country_cache_v2', JSON.stringify(countryCache)); } catch(e) {} }
     function saveCopied() { localStorage.setItem('vpn_copied', JSON.stringify([...copiedIds])); }
+    function savePrevOnline() { localStorage.setItem('vpn_prev_online', JSON.stringify([...prevOnlineIds])); }
 
     // ---------- Вспомогательные функции ----------
     function getFlagEmoji(cc) {
@@ -1222,7 +1215,6 @@
         return 'other';
     }
 
-    // Конвертер KeamX JSON → URI
     function convertKeamxJsonToUri(obj) {
         try {
             const type = (obj.configType || '').toUpperCase();
@@ -1281,10 +1273,8 @@
         } catch(e) { return null; }
     }
 
-    // Парсинг KeamX текста (бинарные JSON-фрагменты)
     function parseKeamxText(text) {
         const lines = [];
-        // Попытка 1: валидный JSON-массив
         try {
             const jsonData = JSON.parse(text);
             if (Array.isArray(jsonData)) {
@@ -1299,7 +1289,6 @@
                 if (lines.length > 0) return lines;
             }
         } catch(e) {}
-        // Попытка 2: извлечь JSON-объекты из бинарного мусора
         let i = 0;
         while (i < text.length) {
             const idx = text.indexOf('{"addedTime"', i);
@@ -1336,14 +1325,12 @@
             }
             if (j >= text.length) break;
         }
-        // Fallback: построчный сплит
         if (lines.length === 0) {
             return text.split(/\r?\n/).filter(l => l.trim());
         }
         return lines;
     }
 
-    // Загрузка текста с учётом источника (keamx или обычный)
     async function fetchText(fileName, sourceType) {
         let eps;
         let timeoutMs;
@@ -1376,27 +1363,213 @@
         return null;
     }
 
-    // ---------- Проверка портов (улучшенная) ----------
+    // ---------- НОВЫЕ ФУНКЦИИ ПРОВЕРКИ ----------
+
+    async function testWebSocket(host, port, path) {
+        const key = `${host}:${port}${path || ''}`;
+        if (wsCache[key]) return wsCache[key];
+        
+        return new Promise((resolve) => {
+            const wsUrl = `wss://${host}:${port || 443}${path || '/'}`;
+            let ws;
+            try {
+                ws = new WebSocket(wsUrl);
+                const timeout = setTimeout(() => {
+                    if (ws) try { ws.close(); } catch(e) {}
+                    wsCache[key] = { ok: false, error: 'timeout' };
+                    resolve(wsCache[key]);
+                }, 5000);
+                
+                ws.onopen = () => {
+                    clearTimeout(timeout);
+                    ws.close();
+                    wsCache[key] = { ok: true, error: null };
+                    resolve(wsCache[key]);
+                };
+                ws.onerror = (e) => {
+                    clearTimeout(timeout);
+                    wsCache[key] = { ok: false, error: 'connection_error' };
+                    resolve(wsCache[key]);
+                };
+                ws.onclose = () => {
+                    clearTimeout(timeout);
+                    if (!wsCache[key]) {
+                        wsCache[key] = { ok: false, error: 'closed' };
+                        resolve(wsCache[key]);
+                    }
+                };
+            } catch(e) {
+                wsCache[key] = { ok: false, error: 'exception' };
+                resolve(wsCache[key]);
+            }
+        });
+    }
+
+    async function checkCertificate(host, port) {
+        const key = `${host}:${port || 443}`;
+        if (certCache[key]) return certCache[key];
+        
+        try {
+            const ctrl = new AbortController();
+            const to = setTimeout(() => ctrl.abort(), 5000);
+            const res = await fetch(`https://${host}:${port || 443}/`, { signal: ctrl.signal });
+            clearTimeout(to);
+            
+            const security = {
+                valid: true,
+                hsts: res.headers.get('strict-transport-security') !== null,
+                csp: res.headers.get('content-security-policy') !== null,
+                xframe: res.headers.get('x-frame-options') !== null
+            };
+            certCache[key] = security;
+            return security;
+        } catch(e) {
+            try {
+                const ctrl = new AbortController();
+                const to = setTimeout(() => ctrl.abort(), 5000);
+                await fetch(`https://${host}:${port || 443}/`, { mode: 'no-cors', signal: ctrl.signal });
+                clearTimeout(to);
+                certCache[key] = { valid: true, hsts: false, csp: false, xframe: false };
+                return certCache[key];
+            } catch(e2) {
+                certCache[key] = { valid: false, hsts: false, csp: false, xframe: false };
+                return certCache[key];
+            }
+        }
+    }
+
+    async function checkHTTP3(host, port) {
+        const key = `${host}:${port || 443}`;
+        if (http3Cache[key]) return http3Cache[key];
+        
+        try {
+            const ctrl = new AbortController();
+            const to = setTimeout(() => ctrl.abort(), 3000);
+            const res = await fetch(`https://${host}:${port || 443}/`, { 
+                signal: ctrl.signal,
+                headers: { 'Alt-Svc': 'h3=":443"; ma=86400' }
+            });
+            clearTimeout(to);
+            
+            const altSvc = res.headers.get('alt-svc');
+            const hasHTTP3 = altSvc && altSvc.includes('h3');
+            http3Cache[key] = { supported: hasHTTP3, altSvc: altSvc };
+            return http3Cache[key];
+        } catch(e) {
+            http3Cache[key] = { supported: false, altSvc: null };
+            return http3Cache[key];
+        }
+    }
+
+    // --- УЛУЧШЕННЫЙ ТЕСТ СКОРОСТИ С ВИЗУАЛЬНЫМ РЕЗУЛЬТАТОМ ---
+    async function testSpeed(host, port) {
+        const testSizes = [1024, 10240, 102400];
+        let totalSpeed = 0;
+        let tests = 0;
+        
+        for (const size of testSizes) {
+            try {
+                const url = `https://${host}:${port || 443}/speedtest/${size}.bin`;
+                const start = performance.now();
+                const ctrl = new AbortController();
+                const to = setTimeout(() => ctrl.abort(), 3000);
+                const res = await fetch(url, { signal: ctrl.signal });
+                clearTimeout(to);
+                
+                if (res.ok) {
+                    const data = await res.arrayBuffer();
+                    const end = performance.now();
+                    const duration = end - start;
+                    if (duration > 0) {
+                        const speed = (data.byteLength * 8) / (duration / 1000);
+                        totalSpeed += speed;
+                        tests++;
+                    }
+                }
+            } catch(e) {}
+        }
+        
+        if (tests === 0) return null;
+        const avgSpeed = totalSpeed / tests;
+        return Math.round(avgSpeed / 1000000 * 10) / 10;
+    }
+
+    async function testSOCKS5(host, port) {
+        try {
+            const ctrl = new AbortController();
+            const to = setTimeout(() => ctrl.abort(), 3000);
+            const res = await fetch(`http://${host}:${port || 1080}/`, { 
+                signal: ctrl.signal,
+                mode: 'no-cors'
+            });
+            clearTimeout(to);
+            return { available: true };
+        } catch(e) {
+            try {
+                const ws = new WebSocket(`ws://${host}:${port || 1080}`);
+                await new Promise((resolve, reject) => {
+                    const timeout = setTimeout(() => {
+                        ws.close();
+                        reject(new Error('timeout'));
+                    }, 3000);
+                    ws.onopen = () => {
+                        clearTimeout(timeout);
+                        ws.close();
+                        resolve();
+                    };
+                    ws.onerror = () => {
+                        clearTimeout(timeout);
+                        reject(new Error('error'));
+                    };
+                });
+                return { available: true };
+            } catch(e2) {
+                return { available: false };
+            }
+        }
+    }
+
+    async function testRealTraffic(host, port) {
+        const testUrls = [
+            'https://www.google.com/generate_204',
+            'https://www.cloudflare.com/cdn-cgi/trace',
+            'https://api.ipify.org?format=json'
+        ];
+        
+        let successCount = 0;
+        for (const url of testUrls) {
+            try {
+                const ctrl = new AbortController();
+                const to = setTimeout(() => ctrl.abort(), 3000);
+                const res = await fetch(url, { signal: ctrl.signal });
+                clearTimeout(to);
+                if (res.ok || res.status === 204) successCount++;
+            } catch(e) {}
+        }
+        return {
+            accessible: successCount >= 2,
+            successCount: successCount,
+            totalTests: testUrls.length
+        };
+    }
+
+    // ---------- Основные функции ----------
     const commonPorts = [80, 443, 2052, 2053, 2082, 2083, 2086, 2087, 2095, 2096, 8080, 8443, 8880];
 
     async function checkPort(host, port) {
         const url = `https://${host}:${port}/`;
-        // Пробуем cors
         try {
             const ctrl = new AbortController();
             const to = setTimeout(() => ctrl.abort(), 2000);
             const res = await fetch(url, { mode: 'cors', signal: ctrl.signal });
             clearTimeout(to);
-            // Если fetch завершился успешно (даже с CORS ошибкой, но соединение установлено) — порт открыт
             return true;
         } catch (e) {
-            // Если ошибка — возможно, порт закрыт, либо CORS. Пробуем no-cors как резерв.
             try {
                 const ctrl = new AbortController();
                 const to = setTimeout(() => ctrl.abort(), 2000);
                 await fetch(url, { mode: 'no-cors', signal: ctrl.signal });
                 clearTimeout(to);
-                // Если no-cors успешен — соединение установлено, порт открыт
                 return true;
             } catch (e2) {
                 return false;
@@ -1410,13 +1583,11 @@
         for (const port of commonPorts) {
             const open = await checkPort(host, port);
             results.push({ port, open });
-            // Небольшая задержка между проверками
             await new Promise(r => setTimeout(r, 50));
         }
         return results;
     }
 
-    // ---------- Проверка сервисов (реальные запросы) ----------
     const serviceUrls = {
         'Telegram': 'https://web.telegram.org/',
         'YouTube': 'https://www.youtube.com/',
@@ -1430,10 +1601,8 @@
             const to = setTimeout(() => ctrl.abort(), 3000);
             const res = await fetch(url, { mode: 'cors', signal: ctrl.signal });
             clearTimeout(to);
-            // Если fetch завершился успешно (даже с CORS ошибкой) — соединение установлено, сервис доступен
             return true;
         } catch (e) {
-            // Если ошибка — возможно, сервис недоступен или CORS. Пробуем no-cors как резерв.
             try {
                 const ctrl = new AbortController();
                 const to = setTimeout(() => ctrl.abort(), 3000);
@@ -1476,6 +1645,7 @@
             applyFilters();
         });
         updateGlobalStats();
+        setInterval(checkNewServers, 30000);
     }
 
     async function loadMetadata() {
@@ -1570,6 +1740,137 @@
         });
     }
 
+    function checkNewServers() {
+        const currentOnline = new Set(allConfigs.filter(c => c.status === 'online').map(c => c.id));
+        let newCount = 0;
+        currentOnline.forEach(id => {
+            if (!prevOnlineIds.has(id)) newCount++;
+        });
+        newServersCount = newCount;
+        document.getElementById('statNew').textContent = newCount;
+        if (newCount > 0) {
+            showToast(`🆕 Обнаружено ${newCount} новых серверов!`);
+            prevOnlineIds = currentOnline;
+            savePrevOnline();
+        }
+    }
+
+    // ---------- ТЕСТ СКОРОСТИ С ВИЗУАЛЬНЫМ РЕЗУЛЬТАТОМ ----------
+    async function testAllSpeed() {
+        if (speedTesting) return;
+        speedTesting = true;
+        const btn = document.getElementById('btnSpeedAll');
+        btn.disabled = true;
+        btn.textContent = '⏳ Тестирование...';
+        
+        const onlineServers = allConfigs.filter(c => c.status === 'online');
+        const total = onlineServers.length;
+        
+        if (total === 0) {
+            showToast('Нет онлайн серверов для теста');
+            btn.disabled = false;
+            btn.textContent = '🚀 Тест скорости';
+            speedTesting = false;
+            return;
+        }
+        
+        document.getElementById('progressWrap').style.display = 'block';
+        document.getElementById('progressText').textContent = 'Тест скорости...';
+        document.getElementById('progressBar').style.width = '0%';
+        
+        let concurrency = 5;
+        let completed = 0;
+        
+        for (let i = 0; i < onlineServers.length; i += concurrency) {
+            const batch = onlineServers.slice(i, i + concurrency);
+            await Promise.all(batch.map(async (c) => {
+                c.speed = await testSpeed(c.host, c.port);
+                completed++;
+                document.getElementById('progressBar').style.width = Math.round((completed / total) * 100) + '%';
+                document.getElementById('progressCount').textContent = `${completed}/${total}`;
+                refreshCard(c.id);
+            }));
+        }
+        
+        document.getElementById('progressText').textContent = 'Тест скорости завершен';
+        document.getElementById('progressCount').textContent = '';
+        document.getElementById('progressBar').style.width = '100%';
+        setTimeout(() => {
+            document.getElementById('progressWrap').style.display = 'none';
+        }, 2000);
+        
+        btn.disabled = false;
+        btn.textContent = '🚀 Тест скорости';
+        speedTesting = false;
+        applyFilters();
+        showToast(`✅ Тест скорости завершен: ${onlineServers.filter(c=>c.speed).length} серверов`);
+    }
+
+    async function testSpeedOne(idx) {
+        const c = allConfigs.find(x=>x.id===idx);
+        if (!c || !c.host || c.status !== 'online') {
+            showToast('❌ Сервер не в сети');
+            return;
+        }
+        
+        const card = document.querySelector(`.config-card[data-idx="${idx}"]`);
+        const btn = card ? card.querySelector('.btn-speed-test') : null;
+        if (btn) {
+            btn.disabled = true;
+            btn.textContent = '⏳ Тест...';
+            btn.classList.add('testing');
+        }
+        
+        showToast('⏳ Тест скорости...');
+        c.speed = await testSpeed(c.host, c.port);
+        
+        if (c.speed) {
+            showToast(`✅ Скорость: ${c.speed} Mbps`);
+        } else {
+            showToast('❌ Не удалось измерить скорость');
+        }
+        
+        refreshCard(c.id);
+        if (btn) {
+            btn.disabled = false;
+            btn.textContent = '🚀 Скорость';
+            btn.classList.remove('testing');
+        }
+        applyFilters();
+    }
+
+    // ---------- Экспорт онлайн серверов ----------
+    function exportOnline() {
+        const online = allConfigs.filter(c => c.status === 'online');
+        if (!online.length) {
+            showToast('Нет онлайн серверов для экспорта');
+            return;
+        }
+        
+        const data = {
+            exportedAt: new Date().toISOString(),
+            total: online.length,
+            servers: online.map(c => ({
+                protocol: c.protocol,
+                config: c.config,
+                host: c.host,
+                port: c.port,
+                ping: c.ping,
+                speed: c.speed,
+                country: c.country
+            }))
+        };
+        
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `online_servers_${new Date().toISOString().slice(0,10)}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast(`✅ Экспортировано ${online.length} серверов`);
+    }
+
     // ---------- Загрузка и проверка ----------
     async function startLoading() {
         const ids = getSelected();
@@ -1627,8 +1928,13 @@
                     favorite: favoriteIds.has(allConfigs.length),
                     speed: null,
                     details: null,
-                    ports: null,        // будет заполнено после проверки
-                    services: null      // { telegram: bool, youtube: bool, ... }
+                    ports: null,
+                    services: null,
+                    ws: null,
+                    ssl: null,
+                    http3: null,
+                    socks5: null,
+                    traffic: null
                 });
             });
             document.getElementById('count-'+s.id).textContent = lines.length.toLocaleString('ru')+' серверов';
@@ -1656,15 +1962,15 @@
         btn.disabled = false;
         updateGlobalStats();
         if (autoUpdateEnabled) startAutoUpdate();
+        checkNewServers();
     }
 
-    // ---- Улучшенная проверка с портами и сервисами ----
+    // ---------- Расширенная проверка одного сервера ----------
     async function checkSingle(c) {
-        if (!c.host) { c.status='offline'; c.ping=null; c.speed=null; return; }
+        if (!c.host) { c.status='offline'; c.ping=null; return; }
         c.checking = true; c.status='checking';
         refreshCard(c.id);
 
-        // Проверяем доступность сервера (cors + no-cors)
         let online = false;
         let ping = null;
         try {
@@ -1695,29 +2001,43 @@
             }
         }
 
-        // Проверка портов и сервисов параллельно
-        const portsPromise = checkPorts(c.host);
-        const countryPromise = resolveCountry(c.host);
-
-        // Запускаем проверку сервисов только если сервер онлайн, чтобы сэкономить время
-        let servicesPromise = Promise.resolve(null);
-        if (online) {
-            servicesPromise = (async () => {
+        const checks = [
+            checkPorts(c.host),
+            resolveCountry(c.host),
+            online ? (async () => {
                 const results = {};
                 for (const [name, url] of Object.entries(serviceUrls)) {
                     results[name] = await checkService(name, url);
                 }
                 return results;
-            })();
+            })() : Promise.resolve(null),
+            checkCertificate(c.host, c.port),
+            checkHTTP3(c.host, c.port),
+            testSOCKS5(c.host, c.port),
+            testRealTraffic(c.host, c.port)
+        ];
+
+        const details = parseDetails(c.config);
+        if (details && (details.net === 'ws' || details.net === 'websocket')) {
+            checks.push(testWebSocket(c.host, c.port, details.path));
+        } else {
+            checks.push(Promise.resolve(null));
         }
 
-        const [portsResult, countryResult, servicesResult] = await Promise.all([portsPromise, countryPromise, servicesPromise]);
+        const [portsResult, countryResult, servicesResult, sslResult, http3Result, socks5Result, trafficResult, wsResult] = 
+            await Promise.all(checks);
 
         c.checking = false;
         c.country = countryResult;
-        c.details = parseDetails(c.config);
+        c.details = details;
         c.ports = portsResult;
         c.services = servicesResult || {};
+        c.ssl = sslResult;
+        c.http3 = http3Result;
+        c.socks5 = socks5Result;
+        c.traffic = trafficResult;
+        c.ws = wsResult;
+
         if (online) {
             c.status = 'online';
             c.ping = ping;
@@ -1725,7 +2045,7 @@
             c.status = 'offline';
             c.ping = null;
         }
-        // Deep validation
+
         const deep = await deepCheck(c);
         c.deepStatus = deep.ok ? 'verified' : (deep.suspicious ? 'suspicious' : 'dead');
         c.deepReason = deep.reason;
@@ -1740,108 +2060,77 @@
         const path = d.path || '/';
         let score = 0;
         let checks = [];
-        // WebSocket check (for WS configs)
+
         if (net === 'ws' || net === 'websocket') {
-            try {
-                const wsUrl = `wss://${c.host}:${c.port || 443}${path}`;
-                const ws = new WebSocket(wsUrl);
-                const ok = await Promise.race([
-                    new Promise(res => { ws.onopen = () => res(true); ws.onerror = () => res(false); ws.onclose = () => res(false); }),
-                    new Promise(res => setTimeout(() => res(false), 3000))
-                ]);
-                try { ws.close(); } catch(e) {}
-                if (ok) { score += 3; checks.push('ws_open'); }
-                else { score -= 1; checks.push('ws_fail'); }
-            } catch(e) { checks.push('ws_err'); }
+            const wsResult = await testWebSocket(c.host, c.port, path);
+            if (wsResult && wsResult.ok) {
+                score += 3;
+                checks.push('ws_ok');
+            } else {
+                score -= 1;
+                checks.push('ws_fail');
+            }
         }
-        // TLS/HTTPS handshake check
-        if (security === 'tls' || security === 'reality' || security === 'xtls' || c.protocol === 'trojan' || c.protocol === 'vless' || c.protocol === 'vmess') {
-            try {
-                const ctrl = new AbortController();
-                const to = setTimeout(() => ctrl.abort(), 4000);
-                await fetch(`https://${c.host}:${c.port || 443}/`, { mode: 'no-cors', signal: ctrl.signal });
-                clearTimeout(to);
+
+        if (security === 'tls' || security === 'reality' || security === 'xtls') {
+            const sslResult = await checkCertificate(c.host, c.port);
+            if (sslResult && sslResult.valid) {
                 score += 2;
-                checks.push('tls_ok');
-            } catch(e) {
-                if (e.name === 'AbortError') checks.push('tls_timeout');
-                else { score -= 2; checks.push('tls_fail'); }
+                checks.push('ssl_ok');
+            } else {
+                score -= 2;
+                checks.push('ssl_fail');
             }
         }
-        // HTTP check for non-TLS (like SS)
-        if (security !== 'tls' && security !== 'reality' && security !== 'xtls' && c.protocol === 'shadowsocks') {
-            try {
-                const ctrl = new AbortController();
-                const to = setTimeout(() => ctrl.abort(), 3000);
-                await fetch(`http://${c.host}:${c.port || 80}/`, { mode: 'no-cors', signal: ctrl.signal });
-                clearTimeout(to);
-                score += 1;
-                checks.push('http_ok');
-            } catch(e) {
-                if (e.name !== 'AbortError') { score -= 1; checks.push('http_fail'); }
-            }
+
+        const http3Result = await checkHTTP3(c.host, c.port);
+        if (http3Result && http3Result.supported) {
+            score += 1;
+            checks.push('http3_ok');
         }
-        // Port consistency check
-        const openPorts = (c.ports || []).filter(p => p.open).map(p => p.port);
-        const targetPort = parseInt(c.port);
-        if (targetPort && openPorts.includes(targetPort)) score += 1;
-        else if (targetPort && !openPorts.includes(targetPort)) score -= 1;
-        if (score >= 2) return { ok: true, reason: checks.join(', ') };
+
+        const trafficResult = await testRealTraffic(c.host, c.port);
+        if (trafficResult && trafficResult.accessible) {
+            score += 2;
+            checks.push('traffic_ok');
+        } else {
+            score -= 1;
+            checks.push('traffic_fail');
+        }
+
+        const socks5Result = await testSOCKS5(c.host, c.port);
+        if (socks5Result && socks5Result.available) {
+            score += 1;
+            checks.push('socks5_ok');
+        }
+
+        if (score >= 4) return { ok: true, reason: checks.join(', ') };
         if (score <= -2) return { ok: false, reason: checks.join(', '), suspicious: false };
         return { ok: false, reason: checks.join(', '), suspicious: true };
-    }
-
-    function clearCopied(id) {
-        copiedIds.delete(id);
-        saveCopied();
-        refreshCard(id);
-    }
-    function clearAllCopied() {
-        copiedIds.clear();
-        saveCopied();
-        applyFilters();
-        showToast('Все отметки очищены');
-    }
-
-    function parseDetails(cfg) {
-        try {
-            const url = new URL(cfg.replace(/^\w+:\/\//, 'https://'));
-            const params = new URLSearchParams(url.search);
-            const details = {};
-            for (const [key, val] of params) {
-                details[key] = val;
-            }
-            if (cfg.startsWith('vmess://')) {
-                const b64 = cfg.slice(8).split('#')[0];
-                const pad = b64.length % 4 ? '='.repeat(4-b64.length%4) : '';
-                const json = JSON.parse(atob(b64+pad));
-                Object.assign(details, json);
-            }
-            return details;
-        } catch(e) {
-            return null;
-        }
     }
 
     async function checkAllConfigs() {
         checkAbort = false;
         const toCheck = allConfigs.filter(c=>c.host);
         const total = toCheck.length;
-        for (let i=0; i<total; i+=20) {
+        const concurrency = 10;
+        
+        for (let i=0; i<total; i+=concurrency) {
             if (checkAbort) break;
-            const batch = toCheck.slice(i, i+20);
+            const batch = toCheck.slice(i, i+concurrency);
             await Promise.all(batch.map(c=>checkSingle(c)));
             document.getElementById('progressText').textContent = 'Проверка серверов...';
-            document.getElementById('progressCount').textContent = Math.min(i+20, total)+'/'+total;
-            document.getElementById('progressBar').style.width = Math.round((Math.min(i+20, total)/total)*100)+'%';
+            document.getElementById('progressCount').textContent = Math.min(i+concurrency, total)+'/'+total;
+            document.getElementById('progressBar').style.width = Math.round((Math.min(i+concurrency, total)/total)*100)+'%';
             sortConfigs();
             applyFilters();
-            await new Promise(r=>setTimeout(r,50));
+            await new Promise(r=>setTimeout(r, 50));
         }
         document.getElementById('progressText').textContent = 'Проверка завершена';
         document.getElementById('progressCount').textContent = '';
         sortConfigs(); applyFilters();
         updateGlobalStats();
+        checkNewServers();
     }
 
     function sortConfigs() {
@@ -1861,6 +2150,12 @@
             });
         } else if (sortMode === 'protocol') {
             allConfigs.sort((a,b) => a.protocol.localeCompare(b.protocol));
+        } else if (sortMode === 'speed') {
+            allConfigs.sort((a,b) => {
+                const speedA = a.speed ?? -1;
+                const speedB = b.speed ?? -1;
+                return speedB - speedA;
+            });
         }
     }
 
@@ -1902,9 +2197,6 @@
     function setProto(p) { currentProtocol=p; currentPage=1; buildFilters(); applyFilters(); }
     function setStatus(s) { currentStatus=s; currentPage=1; applyFilters(); }
 
-    // Вкладка теперь всегда "all"
-    function getActiveTab() { return 'all'; }
-
     function applyFilters() {
         const q = document.getElementById('searchBox').value.toLowerCase().trim();
         filteredConfigs = allConfigs.filter(c => {
@@ -1926,6 +2218,7 @@
         const offline = allConfigs.filter(c=>c.status==='offline').length;
         const checking = allConfigs.filter(c=>c.status==='checking').length;
         const unknown = allConfigs.filter(c=>c.status==='unknown').length;
+        const withSpeed = allConfigs.filter(c=>c.speed).length;
 
         document.getElementById('statsRow').innerHTML = `
             <span class="stat-pill ${currentStatus==='all'?'active-filter':''}" onclick="setStatus('all')">Всего <b>${total}</b></span>
@@ -1934,6 +2227,7 @@
             <span class="stat-pill checking ${currentStatus==='checking'?'active-filter':''}" onclick="setStatus('checking')">Проверка <b>${checking}</b></span>
             <span class="stat-pill ${currentStatus==='unknown'?'active-filter':''}" onclick="setStatus('unknown')">Не проверено <b>${unknown}</b></span>
             <span class="stat-pill">Показано <b>${filteredConfigs.length}</b></span>
+            <span class="stat-pill speed">🚀 Скорость: <b>${withSpeed}</b></span>
         `;
     }
 
@@ -1948,6 +2242,7 @@
         document.getElementById('statOnline').textContent = online;
         document.getElementById('statAvgPing').textContent = avgPing;
         document.getElementById('statCountries').textContent = countries.size;
+        document.getElementById('statNew').textContent = newServersCount;
     }
 
     // ---------- Управление избранным ----------
@@ -1996,7 +2291,13 @@
                 if (c.status==='checking') statusHtml = '<span class="status-pill checking"><span class="dot checking"></span>Проверка...</span>';
                 else if (c.status==='online') {
                     let extra = '';
-                    if (c.ping) extra = ` 📶${c.ping} ms`;
+                    if (c.ping) extra += ` 📶${c.ping}ms`;
+                    if (c.speed) {
+                        let speedClass = 'medium';
+                        if (c.speed > 50) speedClass = 'fast';
+                        else if (c.speed < 10) speedClass = 'slow';
+                        extra += ` <span class="speed-result ${speedClass}">🚀${c.speed} Mbps</span>`;
+                    }
                     statusHtml = `<span class="status-pill online"><span class="dot online"></span>${extra}</span>`;
                 } else if (c.status==='offline') statusHtml = '<span class="status-pill offline"><span class="dot offline"></span>Недоступен</span>';
                 else statusHtml = '<span class="status-pill unknown"><span class="dot unknown"></span>Не проверен</span>';
@@ -2011,7 +2312,6 @@
                 const isFav = favoriteIds.has(c.id);
                 const isCopied = copiedIds.has(c.id);
 
-                // Формируем список портов
                 let portsHtml = '';
                 if (c.ports && c.ports.length) {
                     portsHtml = c.ports.map(p => `<span class="port-tag ${p.open ? 'open' : 'closed'}">${p.port}</span>`).join('');
@@ -2021,7 +2321,27 @@
                     portsHtml = '<span style="font-size:0.7rem;color:#555;">Не проверены</span>';
                 }
 
-                // Сервисы
+                let sslHtml = '';
+                if (c.ssl) {
+                    if (c.ssl.valid) sslHtml = '<span class="ssl-status valid">🔒 SSL</span>';
+                    else sslHtml = '<span class="ssl-status invalid">⚠️ SSL</span>';
+                }
+
+                let http3Html = '';
+                if (c.http3 && c.http3.supported) {
+                    http3Html = '<span class="http3-status">⚡ HTTP/3</span>';
+                }
+
+                let wsHtml = '';
+                if (c.ws) {
+                    wsHtml = c.ws.ok ? '<span class="ws-status">🔗 WS</span>' : '';
+                }
+
+                let socks5Html = '';
+                if (c.socks5 && c.socks5.available) {
+                    socks5Html = '<span style="font-size:0.7rem;color:#00ff88;">🧦 SOCKS5</span>';
+                }
+
                 const services = c.services || {};
                 const serviceLabels = ['Telegram', 'YouTube', 'Instagram', 'Gemini'];
                 const serviceHtml = '<div class="service-icons">' + serviceLabels.map(name => {
@@ -2031,20 +2351,24 @@
                     return `<div class="service-icon-wrap"><div class="service-icon ${statusClass}">${svg}</div><span class="service-name">${name}</span></div>`;
                 }).join('') + '</div>';
 
+                const sourceLabel = c.sourceId !== undefined && c.sourceId !== -1 ? sources.find(s=>s.id===c.sourceId)?.label : '';
+
                 return `
                 <div class="config-card ${c.protocol}" data-idx="${c.id}">
                     <div class="card-top">
                         <span class="proto-badge pb-${c.protocol}">${c.protocol}</span>
                         ${statusHtml}
-                        <div style="display:flex;gap:4px;">
-                            ${isCopied ? '<span class="copied-badge">📋 Скопирован</span>' : ''}
+                        <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap;">
+                            ${isCopied ? '<span class="copied-badge">📋 Скопирован <button class="btn-clear-copy" onclick="clearCopied('+c.id+')" title="Убрать отметку">❌</button></span>' : ''}
+                            ${c.deepStatus ? '<span class="deep-badge '+c.deepStatus+'" title="'+(c.deepReason||'')+'">'+(c.deepStatus==='verified'?'✅ Проверен':(c.deepStatus==='suspicious'?'⚠️ Сомнительный':'❌ Не рабочий'))+'</span>' : ''}
+                            ${sslHtml}${http3Html}${wsHtml}${socks5Html}
                             <button class="btn ${isFav ? 'btn-success' : 'btn-secondary'}" style="padding:2px 12px;font-size:0.75rem;" onclick="toggleFavorite(${c.id})">${isFav ? '★' : '☆'}</button>
                         </div>
                     </div>
                     <div class="server-info">
                         ${countryHtml}
                         ${c.host ? '<b>'+c.host+'</b>'+(c.port?':'+c.port:'') : 'Адрес не распознан'}
-                        ${c.sourceId !== undefined && c.sourceId !== -1 ? '<span style="font-size:0.7rem;color:#555;">['+sources.find(s=>s.id===c.sourceId)?.label+']</span>' : ''}
+                        ${sourceLabel ? '<span style="font-size:0.7rem;color:#555;">['+sourceLabel+']</span>' : ''}
                     </div>
                     <div class="ports-services">
                         ${serviceHtml}
@@ -2055,11 +2379,18 @@
                         <button class="btn-copy" onclick="copyCfg(${c.id})">Копировать</button>
                         ${renderDropdown(c.id)}
                         <button class="btn-check" onclick="checkOne(${c.id})">Перепроверить</button>
+                        <button class="btn-speed-test" onclick="testSpeedOne(${c.id})" ${(speedTesting || c.status !== 'online') ? 'disabled' : ''}>🚀 Скорость</button>
                         <button class="btn-details" onclick="toggleDetails(${c.id})">📖 Детали</button>
                         <button class="btn-qr" id="qr-btn-${c.id}" onclick="toggleQR(${c.id})">📱 QR</button>
                     </div>
                     <div class="details-panel" id="details-${c.id}">
                         ${c.details ? Object.entries(c.details).map(([k,v]) => `<div class="param"><span class="key">${k}</span><span class="value">${v}</span></div>`).join('') : 'Нет деталей'}
+                        ${c.traffic ? `<div class="param"><span class="key">Трафик</span><span class="value">${c.traffic.accessible ? '✅ Доступен' : '❌ Недоступен'} (${c.traffic.successCount}/${c.traffic.totalTests})</span></div>` : ''}
+                        ${c.ssl ? `<div class="param"><span class="key">SSL</span><span class="value">${c.ssl.valid ? '✅ Валидный' : '❌ Невалидный'} ${c.ssl.hsts ? 'HSTS' : ''} ${c.ssl.csp ? 'CSP' : ''}</span></div>` : ''}
+                        ${c.http3 ? `<div class="param"><span class="key">HTTP/3</span><span class="value">${c.http3.supported ? '✅ Поддерживается' : '❌ Не поддерживается'}</span></div>` : ''}
+                        ${c.ws ? `<div class="param"><span class="key">WebSocket</span><span class="value">${c.ws.ok ? '✅ Доступен' : '❌ Недоступен'}</span></div>` : ''}
+                        ${c.socks5 ? `<div class="param"><span class="key">SOCKS5</span><span class="value">${c.socks5.available ? '✅ Доступен' : '❌ Недоступен'}</span></div>` : ''}
+                        ${c.speed ? `<div class="param"><span class="key">Скорость</span><span class="value">${c.speed} Mbps</span></div>` : ''}
                     </div>
                     <div class="qr-panel" id="qr-${c.id}">
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(c.config)}" alt="QR" loading="lazy">
@@ -2090,33 +2421,61 @@
     }
 
     function refreshCard(id) {
-        const card = document.querySelector('.config-card[data-idx="'+id+'"]');
+        const card = document.querySelector(`.config-card[data-idx="${id}"]`);
         if (!card) return;
         const c = allConfigs.find(x=>x.id===id);
         if (!c) return;
 
-        // Обновляем только динамические части (статус, порты, сервисы)
         let statusHtml = '';
         if (c.status==='checking') statusHtml = '<span class="status-pill checking"><span class="dot checking"></span>Проверка...</span>';
         else if (c.status==='online') {
             let extra = '';
-            if (c.ping) extra = ` 📶${c.ping} ms`;
+            if (c.ping) extra += ` 📶${c.ping}ms`;
+            if (c.speed) {
+                let speedClass = 'medium';
+                if (c.speed > 50) speedClass = 'fast';
+                else if (c.speed < 10) speedClass = 'slow';
+                extra += ` <span class="speed-result ${speedClass}">🚀${c.speed} Mbps</span>`;
+            }
             statusHtml = `<span class="status-pill online"><span class="dot online"></span>${extra}</span>`;
         } else if (c.status==='offline') statusHtml = '<span class="status-pill offline"><span class="dot offline"></span>Недоступен</span>';
         else statusHtml = '<span class="status-pill unknown"><span class="dot unknown"></span>Не проверен</span>';
+
         const isFav = favoriteIds.has(c.id);
         const isCopied = copiedIds.has(c.id);
+
+        let sslHtml = '';
+        if (c.ssl) {
+            if (c.ssl.valid) sslHtml = '<span class="ssl-status valid">🔒 SSL</span>';
+            else sslHtml = '<span class="ssl-status invalid">⚠️ SSL</span>';
+        }
+
+        let http3Html = '';
+        if (c.http3 && c.http3.supported) {
+            http3Html = '<span class="http3-status">⚡ HTTP/3</span>';
+        }
+
+        let wsHtml = '';
+        if (c.ws) {
+            wsHtml = c.ws.ok ? '<span class="ws-status">🔗 WS</span>' : '';
+        }
+
+        let socks5Html = '';
+        if (c.socks5 && c.socks5.available) {
+            socks5Html = '<span style="font-size:0.7rem;color:#00ff88;">🧦 SOCKS5</span>';
+        }
+
         card.querySelector('.card-top').innerHTML = `
             <span class="proto-badge pb-${c.protocol}">${c.protocol}</span>
             ${statusHtml}
-            <div style="display:flex;gap:4px;align-items:center;">
+            <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap;">
                 ${isCopied ? '<span class="copied-badge">📋 Скопирован <button class="btn-clear-copy" onclick="clearCopied('+c.id+')" title="Убрать отметку">❌</button></span>' : ''}
                 ${c.deepStatus ? '<span class="deep-badge '+c.deepStatus+'" title="'+(c.deepReason||'')+'">'+(c.deepStatus==='verified'?'✅ Проверен':(c.deepStatus==='suspicious'?'⚠️ Сомнительный':'❌ Не рабочий'))+'</span>' : ''}
+                ${sslHtml}${http3Html}${wsHtml}${socks5Html}
                 <button class="btn ${isFav ? 'btn-success' : 'btn-secondary'}" style="padding:2px 12px;font-size:0.75rem;" onclick="toggleFavorite(${c.id})">${isFav ? '★' : '☆'}</button>
             </div>
         `;
 
-        // Обновляем порты и сервисы
         const portsServices = card.querySelector('.ports-services');
         if (portsServices) {
             let portsHtml = '';
@@ -2143,7 +2502,6 @@
             `;
         }
 
-        // Обновляем страну и хост
         let countryHtml = '';
         if (c.country && c.country.code) {
             countryHtml = '<span class="flag">'+getFlagEmoji(c.country.code)+'</span><span class="country-name">'+c.country.name+'</span>';
@@ -2152,12 +2510,31 @@
         }
         const serverInfo = card.querySelector('.server-info');
         if (serverInfo) {
+            const sourceLabel = c.sourceId !== undefined && c.sourceId !== -1 ? sources.find(s=>s.id===c.sourceId)?.label : '';
             serverInfo.innerHTML = countryHtml + (c.host ? '<b>'+c.host+'</b>'+(c.port?':'+c.port:'') : 'Адрес не распознан')
-                + (c.sourceId !== undefined && c.sourceId !== -1 ? '<span style="font-size:0.7rem;color:#555;">['+sources.find(s=>s.id===c.sourceId)?.label+']</span>' : '');
+                + (sourceLabel ? '<span style="font-size:0.7rem;color:#555;">['+sourceLabel+']</span>' : '');
         }
+
         const detailsPanel = document.getElementById('details-'+id);
         if (detailsPanel && c.details) {
-            detailsPanel.innerHTML = Object.entries(c.details).map(([k,v]) => `<div class="param"><span class="key">${k}</span><span class="value">${v}</span></div>`).join('');
+            detailsPanel.innerHTML = Object.entries(c.details).map(([k,v]) => `<div class="param"><span class="key">${k}</span><span class="value">${v}</span></div>`).join('') +
+                (c.traffic ? `<div class="param"><span class="key">Трафик</span><span class="value">${c.traffic.accessible ? '✅ Доступен' : '❌ Недоступен'} (${c.traffic.successCount}/${c.traffic.totalTests})</span></div>` : '') +
+                (c.ssl ? `<div class="param"><span class="key">SSL</span><span class="value">${c.ssl.valid ? '✅ Валидный' : '❌ Невалидный'} ${c.ssl.hsts ? 'HSTS' : ''} ${c.ssl.csp ? 'CSP' : ''}</span></div>` : '') +
+                (c.http3 ? `<div class="param"><span class="key">HTTP/3</span><span class="value">${c.http3.supported ? '✅ Поддерживается' : '❌ Не поддерживается'}</span></div>` : '') +
+                (c.ws ? `<div class="param"><span class="key">WebSocket</span><span class="value">${c.ws.ok ? '✅ Доступен' : '❌ Недоступен'}</span></div>` : '') +
+                (c.socks5 ? `<div class="param"><span class="key">SOCKS5</span><span class="value">${c.socks5.available ? '✅ Доступен' : '❌ Недоступен'}</span></div>` : '') +
+                (c.speed ? `<div class="param"><span class="key">Скорость</span><span class="value">${c.speed} Mbps</span></div>` : '');
+        }
+
+        // Обновляем кнопку скорости
+        const speedBtn = card.querySelector('.btn-speed-test');
+        if (speedBtn) {
+            speedBtn.disabled = (speedTesting || c.status !== 'online');
+            if (c.status === 'online') {
+                speedBtn.textContent = '🚀 Скорость';
+            } else {
+                speedBtn.textContent = '🚫 Недоступен';
+            }
         }
     }
 
@@ -2233,6 +2610,18 @@
         setTimeout(()=>t.classList.remove('show'), 1500);
     }
 
+    function clearCopied(id) {
+        copiedIds.delete(id);
+        saveCopied();
+        refreshCard(id);
+    }
+    function clearAllCopied() {
+        copiedIds.clear();
+        saveCopied();
+        applyFilters();
+        showToast('Все отметки очищены');
+    }
+
     function clearResults() {
         checkAbort = true;
         if (autoUpdateInterval) clearInterval(autoUpdateInterval);
@@ -2268,6 +2657,26 @@
         const d = document.createElement('div');
         d.textContent = t;
         return d.innerHTML;
+    }
+
+    function parseDetails(cfg) {
+        try {
+            const url = new URL(cfg.replace(/^\w+:\/\//, 'https://'));
+            const params = new URLSearchParams(url.search);
+            const details = {};
+            for (const [key, val] of params) {
+                details[key] = val;
+            }
+            if (cfg.startsWith('vmess://')) {
+                const b64 = cfg.slice(8).split('#')[0];
+                const pad = b64.length % 4 ? '='.repeat(4-b64.length%4) : '';
+                const json = JSON.parse(atob(b64+pad));
+                Object.assign(details, json);
+            }
+            return details;
+        } catch(e) {
+            return null;
+        }
     }
 
     // ---------- Старт ----------
