@@ -515,9 +515,8 @@
         /* Блок портов и сервисов */
         .ports-services {
             display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 12px;
+            flex-direction: column;
+            gap: 6px;
             margin-bottom: 10px;
         }
         .port-list {
@@ -546,17 +545,21 @@
 
         /* Стили для текстовых меток сервисов */
         .service-labels {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+            width: 100%;
         }
         .service-label {
-            font-size: 0.72rem;
+            font-size: 0.75rem;
             font-weight: 700;
-            padding: 2px 8px;
+            padding: 3px 8px;
             border-radius: 4px;
             border: 1px solid transparent;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
         .service-label.available {
             background: rgba(0,255,136,0.08);
@@ -569,7 +572,12 @@
             border-color: rgba(255,68,68,0.1);
         }
         .service-label .status-icon {
-            margin-right: 3px;
+            margin-right: 2px;
+        }
+        @media (max-width: 600px) {
+            .service-labels {
+                grid-template-columns: 1fr;
+            }
         }
 
         .card-actions {
@@ -808,7 +816,6 @@
             .sources-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
             .dropdown-menu { left: auto; right: 0; }
             .ports-services { flex-direction: column; align-items: flex-start; }
-            .service-labels { flex-wrap: wrap; }
         }
 
         .qr-panel {
@@ -1276,26 +1283,74 @@
         return null;
     }
 
-    // ---------- Проверка портов ----------
+    // ---------- Проверка портов (улучшенная) ----------
     const commonPorts = [80, 443, 2052, 2053, 2082, 2083, 2086, 2087, 2095, 2096, 8080, 8443, 8880];
+
+    async function checkPort(host, port) {
+        const url = `https://${host}:${port}/`;
+        // Пробуем cors
+        try {
+            const ctrl = new AbortController();
+            const to = setTimeout(() => ctrl.abort(), 2000);
+            const res = await fetch(url, { mode: 'cors', signal: ctrl.signal });
+            clearTimeout(to);
+            // Если fetch завершился успешно (даже с CORS ошибкой, но соединение установлено) — порт открыт
+            return true;
+        } catch (e) {
+            // Если ошибка — возможно, порт закрыт, либо CORS. Пробуем no-cors как резерв.
+            try {
+                const ctrl = new AbortController();
+                const to = setTimeout(() => ctrl.abort(), 2000);
+                await fetch(url, { mode: 'no-cors', signal: ctrl.signal });
+                clearTimeout(to);
+                // Если no-cors успешен — соединение установлено, порт открыт
+                return true;
+            } catch (e2) {
+                return false;
+            }
+        }
+    }
+
     async function checkPorts(host) {
         if (!host) return [];
         const results = [];
         for (const port of commonPorts) {
-            const url = 'https://' + host + ':' + port + '/';
-            const ctrl = new AbortController();
-            const to = setTimeout(()=>ctrl.abort(), 2000);
-            let open = false;
-            try {
-                await fetch(url, { mode: 'no-cors', signal: ctrl.signal });
-                open = true;
-            } catch(e) {}
-            clearTimeout(to);
+            const open = await checkPort(host, port);
             results.push({ port, open });
             // Небольшая задержка между проверками
-            await new Promise(r => setTimeout(r, 80));
+            await new Promise(r => setTimeout(r, 50));
         }
         return results;
+    }
+
+    // ---------- Проверка сервисов (реальные запросы) ----------
+    const serviceUrls = {
+        'Telegram': 'https://web.telegram.org/',
+        'YouTube': 'https://www.youtube.com/',
+        'Instagram': 'https://www.instagram.com/',
+        'Gemini': 'https://gemini.google.com/'
+    };
+
+    async function checkService(serviceName, url) {
+        try {
+            const ctrl = new AbortController();
+            const to = setTimeout(() => ctrl.abort(), 3000);
+            const res = await fetch(url, { mode: 'cors', signal: ctrl.signal });
+            clearTimeout(to);
+            // Если fetch завершился успешно (даже с CORS ошибкой) — соединение установлено, сервис доступен
+            return true;
+        } catch (e) {
+            // Если ошибка — возможно, сервис недоступен или CORS. Пробуем no-cors как резерв.
+            try {
+                const ctrl = new AbortController();
+                const to = setTimeout(() => ctrl.abort(), 3000);
+                await fetch(url, { mode: 'no-cors', signal: ctrl.signal });
+                clearTimeout(to);
+                return true;
+            } catch (e2) {
+                return false;
+            }
+        }
     }
 
     // ---------- Инициализация ----------
@@ -1479,7 +1534,8 @@
                     favorite: favoriteIds.has(allConfigs.length),
                     speed: null,
                     details: null,
-                    ports: null // будет заполнено после проверки
+                    ports: null,        // будет заполнено после проверки
+                    services: null      // { telegram: bool, youtube: bool, ... }
                 });
             });
             document.getElementById('count-'+s.id).textContent = lines.length.toLocaleString('ru')+' серверов';
@@ -1509,7 +1565,7 @@
         if (autoUpdateEnabled) startAutoUpdate();
     }
 
-    // ---- Улучшенная проверка + проверка портов ----
+    // ---- Улучшенная проверка с портами и сервисами ----
     async function checkSingle(c) {
         if (!c.host) { c.status='offline'; c.ping=null; c.speed=null; return; }
         c.checking = true; c.status='checking';
@@ -1546,16 +1602,29 @@
             }
         }
 
-        // Проверка портов (параллельно с остальным)
+        // Проверка портов и сервисов параллельно
         const portsPromise = checkPorts(c.host);
         const countryPromise = resolveCountry(c.host);
 
-        const [portsResult, countryResult] = await Promise.all([portsPromise, countryPromise]);
+        // Запускаем проверку сервисов только если сервер онлайн, чтобы сэкономить время
+        let servicesPromise = Promise.resolve(null);
+        if (online) {
+            servicesPromise = (async () => {
+                const results = {};
+                for (const [name, url] of Object.entries(serviceUrls)) {
+                    results[name] = await checkService(name, url);
+                }
+                return results;
+            })();
+        }
+
+        const [portsResult, countryResult, servicesResult] = await Promise.all([portsPromise, countryPromise, servicesPromise]);
 
         c.checking = false;
         c.country = countryResult;
         c.details = parseDetails(c.config);
         c.ports = portsResult;
+        c.services = servicesResult || {};
         if (online) {
             c.status = 'online';
             c.ping = ping;
@@ -1784,11 +1853,16 @@
                     portsHtml = '<span style="font-size:0.7rem;color:#555;">Не проверены</span>';
                 }
 
-                // Доступность сервисов на основе открытого порта 443 (HTTPS)
-                const has443 = c.ports && c.ports.some(p => p.port === 443 && p.open);
-                const has80 = c.ports && c.ports.some(p => p.port === 80 && p.open);
-                const serviceStatus = (has443 || has80) ? 'available' : 'unavailable';
-                const statusIcon = (has443 || has80) ? '✅' : '❌';
+                // Сервисы
+                const services = c.services || {};
+                const serviceLabels = ['Telegram', 'YouTube', 'Instagram', 'Gemini'];
+                const serviceHtml = serviceLabels.map(name => {
+                    const available = services[name];
+                    const statusClass = (available === undefined) ? 'unknown' : (available ? 'available' : 'unavailable');
+                    const icon = (available === undefined) ? '⏳' : (available ? '✅' : '❌');
+                    const label = (available === undefined) ? 'Проверка...' : (available ? 'Доступен' : 'Недоступен');
+                    return `<span class="service-label ${statusClass}"><span class="status-icon">${icon}</span> ${name}</span>`;
+                }).join('');
 
                 return `
                 <div class="config-card ${c.protocol}" data-idx="${c.id}">
@@ -1806,13 +1880,8 @@
                         ${c.sourceId !== undefined && c.sourceId !== -1 ? '<span style="font-size:0.7rem;color:#555;">['+sources.find(s=>s.id===c.sourceId)?.label+']</span>' : ''}
                     </div>
                     <div class="ports-services">
+                        <div class="service-labels">${serviceHtml}</div>
                         <div class="port-list">${portsHtml}</div>
-                        <div class="service-labels">
-                            <span class="service-label ${serviceStatus}"><span class="status-icon">${statusIcon}</span> Telegram</span>
-                            <span class="service-label ${serviceStatus}"><span class="status-icon">${statusIcon}</span> YouTube</span>
-                            <span class="service-label ${serviceStatus}"><span class="status-icon">${statusIcon}</span> Instagram</span>
-                            <span class="service-label ${serviceStatus}"><span class="status-icon">${statusIcon}</span> Gemini</span>
-                        </div>
                     </div>
                     <div class="config-text">${escapeHtml(short)}</div>
                     <div class="card-actions">
@@ -1890,18 +1959,20 @@
             } else {
                 portsHtml = '<span style="font-size:0.7rem;color:#555;">Не проверены</span>';
             }
-            const has443 = c.ports && c.ports.some(p => p.port === 443 && p.open);
-            const has80 = c.ports && c.ports.some(p => p.port === 80 && p.open);
-            const serviceStatus = (has443 || has80) ? 'available' : 'unavailable';
-            const statusIcon = (has443 || has80) ? '✅' : '❌';
+
+            const services = c.services || {};
+            const serviceLabels = ['Telegram', 'YouTube', 'Instagram', 'Gemini'];
+            const serviceHtml = serviceLabels.map(name => {
+                const available = services[name];
+                const statusClass = (available === undefined) ? 'unknown' : (available ? 'available' : 'unavailable');
+                const icon = (available === undefined) ? '⏳' : (available ? '✅' : '❌');
+                const label = (available === undefined) ? 'Проверка...' : (available ? 'Доступен' : 'Недоступен');
+                return `<span class="service-label ${statusClass}"><span class="status-icon">${icon}</span> ${name}</span>`;
+            }).join('');
+
             portsServices.innerHTML = `
+                <div class="service-labels">${serviceHtml}</div>
                 <div class="port-list">${portsHtml}</div>
-                <div class="service-labels">
-                    <span class="service-label ${serviceStatus}"><span class="status-icon">${statusIcon}</span> Telegram</span>
-                    <span class="service-label ${serviceStatus}"><span class="status-icon">${statusIcon}</span> YouTube</span>
-                    <span class="service-label ${serviceStatus}"><span class="status-icon">${statusIcon}</span> Instagram</span>
-                    <span class="service-label ${serviceStatus}"><span class="status-icon">${statusIcon}</span> Gemini</span>
-                </div>
             `;
         }
 
