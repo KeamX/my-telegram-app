@@ -903,6 +903,52 @@
             font-family: 'Nunito', sans-serif;
         }
         .btn-clear-copy:hover { color: #ff8888; }
+        .service-icons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+        .service-icon-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+        .service-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .service-icon.available {
+            background: rgba(0,255,136,0.1);
+            color: #00ff88;
+            border: 1px solid rgba(0,255,136,0.25);
+            box-shadow: 0 0 10px rgba(0,255,136,0.08);
+        }
+        .service-icon.unavailable {
+            background: rgba(255,68,68,0.1);
+            color: #ff4444;
+            border: 1px solid rgba(255,68,68,0.25);
+            box-shadow: 0 0 10px rgba(255,68,68,0.08);
+        }
+        .service-icon.unknown {
+            background: rgba(255,255,255,0.03);
+            color: #444;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .service-icon svg { width: 16px; height: 16px; }
+        .service-name {
+            font-size: 0.62rem;
+            color: #555;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
     </style>
 <base target="_blank">
 <base target="_blank">
@@ -1040,6 +1086,13 @@
         'Shadowrocket': (cfg) => 'shadowrocket://add/' + btoa(unescape(encodeURIComponent(cfg))),
         'Hiddify': (cfg) => cfg,
         'V2RayTun': (cfg) => cfg
+    };
+
+    const serviceSvgs = {
+        'Telegram': '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 12l21-9-9 21-3-9-9-3z"/></svg>',
+        'YouTube': '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 00-2.1-2.2C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5a3 3 0 00-2.1 2.2 31.5 31.5 0 00-.5 5.8 31.5 31.5 0 00.5 5.8 3 3 0 002.1 2.2c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.2 31.5 31.5 0 00.5-5.8 31.5 31.5 0 00-.5-5.8zM9.5 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>',
+        'Instagram': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>',
+        'Gemini': '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2z"/></svg>'
     };
 
     const appIcons = {
@@ -1971,13 +2024,12 @@
                 // Сервисы
                 const services = c.services || {};
                 const serviceLabels = ['Telegram', 'YouTube', 'Instagram', 'Gemini'];
-                const serviceHtml = serviceLabels.map(name => {
+                const serviceHtml = '<div class="service-icons">' + serviceLabels.map(name => {
                     const available = services[name];
                     const statusClass = (available === undefined) ? 'unknown' : (available ? 'available' : 'unavailable');
-                    const icon = (available === undefined) ? '⏳' : (available ? '✅' : '❌');
-                    const label = (available === undefined) ? 'Проверка...' : (available ? 'Доступен' : 'Недоступен');
-                    return `<span class="service-label ${statusClass}"><span class="status-icon">${icon}</span> ${name}</span>`;
-                }).join('');
+                    const svg = serviceSvgs[name] || '';
+                    return `<div class="service-icon-wrap"><div class="service-icon ${statusClass}">${svg}</div><span class="service-name">${name}</span></div>`;
+                }).join('') + '</div>';
 
                 return `
                 <div class="config-card ${c.protocol}" data-idx="${c.id}">
@@ -1995,7 +2047,7 @@
                         ${c.sourceId !== undefined && c.sourceId !== -1 ? '<span style="font-size:0.7rem;color:#555;">['+sources.find(s=>s.id===c.sourceId)?.label+']</span>' : ''}
                     </div>
                     <div class="ports-services">
-                        <div class="service-labels">${serviceHtml}</div>
+                        ${serviceHtml}
                         <div class="port-list">${portsHtml}</div>
                     </div>
                     <div class="config-text">${escapeHtml(short)}</div>
@@ -2078,16 +2130,15 @@
 
             const services = c.services || {};
             const serviceLabels = ['Telegram', 'YouTube', 'Instagram', 'Gemini'];
-            const serviceHtml = serviceLabels.map(name => {
+            const serviceHtml = '<div class="service-icons">' + serviceLabels.map(name => {
                 const available = services[name];
                 const statusClass = (available === undefined) ? 'unknown' : (available ? 'available' : 'unavailable');
-                const icon = (available === undefined) ? '⏳' : (available ? '✅' : '❌');
-                const label = (available === undefined) ? 'Проверка...' : (available ? 'Доступен' : 'Недоступен');
-                return `<span class="service-label ${statusClass}"><span class="status-icon">${icon}</span> ${name}</span>`;
-            }).join('');
+                const svg = serviceSvgs[name] || '';
+                return `<div class="service-icon-wrap"><div class="service-icon ${statusClass}">${svg}</div><span class="service-name">${name}</span></div>`;
+            }).join('') + '</div>';
 
             portsServices.innerHTML = `
-                <div class="service-labels">${serviceHtml}</div>
+                ${serviceHtml}
                 <div class="port-list">${portsHtml}</div>
             `;
         }
