@@ -512,6 +512,66 @@
         .config-text::-webkit-scrollbar { width: 5px; }
         .config-text::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
 
+        /* Блок портов и сервисов */
+        .ports-services {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+        .port-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .port-tag {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            font-family: 'Nunito', monospace;
+            border: 1px solid transparent;
+        }
+        .port-tag.open {
+            background: rgba(0,255,136,0.08);
+            color: #00ff88;
+            border-color: rgba(0,255,136,0.15);
+        }
+        .port-tag.closed {
+            background: rgba(255,68,68,0.06);
+            color: #ff6666;
+            border-color: rgba(255,68,68,0.1);
+        }
+
+        /* Стили для текстовых меток сервисов */
+        .service-labels {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .service-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .service-label.available {
+            background: rgba(0,255,136,0.08);
+            color: #00ff88;
+            border-color: rgba(0,255,136,0.15);
+        }
+        .service-label.unavailable {
+            background: rgba(255,68,68,0.06);
+            color: #ff6666;
+            border-color: rgba(255,68,68,0.1);
+        }
+        .service-label .status-icon {
+            margin-right: 3px;
+        }
+
         .card-actions {
             display: flex;
             gap: 8px;
@@ -747,6 +807,8 @@
             .config-card { padding: 12px 14px; }
             .sources-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
             .dropdown-menu { left: auto; right: 0; }
+            .ports-services { flex-direction: column; align-items: flex-start; }
+            .service-labels { flex-wrap: wrap; }
         }
 
         .qr-panel {
@@ -869,6 +931,7 @@
 <script>
     // ---------- Исходные данные ----------
     const sources = [
+        // --- Оригинальные источники ---
         { id: 1,  file: "1.txt",  label: "OpenRay Mix",               rec: false,  sni: false },
         { id: 2,  file: "2.txt",  label: "Subscription",              rec: false, sni: false },
         { id: 3,  file: "3.txt",  label: "Proxy Mining",              rec: false, sni: false },
@@ -895,7 +958,7 @@
         { id: 24, file: "24.txt", label: "Vify",                      rec: false,  sni: false },
         { id: 25, file: "25.txt", label: "V2Ray Config",              rec: false,  sni: false },
         { id: 26, file: "26.txt", label: "SNI/CIDR Bypass",           rec: false, sni: false  },
-        // KeamX источники (красное оформление)
+        // --- KeamX источники (красное оформление) ---
         { id: 27, file: "hysteria2_links.txt", label: "KeamX — Hysteria2", rec: false, sni: false, source: "keamx" },
         { id: 28, file: "trojan_links.txt",   label: "KeamX — Trojan",      rec: false, sni: false, source: "keamx" },
         { id: 29, file: "unique_servers.txt", label: "KeamX — Unique Servers", rec: false, sni: false, source: "keamx" },
@@ -1182,8 +1245,15 @@
 
     // Загрузка текста с учётом источника (keamx или обычный)
     async function fetchText(fileName, sourceType) {
-        const eps = sourceType === 'keamx' ? keamxEndpoints : endpoints;
-        const timeoutMs = sourceType === 'keamx' ? 30000 : 10000;
+        let eps;
+        let timeoutMs;
+        if (sourceType === 'keamx') {
+            eps = keamxEndpoints;
+            timeoutMs = 30000;
+        } else {
+            eps = endpoints;
+            timeoutMs = 10000;
+        }
         for (const ep of eps.slice(0,2)) {
             try {
                 const ctrl = new AbortController();
@@ -1206,12 +1276,33 @@
         return null;
     }
 
+    // ---------- Проверка портов ----------
+    const commonPorts = [80, 443, 2052, 2053, 2082, 2083, 2086, 2087, 2095, 2096, 8080, 8443, 8880];
+    async function checkPorts(host) {
+        if (!host) return [];
+        const results = [];
+        for (const port of commonPorts) {
+            const url = 'https://' + host + ':' + port + '/';
+            const ctrl = new AbortController();
+            const to = setTimeout(()=>ctrl.abort(), 2000);
+            let open = false;
+            try {
+                await fetch(url, { mode: 'no-cors', signal: ctrl.signal });
+                open = true;
+            } catch(e) {}
+            clearTimeout(to);
+            results.push({ port, open });
+            // Небольшая задержка между проверками
+            await new Promise(r => setTimeout(r, 80));
+        }
+        return results;
+    }
+
     // ---------- Инициализация ----------
     function init() {
         const grid = document.getElementById('sourcesGrid');
         grid.innerHTML = sources.map(s => {
             let classes = 'source-chip';
-            // убираем автоматический выбор: rec и sni теперь false, поэтому checked не ставим
             if (s.source === 'keamx') classes += ' keamx';
             return `
             <label class="${classes}" id="chip-${s.id}">
@@ -1225,7 +1316,6 @@
         `}).join('');
         loadMetadata();
         document.addEventListener('click', closeAllDropdowns);
-        // Оставляем только одну вкладку, поэтому переключение не нужно, но обработчик оставим для совместимости
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -1252,12 +1342,19 @@
                 const metaEl = document.getElementById('meta-'+s.id);
                 const warnEl = document.getElementById('warn-'+s.id);
                 let size = null;
-                const metaEps = s.source === 'keamx' ? keamxEndpoints : endpoints;
-                const metaTimeout = s.source === 'keamx' ? 15000 : 5000;
-                for (const ep of metaEps) {
+                let eps;
+                let timeoutMs;
+                if (s.source === 'keamx') {
+                    eps = keamxEndpoints;
+                    timeoutMs = 15000;
+                } else {
+                    eps = endpoints;
+                    timeoutMs = 5000;
+                }
+                for (const ep of eps) {
                     try {
                         const ctrl = new AbortController();
-                        const to = setTimeout(()=>ctrl.abort(), metaTimeout);
+                        const to = setTimeout(()=>ctrl.abort(), timeoutMs);
                         const res = await fetch(ep.base + s.file, { method: 'HEAD', cache: 'no-store', signal: ctrl.signal });
                         clearTimeout(to);
                         if (res.ok) {
@@ -1270,8 +1367,8 @@
                     for (const p of corsProxies) {
                         try {
                             const ctrl = new AbortController();
-                            const to = setTimeout(()=>ctrl.abort(), metaTimeout + 1000);
-                            const res = await fetch(p(metaEps[0].base + s.file), { method: 'HEAD', cache: 'no-store', signal: ctrl.signal });
+                            const to = setTimeout(()=>ctrl.abort(), timeoutMs + 1000);
+                            const res = await fetch(p(eps[0].base + s.file), { method: 'HEAD', cache: 'no-store', signal: ctrl.signal });
                             clearTimeout(to);
                             if (res.ok) {
                                 const cl = res.headers.get('content-length');
@@ -1281,10 +1378,10 @@
                     }
                 }
                 if (size === null) {
-                    for (const ep of metaEps) {
+                    for (const ep of eps) {
                         try {
                             const ctrl = new AbortController();
-                            const to = setTimeout(()=>ctrl.abort(), metaTimeout);
+                            const to = setTimeout(()=>ctrl.abort(), timeoutMs);
                             const res = await fetch(ep.base + s.file, { headers: {'Range':'bytes=0-0'}, cache: 'no-store', signal: ctrl.signal });
                             clearTimeout(to);
                             if (res.ok || res.status === 206) {
@@ -1381,7 +1478,8 @@
                     country: null,
                     favorite: favoriteIds.has(allConfigs.length),
                     speed: null,
-                    details: null
+                    details: null,
+                    ports: null // будет заполнено после проверки
                 });
             });
             document.getElementById('count-'+s.id).textContent = lines.length.toLocaleString('ru')+' серверов';
@@ -1411,17 +1509,15 @@
         if (autoUpdateEnabled) startAutoUpdate();
     }
 
-    // ---- Улучшенная проверка ----
+    // ---- Улучшенная проверка + проверка портов ----
     async function checkSingle(c) {
         if (!c.host) { c.status='offline'; c.ping=null; c.speed=null; return; }
         c.checking = true; c.status='checking';
         refreshCard(c.id);
 
-        // Сначала пробуем cors-запрос к / (или /generate_204) для более точной проверки
+        // Проверяем доступность сервера (cors + no-cors)
         let online = false;
         let ping = null;
-
-        // Попытка 1: cors с проверкой статуса
         try {
             const testUrl = 'https://' + c.host + (c.port?':'+c.port:'') + '/generate_204';
             const start = performance.now();
@@ -1433,12 +1529,9 @@
                 online = true;
                 ping = Math.round(performance.now() - start);
             }
-        } catch(e) {
-            // если CORS или другая ошибка, пробуем no-cors
-        }
+        } catch(e) {}
 
         if (!online) {
-            // Попытка 2: no-cors (просто проверяем, установлено ли соединение)
             try {
                 const testUrl = 'https://' + c.host + (c.port?':'+c.port:'') + '/';
                 const start = performance.now();
@@ -1453,16 +1546,19 @@
             }
         }
 
-        // Получаем страну
-        const country = await resolveCountry(c.host);
+        // Проверка портов (параллельно с остальным)
+        const portsPromise = checkPorts(c.host);
+        const countryPromise = resolveCountry(c.host);
+
+        const [portsResult, countryResult] = await Promise.all([portsPromise, countryPromise]);
 
         c.checking = false;
-        c.country = country;
+        c.country = countryResult;
         c.details = parseDetails(c.config);
+        c.ports = portsResult;
         if (online) {
             c.status = 'online';
             c.ping = ping;
-            c.speed = null; // скорость не измеряем
         } else {
             c.status = 'offline';
             c.ping = null;
@@ -1574,7 +1670,6 @@
 
     function applyFilters() {
         const q = document.getElementById('searchBox').value.toLowerCase().trim();
-        // фильтруем только по протоколу, стране, статусу и поиску
         filteredConfigs = allConfigs.filter(c => {
             const mp = currentProtocol==='all' || c.protocol===currentProtocol;
             const ms = currentStatus==='all' || c.status===currentStatus;
@@ -1679,6 +1774,22 @@
                 const isFav = favoriteIds.has(c.id);
                 const isCopied = copiedIds.has(c.id);
 
+                // Формируем список портов
+                let portsHtml = '';
+                if (c.ports && c.ports.length) {
+                    portsHtml = c.ports.map(p => `<span class="port-tag ${p.open ? 'open' : 'closed'}">${p.port}</span>`).join('');
+                } else if (c.status === 'checking') {
+                    portsHtml = '<span style="font-size:0.7rem;color:#666;">Проверка портов...</span>';
+                } else {
+                    portsHtml = '<span style="font-size:0.7rem;color:#555;">Не проверены</span>';
+                }
+
+                // Доступность сервисов на основе открытого порта 443 (HTTPS)
+                const has443 = c.ports && c.ports.some(p => p.port === 443 && p.open);
+                const has80 = c.ports && c.ports.some(p => p.port === 80 && p.open);
+                const serviceStatus = (has443 || has80) ? 'available' : 'unavailable';
+                const statusIcon = (has443 || has80) ? '✅' : '❌';
+
                 return `
                 <div class="config-card ${c.protocol}" data-idx="${c.id}">
                     <div class="card-top">
@@ -1693,6 +1804,15 @@
                         ${countryHtml}
                         ${c.host ? '<b>'+c.host+'</b>'+(c.port?':'+c.port:'') : 'Адрес не распознан'}
                         ${c.sourceId !== undefined && c.sourceId !== -1 ? '<span style="font-size:0.7rem;color:#555;">['+sources.find(s=>s.id===c.sourceId)?.label+']</span>' : ''}
+                    </div>
+                    <div class="ports-services">
+                        <div class="port-list">${portsHtml}</div>
+                        <div class="service-labels">
+                            <span class="service-label ${serviceStatus}"><span class="status-icon">${statusIcon}</span> Telegram</span>
+                            <span class="service-label ${serviceStatus}"><span class="status-icon">${statusIcon}</span> YouTube</span>
+                            <span class="service-label ${serviceStatus}"><span class="status-icon">${statusIcon}</span> Instagram</span>
+                            <span class="service-label ${serviceStatus}"><span class="status-icon">${statusIcon}</span> Gemini</span>
+                        </div>
                     </div>
                     <div class="config-text">${escapeHtml(short)}</div>
                     <div class="card-actions">
@@ -1738,6 +1858,8 @@
         if (!card) return;
         const c = allConfigs.find(x=>x.id===id);
         if (!c) return;
+
+        // Обновляем только динамические части (статус, порты, сервисы)
         let statusHtml = '';
         if (c.status==='checking') statusHtml = '<span class="status-pill checking"><span class="dot checking"></span>Проверка...</span>';
         else if (c.status==='online') {
@@ -1756,6 +1878,34 @@
                 <button class="btn ${isFav ? 'btn-success' : 'btn-secondary'}" style="padding:2px 12px;font-size:0.75rem;" onclick="toggleFavorite(${c.id})">${isFav ? '★' : '☆'}</button>
             </div>
         `;
+
+        // Обновляем порты и сервисы
+        const portsServices = card.querySelector('.ports-services');
+        if (portsServices) {
+            let portsHtml = '';
+            if (c.ports && c.ports.length) {
+                portsHtml = c.ports.map(p => `<span class="port-tag ${p.open ? 'open' : 'closed'}">${p.port}</span>`).join('');
+            } else if (c.status === 'checking') {
+                portsHtml = '<span style="font-size:0.7rem;color:#666;">Проверка портов...</span>';
+            } else {
+                portsHtml = '<span style="font-size:0.7rem;color:#555;">Не проверены</span>';
+            }
+            const has443 = c.ports && c.ports.some(p => p.port === 443 && p.open);
+            const has80 = c.ports && c.ports.some(p => p.port === 80 && p.open);
+            const serviceStatus = (has443 || has80) ? 'available' : 'unavailable';
+            const statusIcon = (has443 || has80) ? '✅' : '❌';
+            portsServices.innerHTML = `
+                <div class="port-list">${portsHtml}</div>
+                <div class="service-labels">
+                    <span class="service-label ${serviceStatus}"><span class="status-icon">${statusIcon}</span> Telegram</span>
+                    <span class="service-label ${serviceStatus}"><span class="status-icon">${statusIcon}</span> YouTube</span>
+                    <span class="service-label ${serviceStatus}"><span class="status-icon">${statusIcon}</span> Instagram</span>
+                    <span class="service-label ${serviceStatus}"><span class="status-icon">${statusIcon}</span> Gemini</span>
+                </div>
+            `;
+        }
+
+        // Обновляем страну и хост
         let countryHtml = '';
         if (c.country && c.country.code) {
             countryHtml = '<span class="flag">'+getFlagEmoji(c.country.code)+'</span><span class="country-name">'+c.country.name+'</span>';
@@ -1820,10 +1970,8 @@
         const c = allConfigs.find(x=>x.id===idx);
         if (!c) return;
         const text = c.config;
-        // Запоминаем, что скопировали
         copiedIds.add(idx);
         saveCopied();
-        // Обновляем карточку (чтобы появилась метка)
         refreshCard(idx);
         if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(text).then(()=>showToast()).catch(()=>fallbackCopy(text));
